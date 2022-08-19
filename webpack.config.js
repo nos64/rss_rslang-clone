@@ -36,7 +36,18 @@ const config = {
       },
       {
         test: /\.s[ac]ss$/i,
-        use: [stylesHandler, 'css-loader', 'postcss-loader', 'sass-loader'],
+        use: [
+          stylesHandler,
+          'css-loader',
+          'postcss-loader',
+          'sass-loader',
+          {
+            loader: 'sass-resources-loader',
+            options: {
+              resources: 'src/styles/common.scss',
+            },
+          },
+        ],
       },
       {
         test: /\.(eot|ttf|woff|woff2)$/i,

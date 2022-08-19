@@ -24,6 +24,13 @@
   "rules": {
     "react/jsx-filename-extension": "off",
     "import/extensions": "off",
-    "react/function-component-definition": "off"
+    "react/function-component-definition": "off",
+    "linebreak-style": ["error", "windows"],
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ]
   }
 }
