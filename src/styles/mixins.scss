@@ -1,0 +1,28 @@
+@mixin media-breakpoint-down($name) {
+  @media (max-width: #{map-get($breakpoints, $name) - 1}px) {
+      @content;
+  }
+}
+
+@mixin flex-column($gap: 0) {
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+}
+
+@mixin flex-row($gap: 0) {
+  display: flex;
+  flex-direction: row;
+  gap: $gap;
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin sizes($width, $height: $width) {
+  width: $width;
+  height: $height;
+}
