@@ -1,4 +1,5 @@
 import React from 'react';
+import './styles/index.scss';
 import { HashRouter } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import App from './components/App/App';

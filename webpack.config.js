@@ -39,8 +39,25 @@ const config = {
         use: [stylesHandler, 'css-loader', 'postcss-loader', 'sass-loader'],
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|ttf|woff|woff2)$/i,
         type: 'asset',
+        generator: {
+          filename: 'fonts/[hash][ext][query]',
+        },
+      },
+      {
+        test: /\.(png|jpe?g|gif|webp)$/i,
+        type: 'asset',
+        generator: {
+          filename: 'images/[hash][ext][query]',
+        },
+      },
+      {
+        test: /\.(svg)$/i,
+        type: 'asset',
+        generator: {
+          filename: 'icons/[hash][ext][query]',
+        },
       },
 
       // Add your rules for custom modules here
