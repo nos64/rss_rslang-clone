@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { createdUser } from '../../../api/users';
+import { createdUser } from '../../../api/Users';
 
 const FormRegister: React.FC = () => {
   const [newUser, setNewUser] = React.useState({
