@@ -4,7 +4,7 @@ const API_URL = `http://localhost:27017`;
 
 const $api = axios.create({
   baseURL: API_URL,
-  withCredentials: true,
+  // withCredentials: true, Чтобы передавать куки, Нужно ????
 });
 
 $api.interceptors.request.use((config: AxiosRequestConfig) => {

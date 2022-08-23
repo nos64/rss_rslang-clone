@@ -55,6 +55,7 @@ class Store {
       await this.login(email, password);
     } catch (error) {
       console.log(error, 'registration - store/index.ts');
+      throw error;
     }
   }
 

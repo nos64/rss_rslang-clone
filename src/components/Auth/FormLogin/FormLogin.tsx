@@ -3,22 +3,57 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import LoginIcon from '@mui/icons-material/Login';
 import LoadingButton from '@mui/lab/LoadingButton';
-import axios from 'axios';
 import Context from '../../../context';
-
-import $api from '../../../axios';
 
 const FormLogin: React.FC = () => {
   const { store } = React.useContext(Context);
 
   const [email, setEmail] = React.useState('test@mal.ru');
   const [password, setPassword] = React.useState('12345678');
+  const [formErrors, setFormErrors] = React.useState({
+    email: '',
+    password: '',
+  });
   const [isSubmittedForm, setIsSubmittedForm] = React.useState(false);
+
+  function validateFields(fieldName: keyof typeof formErrors): boolean {
+    let errorMessage = '';
+    switch (fieldName) {
+      case 'email': {
+        if (!email.length) {
+          errorMessage = 'Введите Email';
+        } else {
+          const emailValid = email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+          if (!emailValid) errorMessage = 'Email введен не верно';
+        }
+        break;
+      }
+      case 'password': {
+        const passwordValid = password.length >= 8;
+        if (!passwordValid) errorMessage = 'Пароль не менее 8-ми символов';
+        break;
+      }
+      default:
+        break;
+    }
+    formErrors[fieldName] = errorMessage;
+    setFormErrors({ ...formErrors });
+
+    return !!errorMessage;
+  }
 
   function onSubmitForm(event: React.SyntheticEvent): void {
     event.preventDefault();
-    setIsSubmittedForm(true);
-    store.login(email, password).finally(() => setIsSubmittedForm(false));
+    if (validateFields('email') && validateFields('password')) {
+      setIsSubmittedForm(true);
+      store.login(email, password).finally(() => setIsSubmittedForm(false));
+    }
+  }
+
+  function onBlurInput(event: React.SyntheticEvent): void {
+    const element = event.target;
+    if (element instanceof HTMLInputElement && element.name in formErrors)
+      validateFields(element.name as keyof typeof formErrors);
   }
 
   return (
@@ -32,15 +67,20 @@ const FormLogin: React.FC = () => {
           }}
         >
           <TextField
+            onChange={(e) => setEmail(e.target.value)}
+            onBlur={(e) => onBlurInput(e)}
             value={email}
             fullWidth
             id="email"
             name="email"
             label="Email"
             variant="outlined"
-            onChange={(e) => setEmail(e.target.value)}
+            error={!!formErrors.email}
+            helperText={formErrors.email}
           />
           <TextField
+            onChange={(e) => setPassword(e.target.value)}
+            onBlur={(e) => onBlurInput(e)}
             value={password}
             fullWidth
             id="password"
@@ -48,7 +88,8 @@ const FormLogin: React.FC = () => {
             name="password"
             label="Пароль"
             variant="outlined"
-            onChange={(e) => setPassword(e.target.value)}
+            error={!!formErrors.password}
+            helperText={formErrors.password}
           />
           <LoadingButton
             type="submit"
@@ -56,7 +97,6 @@ const FormLogin: React.FC = () => {
             variant="contained"
             startIcon={<LoginIcon />}
             loading={isSubmittedForm}
-            loadingPosition="end"
             size="large"
           >
             Авторизоваться
