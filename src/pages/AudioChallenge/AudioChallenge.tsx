@@ -3,6 +3,8 @@ import { AxiosResponse } from 'axios';
 import axiosInstance, { baseURL } from './axiosInstance';
 import { WordInterface } from '../../types/common';
 import { getRandomPage, hideElem, shuffle } from './utils';
+import './style.scss';
+import './audio.svg';
 
 // export const getWords = (group: number, page: number): Promise<AxiosResponse<WordInterface[]>> =>
 //   axiosInstance.get(`/words?group=${group}&page=${page}`);
@@ -11,6 +13,12 @@ import { getRandomPage, hideElem, shuffle } from './utils';
 //   axiosInstance.get(`/words/${id}`);
 
 const AudioChallenge: React.FC = () => {
+  const getWords = (group: number, page: number): Promise<AxiosResponse<WordInterface[]>> =>
+    axiosInstance.get(`/words?group=${group}&page=${page}`);
+
+  const getWord = (id: string): Promise<AxiosResponse<WordInterface>> =>
+    axiosInstance.get(`/words/${id}`);
+
   // eslint-disable-next-line prefer-const
   let [wordsCount, setWordsCount] = React.useState(0);
 
@@ -18,17 +26,10 @@ const AudioChallenge: React.FC = () => {
   const allWords: string[] = [];
   const getRandomTranslate = () => allWords[Math.floor(Math.random() * allWords.length)];
 
-  const getWords = (group: number, page: number): Promise<AxiosResponse<WordInterface[]>> =>
-    axiosInstance.get(`/words?group=${group}&page=${page}`);
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-shadow
-  const getWord = (id: string): Promise<AxiosResponse<WordInterface>> =>
-    axiosInstance.get(`/words/${id}`);
-
-  /** Клик по уровню сложности, формируется массив с 600 словами вариантов ответов */
+  /** 1. Клик по уровню сложности, формируется массив с 600 словами вариантов ответов */
   const clickOnButton = async (btn: number) => {
     const words = await getWords(btn, getRandomPage());
-    console.log(words);
+    // console.log(words);
     const allWordsInGroup: AxiosResponse<WordInterface[]>[] = [];
     for (let i = 0; i <= 29; i += 1) {
       // eslint-disable-next-line no-await-in-loop
@@ -41,6 +42,16 @@ const AudioChallenge: React.FC = () => {
 
   /** Показ карточки в случае верного ответа */
   const renderCorrectWordCard = async (word: WordInterface) => {
+    //   <div className='card-wrapper'>
+    //     <div className="img-card'>
+    //       <img class='word-img' src=${baseURL}/${(await getWord(word.id)).data.image}>
+    //     </div>
+    //     <button onClick=${audio.play} class='audio-button-card'></button>
+    //     <p>${(await getWord(word.id)).data.word}</p>
+    //     <p>${(await getWord(word.id)).data.wordTranslate}</p>
+    //   </div>
+    //   );
+    // };
     const divCard = document.createElement('div');
     divCard.className = 'card-wrapper';
     const imgWrapper = document.createElement('div');
