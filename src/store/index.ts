@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { login, registration, checkAuth } from '../api/Auth';
 
 class Store {
