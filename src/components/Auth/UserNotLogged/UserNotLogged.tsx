@@ -2,8 +2,8 @@ import React from 'react';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Tabs from '@mui/material/Tabs';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Tab from '@mui/material/Tab';
 import FormLogin from '../FormLogin/FormLogin';
 import FormRegister from '../FormRegister/FormRegister';
@@ -13,7 +13,6 @@ interface TabPanelProps {
   index: number;
   value: number;
 }
-
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
@@ -30,7 +29,7 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-const TabsWithForm: React.FC = () => {
+const UserNotLogged: React.FC = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -60,7 +59,9 @@ const TabsWithForm: React.FC = () => {
 
   return (
     <div>
-      <Button onClick={handleOpen}>Auth</Button>
+      <Button startIcon={<AccountCircleIcon />} onClick={handleOpen}>
+        Вход
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -93,4 +94,4 @@ const TabsWithForm: React.FC = () => {
   );
 };
 
-export default TabsWithForm;
+export default UserNotLogged;

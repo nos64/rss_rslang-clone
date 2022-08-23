@@ -3,39 +3,21 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { createdUser } from '../../../api/Users';
+import Context from '../../../context';
 
 const FormRegister: React.FC = () => {
-  const [newUser, setNewUser] = React.useState({
-    name: 'test',
-    email: 'test@mal.ru',
-    password: '12345678',
-  });
+  const { store } = React.useContext(Context);
+
+  const [name, setName] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
   const [isSubmittedForm, setIsSubmittedForm] = React.useState(false);
 
-  const changeInputForm = (event: React.SyntheticEvent): void => {
-    setNewUser((prevObj) => {
-      const targetElement = event.target as HTMLInputElement;
-      return {
-        ...prevObj,
-        [targetElement.name]: targetElement.value,
-      };
-    });
-  };
-
-  const onSubmitForm = (event: React.SyntheticEvent) => {
+  function onSubmitForm(event: React.SyntheticEvent): void {
     event.preventDefault();
     setIsSubmittedForm(true);
-
-    createdUser(newUser).then((resolve) => {
-      if (resolve === true) {
-        console.log('Пользователь успешно создан');
-      } else {
-        console.log('Ошибка при создании пользователя');
-      }
-      setIsSubmittedForm(false);
-    });
-  };
+    store.registration(name, email, password).finally(() => setIsSubmittedForm(false));
+  }
 
   return (
     <form onSubmit={onSubmitForm} noValidate>
@@ -47,8 +29,8 @@ const FormRegister: React.FC = () => {
         }}
       >
         <TextField
-          onInput={changeInputForm}
-          value={newUser.name}
+          onChange={(e) => setName(e.target.value)}
+          value={name}
           fullWidth
           id="name"
           name="name"
@@ -57,8 +39,8 @@ const FormRegister: React.FC = () => {
           required
         />
         <TextField
-          onInput={changeInputForm}
-          value={newUser.email}
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
           fullWidth
           id="email"
           name="email"
@@ -71,8 +53,8 @@ const FormRegister: React.FC = () => {
           // helperText="Incorrect entry."
         />
         <TextField
-          onInput={changeInputForm}
-          value={newUser.password}
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
           fullWidth
           id="password"
           name="password"
@@ -85,7 +67,7 @@ const FormRegister: React.FC = () => {
           type="submit"
           fullWidth
           variant="contained"
-          endIcon={<PersonAddIcon />}
+          startIcon={<PersonAddIcon />}
           loading={isSubmittedForm}
           loadingPosition="end"
           size="large"

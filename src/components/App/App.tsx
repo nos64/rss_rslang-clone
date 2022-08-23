@@ -7,8 +7,14 @@ import Textbook from '../../pages/Textbook/Textbook';
 import AudioChallenge from '../../pages/AudioChallenge/AudioChallenge';
 import Sprint from '../../pages/Sprint/Sprint';
 import Stats from '../../pages/Stats/Stats';
+import Context from '../../context';
 
 const App: React.FC = () => {
+  const { store } = React.useContext(Context);
+  React.useEffect(() => {
+    if (localStorage.getItem('userId') && localStorage.getItem('token')) store.checkAuth();
+  }, []);
+
   return (
     <Routes>
       <Route path={ROUTES.LAYOUT} element={<Layout />}>

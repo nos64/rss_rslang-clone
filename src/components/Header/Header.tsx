@@ -1,11 +1,10 @@
 import React from 'react';
-import TabsWithForms from '../Auth/TabsWithForms/TabsWithForms';
+import Welcome from '../Auth/Welcome/Welcome';
 
 const Header: React.FC = () => {
   return (
     <div>
-      Header
-      <TabsWithForms />
+      Header <Welcome />
     </div>
   );
 };

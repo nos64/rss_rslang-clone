@@ -3,38 +3,23 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import LoginIcon from '@mui/icons-material/Login';
 import LoadingButton from '@mui/lab/LoadingButton';
-import signIn from '../../../api/SignIn';
+import axios from 'axios';
+import Context from '../../../context';
+
+import $api from '../../../axios';
 
 const FormLogin: React.FC = () => {
-  const [user, setUser] = React.useState({
-    email: 'test@mal.ru',
-    password: '12345678',
-  });
+  const { store } = React.useContext(Context);
+
+  const [email, setEmail] = React.useState('test@mal.ru');
+  const [password, setPassword] = React.useState('12345678');
   const [isSubmittedForm, setIsSubmittedForm] = React.useState(false);
 
-  const changeInputForm = (event: React.SyntheticEvent): void => {
-    setUser((prevObj) => {
-      const targetElement = event.target as HTMLInputElement;
-      return {
-        ...prevObj,
-        [targetElement.name]: targetElement.value,
-      };
-    });
-  };
-
-  const onSubmitForm = (event: React.SyntheticEvent) => {
+  function onSubmitForm(event: React.SyntheticEvent): void {
     event.preventDefault();
     setIsSubmittedForm(true);
-
-    signIn(user).then((resolve) => {
-      if (resolve === false) {
-        console.log('Ошибка авторизации');
-      } else {
-        console.log('Авторизация прошла успешна');
-      }
-      setIsSubmittedForm(false);
-    });
-  };
+    store.login(email, password).finally(() => setIsSubmittedForm(false));
+  }
 
   return (
     <div>
@@ -47,29 +32,29 @@ const FormLogin: React.FC = () => {
           }}
         >
           <TextField
-            value={user.email}
+            value={email}
             fullWidth
             id="email"
             name="email"
             label="Email"
             variant="outlined"
-            onInput={changeInputForm}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <TextField
-            value={user.password}
+            value={password}
             fullWidth
             id="password"
             type="password"
             name="password"
             label="Пароль"
             variant="outlined"
-            onInput={changeInputForm}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <LoadingButton
             type="submit"
             fullWidth
             variant="contained"
-            endIcon={<LoginIcon />}
+            startIcon={<LoginIcon />}
             loading={isSubmittedForm}
             loadingPosition="end"
             size="large"
