@@ -22,11 +22,16 @@ export interface UserInterface {
 }
 
 export interface AuthInterface {
-  message: string;
-  token: string;
-  refreshToken: string;
-  userId: string;
-  name: string;
+  message: 'string';
+  token: 'string';
+  refreshToken: 'string';
+  userId: 'string';
+  name: 'string';
+}
+
+export interface TokensInterface {
+  token: 'string';
+  refreshToken: 'string';
 }
 
 export interface UserWordInterface {
