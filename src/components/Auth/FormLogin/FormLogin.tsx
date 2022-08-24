@@ -39,7 +39,7 @@ const FormLogin: React.FC = () => {
     formErrors[fieldName] = errorMessage;
     setFormErrors({ ...formErrors });
 
-    return !!errorMessage;
+    return !errorMessage;
   }
 
   function onSubmitForm(event: React.SyntheticEvent): void {

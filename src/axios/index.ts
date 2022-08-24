@@ -8,7 +8,7 @@ const $api = axios.create({
 });
 
 $api.interceptors.request.use((config: AxiosRequestConfig) => {
-  let token = localStorage.getItem('refreshToken');
+  let token = localStorage.getItem('token');
   if (config.url && config.url.includes('/tokens')) token = localStorage.getItem('refreshToken');
 
   return {
