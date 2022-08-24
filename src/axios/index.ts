@@ -21,7 +21,7 @@ $api.interceptors.response.use(
   (config: AxiosRequestConfig) => config,
   async (error) => {
     const originalRequest = error.config;
-    if (error.response.status === 401 && originalRequest.isTry && originalRequest.isTry !== true) {
+    if (error.response.status === 401 && error.config && error.config.isTry !== true) {
       originalRequest.isTry = true;
       try {
         const userId = localStorage.getItem('userId');
