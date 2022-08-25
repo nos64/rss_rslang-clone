@@ -7,4 +7,25 @@ export const ROUTES = {
   STATS: 'stats',
 };
 
-export const example = {};
+export const pages = [
+  {
+    text: 'Main',
+    link: ROUTES.MAIN,
+  },
+  {
+    text: 'Textbook',
+    link: ROUTES.TEXTBOOK,
+  },
+  {
+    text: 'Audiochallenge',
+    link: ROUTES.AUDIOCHALLENGE,
+  },
+  {
+    text: 'Sprint',
+    link: ROUTES.SPRINT,
+  },
+  {
+    text: 'Statistics',
+    link: ROUTES.STATS,
+  },
+];

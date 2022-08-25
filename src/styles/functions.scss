@@ -16,3 +16,7 @@
  @function vh($value, $base: 1080) {
   @return $value / $base * 100vh;
 }
+
+@function getBreakpoint($value: xl) {
+  @return #{map-get($breakpoints, $value)}px;
+}

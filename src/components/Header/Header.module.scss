@@ -1,0 +1,17 @@
+@import '../../styles/common.scss';
+
+.header {
+
+  .toolbar {
+    max-width: getBreakpoint();
+    width: 100%;
+    padding-left: 80px;
+    margin: 0 auto;
+    @include flex-row($gap: 20px);
+
+    .page_title {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+  }
+}
