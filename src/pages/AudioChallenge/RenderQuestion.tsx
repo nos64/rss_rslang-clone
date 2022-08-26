@@ -10,6 +10,8 @@ import './audio.svg';
 import './style.scss';
 import RenderAnswerBtns from './RenderAnswerBtns';
 import RenderAnswerCard from './RenderAnswerCard';
+import RenderResults from './RenderResults';
+import CreateAudioButton from './CreateAudioButton';
 
 const RenderQuestion = (props: { groupWords: number }) => {
   const [words, setWords] = useState<WordInterface[]>([]);
@@ -54,13 +56,6 @@ const RenderQuestion = (props: { groupWords: number }) => {
     getData();
   }, [wordsCount]);
 
-  const createAudio = () => {
-    const audio = new Audio();
-    audio.src = audioSrs;
-    audio.currentTime = 0;
-    audio.autoplay = true;
-  };
-
   const handleAnswerClick = (item: string) => {
     if (!isClicked) {
       if (answer === item) {
@@ -77,51 +72,46 @@ const RenderQuestion = (props: { groupWords: number }) => {
       setIsClicked(true);
     }
   };
-
   return (
     <>
       {isLoading && <Loading />}
       {isWordLoading ? (
         <div className="word-box">
-          <div className="audio-btn-wrapper">
-            {!isClicked ? (
-              <button className="audio-button" type="button" onClick={createAudio}>
-                <audio src={`${baseURL}/${word.audio}`} autoPlay />
-                <svg
-                  className="mui-svg-icon-root jss163"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
-                </svg>
+          {countLose.length !== 3 || wordsCount > 19 ? (
+            <div className="question-wrapper">
+              <div className="audio-btn-wrapper">
+                {!isClicked ? (
+                  <CreateAudioButton audioSrs={audioSrs} autoPlay btnClass="audio-button" />
+                ) : (
+                  <RenderAnswerCard isCorrectAnswer={isCorrectAnswer} word={word} />
+                )}
+              </div>
+              <ul className="answer-buttons__list">
+                {answerArray.map((item, index) => (
+                  <li className="answer-button__item" key={item} data-translate={item}>
+                    <button
+                      onClick={() => handleAnswerClick(item)}
+                      className="answer-button"
+                      type="button"
+                      data-translate={item}
+                    >
+                      {`${index + 1}. ${item}`}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+              {/* <RenderAnswerBtns answerArray={answerArray} word={word} /> */}
+              <button
+                onClick={() => setWordsCount(wordsCount + 1)}
+                className="main-button"
+                type="button"
+              >
+                {nameBtnNext}
               </button>
-            ) : (
-              <RenderAnswerCard isCorrectAnswer={isCorrectAnswer} word={word} />
-            )}
-          </div>
-          <ul className="answer-buttons__list">
-            {answerArray.map((item, index) => (
-              <li className="answer-button__item" key={item} data-translate={item}>
-                <button
-                  onClick={() => handleAnswerClick(item)}
-                  className="answer-button"
-                  type="button"
-                  data-translate={item}
-                >
-                  {`${index + 1}. ${item}`}
-                </button>
-              </li>
-            ))}
-          </ul>
-          {/* <RenderAnswerBtns answerArray={answerArray} word={word} /> */}
-          <button
-            onClick={() => setWordsCount(wordsCount + 1)}
-            className="main-button"
-            type="button"
-          >
-            {nameBtnNext}
-          </button>
+            </div>
+          ) : (
+            <RenderResults countLose={countLose} countWin={countWin} />
+          )}
         </div>
       ) : (
         ''
