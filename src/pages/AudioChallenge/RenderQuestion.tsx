@@ -6,31 +6,34 @@ import { getRandomPage, getRandomTranslate, shuffle } from './utils';
 import Loading from './Loading';
 import { baseURL } from './axiosInstance';
 import './audio.svg';
-// eslint-disable-next-line react/no-unused-prop-types
-// const RenderQuestion = (props: { allWords: string[]; words: WordInterface[] }) => {
+
 const RenderQuestion = (props: { groupWords: number }) => {
   const [words, setWords] = useState<WordInterface[]>([]);
   const [allWords, setAllWords] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+
   const [wordsCount, setWordsCount] = useState(0);
   const [word, setWord] = useState<WordInterface>(words[wordsCount]);
+
   const [answerArray, setAnswerArray] = useState<Set<string>>(new Set());
   const [countWin, setCountWin] = useState<WordInterface[]>([]);
   const [countLose, setCountLose] = useState<WordInterface[]>([]);
+
   useEffect(() => {
     const getData = async () => {
       setIsLoading(true);
 
       setWords([...words, ...(await getWords(props.groupWords, getRandomPage()))]);
       setAllWords([...allWords, ...(await getGroupWords(props.groupWords))]);
-      // setWord(words[wordsCount]);
+      setWord(words[wordsCount]);
       setIsLoading(false);
     };
     getData();
   }, []);
 
-  // const word = words[wordsCount];
-  console.log('word: ', word);
+  const firstWord = words[wordsCount];
+  console.log('firstWord: ', firstWord);
+
   // const newSet = new Set(answerArray);
   // newSet.add(word.wordTranslate);
 
@@ -62,7 +65,7 @@ const RenderQuestion = (props: { groupWords: number }) => {
       {isLoading && <Loading />}
       <div className="word-box">
         <div className="audio-btn-wrapper">
-          {/* <p>{word.id}</p> */}
+          <p>{word.id}</p>
           {/* <button className="audio-button" type="button" onClick={audio.play}>
             <svg
               className="mui-svg-icon-root jss163"
