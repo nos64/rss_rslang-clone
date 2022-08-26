@@ -11,39 +11,5 @@ export const shuffle = (array: string[]) => {
 /** Получить рандомную страницу при выборе сложности */
 export const getRandomPage = () => Math.floor(Math.random() * 30);
 
-/** Скрыть элемент */
-export const hideElem = (elem: HTMLElement) => {
-  let opacity = +getComputedStyle(elem).getPropertyValue('opacity');
-
-  const animation = () => {
-    opacity -= 0.05;
-    // eslint-disable-next-line no-param-reassign
-    elem.style.opacity = String(opacity);
-
-    if (opacity > 0) {
-      requestAnimationFrame(animation);
-    } else {
-      // eslint-disable-next-line no-param-reassign
-      elem.style.display = 'none';
-    }
-  };
-
-  requestAnimationFrame(animation);
-};
-
-/** Показать элемент */
-// expport const showElem = (elem: HTMLElement) => {
-//   let opacity = 0;
-//   elem.style.opacity = String(opacity);
-//   elem.style.display = '';
-
-//   const animation = () => {
-//     opacity += 0.05;
-//     elem.style.opacity = String(opacity);
-
-//     if (opacity < 1) {
-//       requestAnimationFrame(animation);
-//     }
-//   };
-//   requestAnimationFrame(animation);
-// };
+export const getRandomTranslate = (allWords: string[]) =>
+  allWords[Math.floor(Math.random() * allWords.length)];
