@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './style.scss';
 import './audio.svg';
+import { Button } from '@mui/material';
 import RenderQuestion from './RenderQuestion';
 import Loading from './Loading';
 
@@ -28,7 +29,8 @@ const AudioChallenge: React.FC = () => {
           <ul className="selection__list">
             {btnArr.map((item, index) => (
               <li className="selection__item" key={item}>
-                <button
+                <Button
+                  variant="contained"
                   // ref={`keyboardClcick-${index}`}
                   type="button"
                   onClick={() => {
@@ -38,7 +40,7 @@ const AudioChallenge: React.FC = () => {
                   className="selection__btn"
                 >
                   {item}
-                </button>
+                </Button>
               </li>
             ))}
           </ul>

@@ -1,8 +1,11 @@
+@import '../../styles/colors.scss';
+
 html {
   position: relative;
   box-sizing:border-box;
   scroll-behavior: smooth;
   overflow-x: hidden;
+  color: $color-primary-dark;
 }
 
 *,
@@ -42,16 +45,8 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  // font-family: "Passero One", cursive;
-  // background-color: $bgColor;
-  // color: $textColor;
   overflow-x: hidden;
   max-width: 100%;
-}
-
-.container {
-  max-width: calc(100vw - 60px);
-  margin: 0 auto;
 }
 
 .audio__title {
@@ -67,19 +62,26 @@ body {
   align-items:center;
   margin: 0 auto;
   max-width: 800px;
-  height: 300px;
+  height: 400px;
   box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.1);
   border-radius: 30px;
+  background-color: $color-primary-light;
+  padding: 20px;
 }
 
 .audio__description {
-font-size: 20px;
+font-size: 24px;
+padding-bottom: 15px;
+color: $color-icons;
 }
 .selection {
 
 }
 .selection__title {
-
+  font-size: 32px;
+  text-align: center;
+  padding: 30px;
+  color: $color-text-primary;
 }
 
 .selection__list {
@@ -87,6 +89,7 @@ display: flex;
 justify-content: center;
 gap: 10px;
 }
+
 .selection__item {
 
 }
@@ -107,13 +110,14 @@ height: 40px;
   justify-content: space-between;
   align-items:center;
   width: 700px;
-  background-color:antiquewhite;
+  background-color:$color-primary-light;
   border-radius: 10px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.1);
+  padding: 30px;
 }
 
 .audio-btn-wrapper {
@@ -130,12 +134,14 @@ height: 40px;
   border-radius: 50%;
   border: none;
   opacity: .5;
+  fill: $color-primary-dark;
   transition: all .3s ease-in-out;
 }
 
 .audio-button-card {
   width: auto;
   height: 80px;
+  fill: $color-primary-dark;
 }
 
 .audio-button-card:hover,
@@ -146,8 +152,10 @@ height: 40px;
 .answer-buttons__list {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  justify-content: center;
+  gap: 15px;
   padding-bottom: 40px;
+  height: 100px;
 }
 
 .main-button {
@@ -164,7 +172,7 @@ height: 40px;
   align-items: center;
   gap: 10px;
   width: 80%;
-  background-color:antiquewhite;
+  background-color:transparent;
   border-radius: 5px;
 }
 
@@ -201,14 +209,15 @@ height: 40px;
   flex-direction: column;
   justify-content: space-between;
   align-items:center;
-  // width: 700px;
+  width: 600px;
   // height: 500px;
-  background-color:antiquewhite;
+  background-color:$color-primary-light;;
   border-radius: 10px;
   // overflow-y: scroll;
   // position: absolute;
   // top: 50%;
   // left: 50%;
+  padding: 20px;
   margin-left: 50%;
   transform: translateX(-50%);
 }
@@ -238,6 +247,7 @@ height: 40px;
 }
 
 .buttons-wrapper {
+  padding: 20px 0 0;
   display: flex;
   gap:20px;
 }
@@ -245,7 +255,7 @@ height: 40px;
 .new-game-btn,
 .in-textbook-btn {
   margin: 20px auto;
-  width: 100px;
+  width: 150px;
 }
 
 .loading-message {

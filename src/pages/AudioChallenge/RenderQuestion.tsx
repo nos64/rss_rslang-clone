@@ -12,6 +12,7 @@ import './style.scss';
 import RenderAnswerCard from './RenderAnswerCard';
 import RenderResults from './RenderResults';
 import CreateAudioButton from './CreateAudioButton';
+import { Button } from '@mui/material';
 
 const RenderQuestion = (props: { groupWords: number }) => {
   const [words, setWords] = useState<WordInterface[]>([]);
@@ -111,21 +112,27 @@ const RenderQuestion = (props: { groupWords: number }) => {
               <ul className="answer-buttons__list">
                 {answerArray.map((item, index) => (
                   <li className="answer-button__item" key={item} data-translate={item}>
-                    <button
+                    <Button
+                      variant="outlined"
                       onClick={() => handleAnswerClick(item)}
                       className="answer-button"
                       type="button"
                       data-translate={item}
                     >
                       {`${index + 1}. ${item}`}
-                    </button>
+                    </Button>
                   </li>
                 ))}
               </ul>
               {/* <RenderAnswerBtns answerArray={answerArray} word={word} /> */}
-              <button onClick={() => handleMainBtnClick()} className="main-button" type="button">
+              <Button
+                variant="contained"
+                onClick={() => handleMainBtnClick()}
+                className="main-button"
+                type="button"
+              >
                 {nameBtnNext}
-              </button>
+              </Button>
             </div>
           ) : (
             <RenderResults countLose={countLose} countWin={countWin} />
