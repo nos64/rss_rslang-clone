@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
-const API_URL = `http://localhost:27017`;
+export const API_URL = `https://learnenglishwords-app.herokuapp.com`;
+// export const API_URL = `http://localhost:8081`;
 
 const $api = axios.create({
   baseURL: API_URL,
@@ -30,7 +31,7 @@ $api.interceptors.response.use(
         localStorage.setItem('refreshToken', response.data.refreshToken);
         return $api.request(originalRequest);
       } catch (err) {
-        console.log('Не авторизован', 'axios/index.ts');
+        // console.log('Не авторизован', 'axios/index.ts');
       }
     }
     throw error;
