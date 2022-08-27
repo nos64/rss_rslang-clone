@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { WordInterface } from '../../types/common';

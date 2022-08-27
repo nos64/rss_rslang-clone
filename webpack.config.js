@@ -70,7 +70,12 @@ const config = {
           filename: 'icons/[hash][ext][query]',
         },
       },
-
+      {
+        test: /\.mp3$/,
+        use: {
+          loader: 'file-loader',
+        },
+      }
       // Add your rules for custom modules here
       // Learn more about loaders from https://webpack.js.org/loaders/
     ],

@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable jsx-a11y/media-has-caption */
 import React, { useEffect, useState } from 'react';
@@ -13,6 +14,8 @@ import RenderAnswerCard from './RenderAnswerCard';
 import RenderResults from './RenderResults';
 import CreateAudioButton from './CreateAudioButton';
 import { Button } from '@mui/material';
+import correctSound from './correct.mp3';
+import unCorrectSound from './unCorrect.mp3';
 
 const RenderQuestion = (props: { groupWords: number }) => {
   const [words, setWords] = useState<WordInterface[]>([]);
@@ -65,6 +68,11 @@ const RenderQuestion = (props: { groupWords: number }) => {
     }
   }, [wordsCount]);
 
+  const playSound = (soundType: string | undefined) => {
+    const sound = new Audio(soundType);
+    sound.volume = 0.5;
+    sound.play();
+  };
   const handleAnswerClick = (item: string) => {
     if (!word) return;
     if (!isClicked) {
@@ -72,10 +80,12 @@ const RenderQuestion = (props: { groupWords: number }) => {
         setCountWin([...countWin, word]);
         setIsCorrectAnswer(true);
         setNameBtnNext('➙');
+        playSound(correctSound);
       } else {
         setCountLose([...countLose, word]);
         setIsCorrectAnswer(false);
         setNameBtnNext('➙');
+        playSound(unCorrectSound);
       }
       setIsClicked(true);
     }
@@ -90,11 +100,26 @@ const RenderQuestion = (props: { groupWords: number }) => {
       setIsCorrectAnswer(false);
       setNameBtnNext('➙');
       setIsClicked(true);
+      playSound(unCorrectSound);
     }
     if (nameBtnNext === '➙' && wordsCount !== null) {
       setWordsCount(wordsCount + 1);
     }
   };
+  // useEffect(() => {
+  //   const onKeypress = (e: any) => {
+  //     if (e.code === 'Enter') {
+  //       handleMainBtnClick();
+  //       console.log(e);
+  //     }
+  //   };
+
+  //   document.addEventListener('keypress', onKeypress);
+
+  //   return () => {
+  //     document.removeEventListener('keypress', onKeypress);
+  //   };
+  // }, []);
   return (
     <>
       {/* {isLoading && <Loading />} */}
