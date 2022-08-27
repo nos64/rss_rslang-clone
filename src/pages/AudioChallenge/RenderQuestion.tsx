@@ -29,7 +29,7 @@ const RenderQuestion = (props: { groupWords: number }) => {
   const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
   const [countWin, setCountWin] = useState<WordInterface[]>([]);
   const [countLose, setCountLose] = useState<WordInterface[]>([]);
-  const [nameBtnNext, setNaneBtnNext] = useState('Не знаю');
+  const [nameBtnNext, setNameBtnNext] = useState('Не знаю');
   const [audioSrs, setAudioSrc] = useState('');
   useEffect(() => {
     const getData = async () => {
@@ -51,7 +51,7 @@ const RenderQuestion = (props: { groupWords: number }) => {
       setIsLoading(false);
       setIsWordLoading(true);
       setIsClicked(false);
-      setNaneBtnNext('Не знаю');
+      setNameBtnNext('Не знаю');
     };
     getData();
   }, [wordsCount]);
@@ -62,22 +62,34 @@ const RenderQuestion = (props: { groupWords: number }) => {
         console.log('correct');
         setCountWin([...countWin, word]);
         setIsCorrectAnswer(true);
-        setNaneBtnNext('➙');
+        setNameBtnNext('➙');
       } else {
         console.log('unCorrect');
         setCountLose([...countLose, word]);
         setIsCorrectAnswer(false);
-        setNaneBtnNext('➙');
+        setNameBtnNext('➙');
       }
       setIsClicked(true);
     }
   };
+
+  const handleMainBtnClick = () => {
+    if (nameBtnNext === 'Не знаю') {
+      setCountLose([...countLose, word]);
+      setIsCorrectAnswer(false);
+      setNameBtnNext('➙');
+      setIsClicked(true);
+    } else if (nameBtnNext === '➙') {
+      setWordsCount(wordsCount + 1);
+    }
+  };
+
   return (
     <>
       {isLoading && <Loading />}
       {isWordLoading ? (
         <div className="word-box">
-          {countLose.length !== 3 || wordsCount > 19 ? (
+          {countLose.length !== 5 || wordsCount > 19 ? (
             <div className="question-wrapper">
               <div className="audio-btn-wrapper">
                 {!isClicked ? (
@@ -101,11 +113,7 @@ const RenderQuestion = (props: { groupWords: number }) => {
                 ))}
               </ul>
               {/* <RenderAnswerBtns answerArray={answerArray} word={word} /> */}
-              <button
-                onClick={() => setWordsCount(wordsCount + 1)}
-                className="main-button"
-                type="button"
-              >
+              <button onClick={() => handleMainBtnClick()} className="main-button" type="button">
                 {nameBtnNext}
               </button>
             </div>
