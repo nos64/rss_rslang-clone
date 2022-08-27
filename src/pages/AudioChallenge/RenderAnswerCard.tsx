@@ -5,7 +5,6 @@ import { WordInterface } from '../../types/common';
 import RenderCorrectCard from './RenderCorrectCard';
 import RenderUncorrectCard from './RenderUncorrectCard';
 
-// eslint-disable-next-line react/no-unused-prop-types
 const RenderAnswerCard = (props: { isCorrectAnswer: boolean; word: WordInterface }) => {
   return (
     <>

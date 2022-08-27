@@ -3,10 +3,10 @@
 import React from 'react';
 
 const CreateAudioButton = (props: { audioSrs: string; autoPlay: boolean; btnClass: string }) => {
+  const audio = new Audio();
   const createAudio = () => {
-    const audio = new Audio();
     audio.src = props.audioSrs;
-    audio.currentTime = 0;
+    // audio.currentTime = 0;
     audio.autoplay = true;
   };
   return (

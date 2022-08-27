@@ -19,7 +19,7 @@ const RenderQuestion = (props: { groupWords: number }) => {
   const [answerArray, setAnswerArray] = useState<string[]>([]);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [isWordLoading, setIsWordLoading] = useState(false);
+  // const [isWordLoading, setIsWordLoading] = useState(false);
 
   const [wordsCount, setWordsCount] = useState<number | null>(null);
   const [word, setWord] = useState<WordInterface | null>(null);
@@ -48,7 +48,7 @@ const RenderQuestion = (props: { groupWords: number }) => {
   }, []);
 
   useEffect(() => {
-    if (wordsCount !== null) {
+    if (wordsCount !== null && wordsCount < 20) {
       setWord(words[wordsCount]);
       setAnswer(words[wordsCount].wordTranslate);
       const newSet: Set<string> = new Set();
@@ -63,34 +63,6 @@ const RenderQuestion = (props: { groupWords: number }) => {
       setNameBtnNext('Не знаю');
     }
   }, [wordsCount]);
-
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     setIsLoading(true);
-
-  //     const uploadedWords = await getWords(props.groupWords, getRandomPage());
-  //     setWords([...words, ...uploadedWords]);
-  //     setWord(uploadedWords[wordsCount]);
-  //     const uploadedGroup = await getGroupWords(props.groupWords);
-  //     setAllWords([...allWords, ...uploadedGroup]);
-  //     setAnswer(uploadedWords[wordsCount].wordTranslate);
-  //     const newSet: Set<string> = new Set();
-  //     newSet.add(uploadedWords[wordsCount].wordTranslate);
-  //     while (newSet.size !== 5) {
-  //       newSet.add(getRandomTranslate(uploadedGroup));
-  //     }
-  //     setAnswerArray([...shuffle(Array.from(newSet))]);
-  //     setAudioSrc(`${baseURL}/${uploadedWords[wordsCount].audio}`);
-  //     setIsClicked(false);
-  //     setIsWordLoading(true);
-  //     setIsCorrectAnswer(false);
-  //     setNameBtnNext('Не знаю');
-
-  //     setIsLoading(false);
-  //   };
-
-  //   getData();
-  // }, [wordsCount]);
 
   const handleAnswerClick = (item: string) => {
     if (!word) return;
@@ -122,13 +94,12 @@ const RenderQuestion = (props: { groupWords: number }) => {
       setWordsCount(wordsCount + 1);
     }
   };
-
   return (
     <>
       {/* {isLoading && <Loading />} */}
       {!isLoading && wordsCount !== null && word ? (
         <div className="word-box">
-          {countLose.length !== 5 || wordsCount > 19 ? (
+          {countLose.length !== 5 && wordsCount < 20 ? (
             <div className="question-wrapper">
               <div className="audio-btn-wrapper">
                 {!isClicked ? (

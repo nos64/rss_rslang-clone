@@ -26,9 +26,10 @@ const AudioChallenge: React.FC = () => {
         <div className="selection">
           <h2 className="selection__title">Выберете уровень сложности</h2>
           <ul className="selection__list">
-            {btnArr.map((item) => (
+            {btnArr.map((item, index) => (
               <li className="selection__item" key={item}>
                 <button
+                  // ref={`keyboardClcick-${index}`}
                   type="button"
                   onClick={() => {
                     clickOnButton(item);
