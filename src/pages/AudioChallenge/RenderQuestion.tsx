@@ -8,7 +8,7 @@ import Loading from './Loading';
 import { baseURL } from './axiosInstance';
 import './audio.svg';
 import './style.scss';
-import RenderAnswerBtns from './RenderAnswerBtns';
+// import RenderAnswerBtns from './RenderAnswerBtns';
 import RenderAnswerCard from './RenderAnswerCard';
 import RenderResults from './RenderResults';
 import CreateAudioButton from './CreateAudioButton';
@@ -31,6 +31,7 @@ const RenderQuestion = (props: { groupWords: number }) => {
   const [countLose, setCountLose] = useState<WordInterface[]>([]);
   const [nameBtnNext, setNameBtnNext] = useState('Не знаю');
   const [audioSrs, setAudioSrc] = useState('');
+
   useEffect(() => {
     const getData = async () => {
       setIsLoading(true);

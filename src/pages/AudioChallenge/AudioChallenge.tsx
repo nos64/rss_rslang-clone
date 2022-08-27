@@ -14,7 +14,7 @@ const AudioChallenge: React.FC = () => {
     setGroupWords(groupWords + btn - 1);
     setIsLoading(false);
   };
-
+  const btnArr = [1, 2, 3, 4, 5, 6];
   return (
     <div className="wrapper">
       {isLoading && <Loading />}
@@ -26,78 +26,20 @@ const AudioChallenge: React.FC = () => {
         <div className="selection">
           <h2 className="selection__title">Выберете уровень сложности</h2>
           <ul className="selection__list">
-            <li className="selection__item">
-              <button
-                type="button"
-                onClick={() => {
-                  clickOnButton(1);
-                  setClassName('invisible');
-                }}
-                className="selection__btn"
-              >
-                1
-              </button>
-            </li>
-            <li className="selection__item">
-              <button
-                type="button"
-                onClick={() => {
-                  clickOnButton(2);
-                  setClassName('invisible');
-                }}
-                className="selection__btn"
-              >
-                2
-              </button>
-            </li>
-            <li className="selection__item">
-              <button
-                type="button"
-                onClick={() => {
-                  clickOnButton(3);
-                  setClassName('invisible');
-                }}
-                className="selection__btn"
-              >
-                3
-              </button>
-            </li>
-            <li className="selection__item">
-              <button
-                type="button"
-                onClick={() => {
-                  clickOnButton(4);
-                  setClassName('invisible');
-                }}
-                className="selection__btn"
-              >
-                4
-              </button>
-            </li>
-            <li className="selection__item">
-              <button
-                type="button"
-                onClick={() => {
-                  clickOnButton(5);
-                  setClassName('invisible');
-                }}
-                className="selection__btn"
-              >
-                5
-              </button>
-            </li>
-            <li className="selection__item">
-              <button
-                type="button"
-                onClick={() => {
-                  clickOnButton(6);
-                  setClassName('invisible');
-                }}
-                className="selection__btn"
-              >
-                6
-              </button>
-            </li>
+            {btnArr.map((item) => (
+              <li className="selection__item">
+                <button
+                  type="button"
+                  onClick={() => {
+                    clickOnButton(item);
+                    setClassName('invisible');
+                  }}
+                  className="selection__btn"
+                >
+                  {item}
+                </button>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
