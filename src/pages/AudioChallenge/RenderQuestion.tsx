@@ -48,23 +48,24 @@ const RenderQuestion = (props: { groupWords: number }) => {
       }
       setAnswerArray([...shuffle(Array.from(newSet))]);
       setAudioSrc(`${baseURL}/${uploadedWords[wordsCount].audio}`);
-      setIsLoading(false);
-      setIsWordLoading(true);
       setIsClicked(false);
+      setIsWordLoading(true);
+      setIsCorrectAnswer(false);
       setNameBtnNext('Не знаю');
+
+      setIsLoading(false);
     };
+
     getData();
   }, [wordsCount]);
 
   const handleAnswerClick = (item: string) => {
     if (!isClicked) {
       if (answer === item) {
-        console.log('correct');
         setCountWin([...countWin, word]);
         setIsCorrectAnswer(true);
         setNameBtnNext('➙');
       } else {
-        console.log('unCorrect');
         setCountLose([...countLose, word]);
         setIsCorrectAnswer(false);
         setNameBtnNext('➙');
@@ -81,6 +82,7 @@ const RenderQuestion = (props: { groupWords: number }) => {
       setIsClicked(true);
     } else if (nameBtnNext === '➙') {
       setWordsCount(wordsCount + 1);
+      setIsClicked(false); // Добавил для борьбы с показом следующего слова и отключил autoplay
     }
   };
 
@@ -93,7 +95,7 @@ const RenderQuestion = (props: { groupWords: number }) => {
             <div className="question-wrapper">
               <div className="audio-btn-wrapper">
                 {!isClicked ? (
-                  <CreateAudioButton audioSrs={audioSrs} autoPlay btnClass="audio-button" />
+                  <CreateAudioButton audioSrs={audioSrs} autoPlay={false} btnClass="audio-button" />
                 ) : (
                   <RenderAnswerCard isCorrectAnswer={isCorrectAnswer} word={word} />
                 )}
