@@ -71,8 +71,12 @@ body {
 
 .audio__description {
 font-size: 24px;
-padding-bottom: 15px;
+padding-bottom: 5px;
 color: $color-icons;
+}
+
+.rule {
+  color: $color-primary-dark;
 }
 .selection {
 

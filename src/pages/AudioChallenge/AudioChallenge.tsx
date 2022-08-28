@@ -24,6 +24,13 @@ const AudioChallenge: React.FC = () => {
       <div className={`audio-wrapper ${className ? 'invisible' : ''}`}>
         <p className="audio__description">Тренировка Аудиовызов развивает словарный запас.</p>
         <p className="audio__description">Вы должны выбрать перевод услышанного слова.</p>
+        <p className="audio__description rule">
+          Для выбора ответа используйте клавиши 1, 2, 3, 4, 5
+        </p>
+        <p className="audio__description rule">Для перехода к следющему слову нажмите Enter</p>
+        <p className="audio__description rule">
+          Для повторного воспроизведения слова нажмите Пробел
+        </p>
         <div className="selection">
           <h2 className="selection__title">Выберете уровень сложности</h2>
           <ul className="selection__list">
