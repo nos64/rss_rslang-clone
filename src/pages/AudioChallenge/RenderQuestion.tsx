@@ -1,7 +1,7 @@
 /* eslint-disable import/order */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable jsx-a11y/media-has-caption */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { WordInterface } from '../../types/common';
 import getWords, { getGroupWords } from './api';
 import { getRandomPage, getRandomTranslate, shuffle } from './utils';
@@ -36,6 +36,8 @@ const RenderQuestion = (props: { groupWords: number }) => {
   const [nameBtnNext, setNameBtnNext] = useState('Не знаю');
   const [audioSrs, setAudioSrc] = useState('');
 
+  const [indexAnswer, setIndexAnswer] = useState<number>(0);
+
   useEffect(() => {
     const getData = async () => {
       setIsLoading(true);
@@ -61,6 +63,10 @@ const RenderQuestion = (props: { groupWords: number }) => {
         newSet.add(getRandomTranslate(allWords));
       }
       setAnswerArray([...shuffle(Array.from(newSet))]);
+      const rightIndex = answerArray.findIndex((item) => item === answer);
+
+      setIndexAnswer(rightIndex);
+
       setAudioSrc(`${baseURL}/${words[wordsCount].audio}`);
       setIsClicked(false);
       setIsCorrectAnswer(false);
@@ -69,6 +75,8 @@ const RenderQuestion = (props: { groupWords: number }) => {
   }, [wordsCount]);
 
   const playSound = (soundType: string | undefined) => {
+    // console.log('answerArray: ', answerArray);
+    // console.log('indexAnswer: ', indexAnswer);
     const sound = new Audio(soundType);
     sound.volume = 0.5;
     sound.play();
@@ -90,9 +98,17 @@ const RenderQuestion = (props: { groupWords: number }) => {
       setIsClicked(true);
     }
   };
-
+  // const handleAnswerPress = (e: KeyboardEvent, data: string) => {
+  //   if (!word) return;
+  //   if (!isClicked) {
+  //     if (e.key === data)
+  //   }
+  // }
   const handleMainBtnClick = () => {
     if (!word || wordsCount === null) {
+      console.log('wordsCount: ', wordsCount);
+      console.log('word: ', word);
+      console.log('qqqqqqqqq');
       return;
     }
     if (nameBtnNext === 'Не знаю') {
@@ -106,20 +122,20 @@ const RenderQuestion = (props: { groupWords: number }) => {
       setWordsCount(wordsCount + 1);
     }
   };
-  // useEffect(() => {
-  //   const onKeypress = (e: any) => {
-  //     if (e.code === 'Enter') {
-  //       handleMainBtnClick();
-  //       console.log(e);
-  //     }
-  //   };
 
-  //   document.addEventListener('keypress', onKeypress);
+  useEffect(() => {
+    const onKeypress = (e: KeyboardEvent) => {
+      // if (e.code === 'Enter') {
+      console.log('e: ', e.key);
+      handleMainBtnClick();
+      // }
+    };
+    document.addEventListener('keydown', onKeypress);
+    return () => {
+      document.removeEventListener('keydown', onKeypress);
+    };
+  }, [wordsCount]);
 
-  //   return () => {
-  //     document.removeEventListener('keypress', onKeypress);
-  //   };
-  // }, []);
   return (
     <>
       {/* {isLoading && <Loading />} */}
@@ -136,13 +152,13 @@ const RenderQuestion = (props: { groupWords: number }) => {
               </div>
               <ul className="answer-buttons__list">
                 {answerArray.map((item, index) => (
-                  <li className="answer-button__item" key={item} data-translate={item}>
+                  <li className="answer-button__item" key={item} data-num={index + 1}>
                     <Button
                       variant="outlined"
                       onClick={() => handleAnswerClick(item)}
                       className="answer-button"
                       type="button"
-                      data-translate={item}
+                      data-num={index + 1}
                     >
                       {`${index + 1}. ${item}`}
                     </Button>

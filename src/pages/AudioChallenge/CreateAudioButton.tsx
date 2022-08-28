@@ -1,16 +1,27 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable jsx-a11y/media-has-caption */
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const CreateAudioButton = (props: { audioSrs: string; autoPlay: boolean; btnClass: string }) => {
   const audio = new Audio();
-  const createAudio = () => {
+  const playAudio = () => {
     audio.src = props.audioSrs;
-    // audio.currentTime = 0;
-    audio.autoplay = true;
+    audio.play();
   };
+  useEffect(() => {
+    const onPressSpace = (e: KeyboardEvent) => {
+      e.preventDefault();
+      if (e.code === 'Space') {
+        playAudio();
+      }
+    };
+    document.addEventListener('keydown', onPressSpace);
+    return () => {
+      document.removeEventListener('keydown', onPressSpace);
+    };
+  }, []);
   return (
-    <button className={props.btnClass} type="button" onClick={createAudio}>
+    <button className={props.btnClass} type="button" onClick={playAudio}>
       <audio src={props.audioSrs} autoPlay={props.autoPlay} />
       <svg
         className="mui-svg-icon-root jss163"
