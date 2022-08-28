@@ -1,6 +1,13 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import $api from '../../axios';
+import useGetUserStats from '../../hooks/useGetUserStats';
+import useSetUserStats from '../../hooks/useSetUserStats';
+import {
+  UserStatsRequestInterface,
+  UserStatsForLayoutInterface,
+  UserStatsGameInterface,
+} from '../../types/common';
 
 const data1 = [
   { name: 'Page A', uv: 3 },
@@ -26,112 +33,111 @@ const width = 700;
 
 const Stats = () => {
   const [isLoading, setIsLoading] = React.useState(true);
-  const [gamesStats, setGamesStats] = React.useState({
-    audioChallenge: { newWords: 0, accuracy: 0, seriesCorrectAnswers: 0, date: '' },
-    sprint: { newWords: 0, accuracy: 0, seriesCorrectAnswers: 0, date: '' },
-  });
-  const [commonStats, setCommonStats] = React.useState({
+  const [summaryStats, setSummaryStats] = React.useState({
     learnedWords: 0,
     newWords: 0,
     accuracy: 0,
   });
-  const [everyDaysStats, setEveryDaysStats] = React.useState<Array<[string, number]>>([]);
+  const [sprintStats, setSprintStats] = React.useState({} as UserStatsGameInterface);
+  const [audioChallengeStats, setAudioChallengeStats] = React.useState(
+    {} as UserStatsGameInterface
+  );
 
   React.useEffect(() => {
-    const fetching = async () => {
-      const response = await $api.get(`/users/${localStorage.getItem('userId')}/statistics`);
-      const statisticsDB = response.data;
-
-      const learnedWords = statisticsDB?.learnedWords ?? 0;
-      let newWords = 0;
-      if (statisticsDB?.optional?.gamesStats) {
-        const nwSpring = statisticsDB?.optional?.gamesStats?.sprint?.newWords ?? 0;
-        const nwAudioChallenge = statisticsDB?.optional?.gamesStats?.audioChallenge?.newWords ?? 0;
-        newWords = nwSpring + nwAudioChallenge;
-      }
-      let accuracy = 0;
-      if (statisticsDB?.optional?.gamesStats) {
-        const aSpring = statisticsDB?.optional?.gamesStats?.sprint?.accuracy ?? 0;
-        const aAudioChallenge = statisticsDB?.optional?.gamesStats?.audioChallenge?.accuracy ?? 0;
-        accuracy = (aSpring + aAudioChallenge) / 2;
-      }
-
-      setGamesStats({ ...gamesStats, ...statisticsDB?.optional?.gamesStats });
-      setCommonStats({
-        learnedWords,
-        newWords,
-        accuracy,
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      useGetUserStats(userId)().then((resolve) => {
+        const transformedStats = transformStatsForPrintLayout(resolve);
+        setSummaryStats({ ...transformedStats.summary });
+        setSprintStats({ ...transformedStats.games.sprint });
+        setAudioChallengeStats({ ...transformedStats.games.audioChallenge });
+        // setTotalStats({ ...transformedStats });
+        setIsLoading(true);
       });
-      if (statisticsDB?.optional?.learnedWordsPerDay) {
-        const edStats: Array<[string, number]> = Object.entries(
-          statisticsDB.optional.learnedWordsPerDay
-        );
-        setEveryDaysStats([...edStats]);
-      }
-      setIsLoading(false);
-    };
-    fetching();
+    }
   }, []);
 
-  async function gg() {
-    const p = {
-      learnedWords: 15,
-      optional: {
-        learnedWordsPerDay: { Дата: 3, Дата1: 3, Дата2: 3 },
-        gamesStats: {
-          audioChallenge: { newWords: 2, accuracy: 37, seriesCorrectAnswers: 2, date: '' },
-          sprint: { newWords: 5, accuracy: 32, seriesCorrectAnswers: 4, date: '' },
-        },
+  function transformStatsForPrintLayout(
+    stats: UserStatsRequestInterface
+  ): UserStatsForLayoutInterface {
+    const commonAccuracy =
+      (stats.optional.sprint.accuracy + stats.optional.audioChallenge.accuracy) / 2;
+    const commonNewWords = stats.optional.sprint.newWords + stats.optional.audioChallenge.newWords;
+    const learnedWordsPerDay = [...Object.entries(stats.optional.learnedWordsPerDay)];
+
+    const returnObj = {
+      summary: {
+        learnedWords: stats.learnedWords,
+        newWords: commonNewWords,
+        accuracy: commonAccuracy,
       },
+      games: {
+        sprint: { ...stats.optional.sprint },
+        audioChallenge: { ...stats.optional.audioChallenge },
+      },
+      // learnedWordsPerDay,
     };
-    const hh = await $api.put(`/users/${localStorage.getItem('userId')}/statistics`, p);
+
+    return returnObj;
+  }
+
+  async function gg() {
+    const userId = localStorage.getItem('userId');
+    if (userId) useSetUserStats(userId, 'words', 4);
+    /* const hh = await $api.put(`/users/${localStorage.getItem('userId')}/statistics`, {
+      learnedWords: 5,
+      optional: {
+        learnedWordsPerDay: { '28.8.2022': 5 },
+        audioChallenge: { newWords: 2, accuracy: 37, seriesCorrectAnswers: 2, date: '28.8.2022' },
+        sprint: { newWords: 5, accuracy: 32, seriesCorrectAnswers: 4, date: '28.8.2022' },
+      },
+    });
     // const hh = await $api.get(`/users/${localStorage.getItem('userId')}/statistics`);
-    console.log(hh);
+    console.log(hh); */
+    // const nowDate = new Date();
+    // console.log(nowDate.toLocaleDateString());
   }
 
   return (
     <div>
       <h1>Статистика</h1>
-      {isLoading ? (
-        <div>Идет загрузка статистики...</div>
+      {!isLoading ? (
+        <div>Не авторизованным не доступно...</div>
       ) : (
         <div>
           <div>
             <div>За сегодня</div>
             <div>
               <div>Общая статистика</div>
-              <div>Кол-во новых слов: {commonStats.newWords}</div>
-              <div>Кол-во изученных слов: {commonStats.learnedWords}</div>
-              <div>Процент правильных ответов: {commonStats.accuracy}</div>
+              <div>Кол-во новых слов: {summaryStats.newWords}</div>
+              <div>Кол-во изученных слов: {summaryStats.learnedWords}</div>
+              <div>Процент правильных ответов: {summaryStats.accuracy}</div>
             </div>
             <hr />
             <hr />
             <div>
               <div>Статистика по играм</div>
               <div>Спринт</div>
-              <div>Кол-во новых слов: {gamesStats.sprint.newWords}</div>
-              <div>Процент правильных ответов: {gamesStats.sprint.accuracy}</div>
-              <div>
-                Самая длинная серия правильных ответов: {gamesStats.sprint.seriesCorrectAnswers}
-              </div>
+              <div>Кол-во новых слов: {sprintStats.newWords}</div>
+              <div>Процент правильных ответов: {sprintStats.accuracy}</div>
+              <div>Самая длинная серия правильных ответов: {sprintStats.seriesCorrectAnswers}</div>
               <hr />
               <div>Аудиовызов</div>
-              <div>Кол-во новых слов: {gamesStats.audioChallenge.newWords}</div>
-              <div>Процент правильных ответов: {gamesStats.audioChallenge.accuracy}</div>
+              <div>Кол-во новых слов: {audioChallengeStats.newWords}</div>
+              <div>Процент правильных ответов: {audioChallengeStats.accuracy}</div>
               <div>
-                Самая длинная серия правильных ответов:{' '}
-                {gamesStats.audioChallenge.seriesCorrectAnswers}
+                Самая длинная серия правильных ответов: {audioChallengeStats.seriesCorrectAnswers}
               </div>
             </div>
           </div>
           <div>
             <div>За все время</div>
             <div>2 графика</div>
-            {everyDaysStats.map((arr, index) => (
+            {/* totalStats.learnedWordsPerDay.map((arr: [string: number], index: number) => (
               <div key={index}>
                 {arr[0]} {arr[1]}
               </div>
-            ))}
+            )) */}
           </div>
         </div>
       )}
