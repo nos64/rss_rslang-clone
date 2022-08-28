@@ -1,7 +1,7 @@
 /* eslint-disable import/order */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable jsx-a11y/media-has-caption */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { WordInterface } from '../../types/common';
 import getWords, { getGroupWords } from './api';
 import { getRandomPage, getRandomTranslate, shuffle } from './utils';
@@ -29,14 +29,13 @@ const RenderQuestion = (props: { groupWords: number }) => {
   const [word, setWord] = useState<WordInterface | null>(null);
 
   const [answer, setAnswer] = useState('');
+  const [indexAnswer, setIndexAnswer] = useState<number>(0);
   const [isClicked, setIsClicked] = useState(false);
   const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
   const [countWin, setCountWin] = useState<WordInterface[]>([]);
   const [countLose, setCountLose] = useState<WordInterface[]>([]);
   const [nameBtnNext, setNameBtnNext] = useState('Не знаю');
   const [audioSrs, setAudioSrc] = useState('');
-
-  const [indexAnswer, setIndexAnswer] = useState<number>(0);
 
   useEffect(() => {
     const getData = async () => {
@@ -151,9 +150,6 @@ const RenderQuestion = (props: { groupWords: number }) => {
       if (e.key === '5') {
         handleAnswerPress(4);
       }
-      if (e.key === '6') {
-        handleAnswerPress(5);
-      }
     };
     document.addEventListener('keydown', onKeypress);
     return () => {
@@ -177,13 +173,12 @@ const RenderQuestion = (props: { groupWords: number }) => {
               </div>
               <ul className="answer-buttons__list">
                 {answerArray.map((item, index) => (
-                  <li className="answer-button__item" key={item} data-num={index + 1}>
+                  <li className="answer-button__item" key={item}>
                     <Button
                       variant="outlined"
                       onClick={() => handleAnswerClick(item)}
                       className="answer-button"
                       type="button"
-                      data-num={index + 1}
                     >
                       {`${index + 1}. ${item}`}
                     </Button>

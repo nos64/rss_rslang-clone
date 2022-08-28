@@ -10,11 +10,12 @@ const AudioChallenge: React.FC = () => {
   const [className, setClassName] = useState('');
   const [groupWords, setGroupWords] = useState(0);
 
-  const clickOnButton = async (btn: number) => {
+  const clickOnButton = (btn: number) => {
     setIsLoading(true);
     setGroupWords(groupWords + btn - 1);
     setIsLoading(false);
   };
+
   const btnArr = [1, 2, 3, 4, 5, 6];
   return (
     <div className="wrapper">
@@ -34,11 +35,10 @@ const AudioChallenge: React.FC = () => {
         <div className="selection">
           <h2 className="selection__title">Выберете уровень сложности</h2>
           <ul className="selection__list">
-            {btnArr.map((item, index) => (
+            {btnArr.map((item) => (
               <li className="selection__item" key={item}>
                 <Button
                   variant="contained"
-                  // ref={`keyboardClcick-${index}`}
                   type="button"
                   onClick={() => {
                     clickOnButton(item);
