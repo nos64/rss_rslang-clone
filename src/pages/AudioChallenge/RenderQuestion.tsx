@@ -62,9 +62,10 @@ const RenderQuestion = (props: { groupWords: number }) => {
       while (newSet.size !== 5) {
         newSet.add(getRandomTranslate(allWords));
       }
-      setAnswerArray([...shuffle(Array.from(newSet))]);
-      const rightIndex = answerArray.findIndex((item) => item === answer);
-
+      const arr = shuffle(Array.from(newSet));
+      setAnswerArray([...arr]);
+      // setAnswerArray([...shuffle(Array.from(newSet))]);
+      const rightIndex = arr.findIndex((item) => item === words[wordsCount].wordTranslate);
       setIndexAnswer(rightIndex);
 
       setAudioSrc(`${baseURL}/${words[wordsCount].audio}`);
@@ -75,8 +76,6 @@ const RenderQuestion = (props: { groupWords: number }) => {
   }, [wordsCount]);
 
   const playSound = (soundType: string | undefined) => {
-    // console.log('answerArray: ', answerArray);
-    // console.log('indexAnswer: ', indexAnswer);
     const sound = new Audio(soundType);
     sound.volume = 0.5;
     sound.play();
@@ -98,17 +97,26 @@ const RenderQuestion = (props: { groupWords: number }) => {
       setIsClicked(true);
     }
   };
-  // const handleAnswerPress = (e: KeyboardEvent, data: string) => {
-  //   if (!word) return;
-  //   if (!isClicked) {
-  //     if (e.key === data)
-  //   }
-  // }
+  const handleAnswerPress = (key: number) => {
+    if (!word) return;
+    if (!isClicked) {
+      if (key === indexAnswer) {
+        setCountWin([...countWin, word]);
+        setIsCorrectAnswer(true);
+        setNameBtnNext('➙');
+        playSound(correctSound);
+      } else {
+        setCountLose([...countLose, word]);
+        setIsCorrectAnswer(false);
+        setNameBtnNext('➙');
+        playSound(unCorrectSound);
+      }
+      setIsClicked(true);
+    }
+  };
+
   const handleMainBtnClick = () => {
     if (!word || wordsCount === null) {
-      console.log('wordsCount: ', wordsCount);
-      console.log('word: ', word);
-      console.log('qqqqqqqqq');
       return;
     }
     if (nameBtnNext === 'Не знаю') {
@@ -125,16 +133,33 @@ const RenderQuestion = (props: { groupWords: number }) => {
 
   useEffect(() => {
     const onKeypress = (e: KeyboardEvent) => {
-      // if (e.code === 'Enter') {
-      console.log('e: ', e.key);
-      handleMainBtnClick();
-      // }
+      if (e.code === 'Enter') {
+        handleMainBtnClick();
+      }
+      if (e.key === '1') {
+        handleAnswerPress(0);
+      }
+      if (e.key === '2') {
+        handleAnswerPress(1);
+      }
+      if (e.key === '3') {
+        handleAnswerPress(2);
+      }
+      if (e.key === '4') {
+        handleAnswerPress(3);
+      }
+      if (e.key === '5') {
+        handleAnswerPress(4);
+      }
+      if (e.key === '6') {
+        handleAnswerPress(5);
+      }
     };
     document.addEventListener('keydown', onKeypress);
     return () => {
       document.removeEventListener('keydown', onKeypress);
     };
-  }, [wordsCount]);
+  });
 
   return (
     <>
