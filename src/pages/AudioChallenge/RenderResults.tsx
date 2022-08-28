@@ -5,10 +5,11 @@ import { WordInterface } from '../../types/common';
 import GenerateResults from './GenerateResults';
 
 const RenderResults = (props: { countWin: WordInterface[]; countLose: WordInterface[] }) => {
+  const allWordsInRound = 20;
   return (
     <div className="result-wrapper">
       <h3>Показано слов: {props.countWin.length + props.countLose.length}</h3>
-      <h3>Процент правильных ответов: {(props.countWin.length * 100) / 20}%</h3>
+      <h3>Процент правильных ответов: {(props.countWin.length * 100) / allWordsInRound}%</h3>
       <GenerateResults
         arrayWord={props.countWin}
         title="Правильные ответы"
