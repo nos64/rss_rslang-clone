@@ -57,7 +57,7 @@ const config = {
         },
       },
       {
-        test: /\.(png|jpe?g|gif|webp)$/i,
+        test: /\.(png|jpe?g|gif|webp|mp3)$/i,
         type: 'asset',
         generator: {
           filename: 'images/[hash][ext][query]',
