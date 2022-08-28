@@ -4,6 +4,10 @@ const API_URL = `http://localhost:27017`;
 
 const $api = axios.create({
   baseURL: API_URL,
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  },
   // withCredentials: true, Чтобы передавать куки, Нужно ????
 });
 
