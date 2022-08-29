@@ -1,35 +1,13 @@
 import React from 'react';
-import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
-import $api from '../../axios';
+import { AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 import useGetUserStats from '../../hooks/useGetUserStats';
 import useSetUserStats from '../../hooks/useSetUserStats';
 import {
   UserStatsRequestInterface,
   UserStatsForLayoutInterface,
   UserStatsGameInterface,
+  UserStatsLearnedWordsGraph,
 } from '../../types/common';
-
-const data1 = [
-  { name: 'Page A', uv: 3 },
-  { name: 'Page B', uv: 2 },
-  { name: 'Page C', uv: 5 },
-  { name: 'Page D', uv: 0 },
-  { name: 'Page E', uv: 7 },
-  { name: 'Page F', uv: 2 },
-];
-
-const data2 = [
-  { name: 'Page A', uv: 3 },
-  { name: 'Page B', uv: 2 },
-  { name: 'Page C', uv: 5 },
-  { name: 'Page D', uv: 0 },
-  { name: 'Page E', uv: 7 },
-  { name: 'Page F', uv: 2 },
-];
-
-const margin = { top: 20, right: 20, bottom: 20, left: 20 };
-const height = 400;
-const width = 700;
 
 const Stats = () => {
   const [isLoading, setIsLoading] = React.useState(true);
@@ -38,24 +16,13 @@ const Stats = () => {
     newWords: 0,
     accuracy: 0,
   });
+  const [graphLearnedWords, setGraphLearnedWords] = React.useState(
+    {} as { [index: string]: UserStatsLearnedWordsGraph }
+  );
   const [sprintStats, setSprintStats] = React.useState({} as UserStatsGameInterface);
   const [audioChallengeStats, setAudioChallengeStats] = React.useState(
     {} as UserStatsGameInterface
   );
-
-  React.useEffect(() => {
-    const userId = localStorage.getItem('userId');
-    if (userId) {
-      useGetUserStats(userId)().then((resolve) => {
-        const transformedStats = transformStatsForPrintLayout(resolve);
-        setSummaryStats({ ...transformedStats.summary });
-        setSprintStats({ ...transformedStats.games.sprint });
-        setAudioChallengeStats({ ...transformedStats.games.audioChallenge });
-        // setTotalStats({ ...transformedStats });
-        setIsLoading(true);
-      });
-    }
-  }, []);
 
   function transformStatsForPrintLayout(
     stats: UserStatsRequestInterface
@@ -63,7 +30,21 @@ const Stats = () => {
     const commonAccuracy =
       (stats.optional.sprint.accuracy + stats.optional.audioChallenge.accuracy) / 2;
     const commonNewWords = stats.optional.sprint.newWords + stats.optional.audioChallenge.newWords;
-    const learnedWordsPerDay = [...Object.entries(stats.optional.learnedWordsPerDay)];
+
+    const graphLearnedWordsPerDay: UserStatsLearnedWordsGraph = [];
+    const graphIncreaseLearnedWordsPerDay: UserStatsLearnedWordsGraph = [];
+    const learnedWordsPerDay = Object.entries(stats.optional.learnedWordsPerDay);
+    learnedWordsPerDay.forEach((element, index) => {
+      graphLearnedWordsPerDay.push({
+        name: element[0],
+        'Кол-во слов': element[1],
+      });
+      const prevEl = graphIncreaseLearnedWordsPerDay[index - 1]?.['Кол-во слов'] ?? 0;
+      graphIncreaseLearnedWordsPerDay.push({
+        name: element[0],
+        'Кол-во слов': prevEl + element[1],
+      });
+    });
 
     const returnObj = {
       summary: {
@@ -75,15 +56,18 @@ const Stats = () => {
         sprint: { ...stats.optional.sprint },
         audioChallenge: { ...stats.optional.audioChallenge },
       },
-      // learnedWordsPerDay,
+      graph: {
+        learnedWordsPerDay: graphLearnedWordsPerDay,
+        increasedLEarnedWordsPerDay: graphIncreaseLearnedWordsPerDay,
+      },
     };
 
     return returnObj;
   }
 
   async function gg() {
-    const userId = localStorage.getItem('userId');
-    if (userId) useSetUserStats(userId, 'words', 4);
+    // const userId = localStorage.getItem('userId');
+    // if (userId) useSetUserStats(userId, 'words', 4);
     /* const hh = await $api.put(`/users/${localStorage.getItem('userId')}/statistics`, {
       learnedWords: 5,
       optional: {
@@ -97,6 +81,21 @@ const Stats = () => {
     // const nowDate = new Date();
     // console.log(nowDate.toLocaleDateString());
   }
+
+  React.useEffect(() => {
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      useGetUserStats(userId)().then((resolve) => {
+        const transformedStats = transformStatsForPrintLayout(resolve);
+        setSummaryStats({ ...transformedStats.summary });
+        setGraphLearnedWords({ ...transformedStats.graph });
+        setSprintStats({ ...transformedStats.games.sprint });
+        setAudioChallengeStats({ ...transformedStats.games.audioChallenge });
+
+        setIsLoading(true);
+      });
+    }
+  }, []);
 
   return (
     <div>
@@ -132,27 +131,47 @@ const Stats = () => {
           </div>
           <div>
             <div>За все время</div>
-            <div>2 графика</div>
-            {/* totalStats.learnedWordsPerDay.map((arr: [string: number], index: number) => (
-              <div key={index}>
-                {arr[0]} {arr[1]}
-              </div>
-            )) */}
+            <div>Кол-во новых слов по дням изучения</div>
+            <AreaChart
+              width={500}
+              height={400}
+              data={graphLearnedWords.learnedWordsPerDay}
+              margin={{
+                top: 10,
+                right: 30,
+                left: 0,
+                bottom: 0,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Area type="monotone" dataKey="Кол-во слов" stroke="#8884d8" fill="#8884d8" />
+            </AreaChart>
+
+            <div>Увеличение общего кол-ва изученных слов по дням изучения</div>
+            <AreaChart
+              width={500}
+              height={400}
+              data={graphLearnedWords.increasedLEarnedWordsPerDay}
+              margin={{
+                top: 10,
+                right: 30,
+                left: 0,
+                bottom: 0,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Area type="monotone" dataKey="Кол-во слов" stroke="#8884d8" fill="#8884d8" />
+            </AreaChart>
           </div>
         </div>
       )}
-      <LineChart width={width} height={height} data={data1} margin={margin} syncId="test">
-        <Line isAnimationActive={false} type="monotone" dataKey="uv" stroke="#ff7300" />
-        <Tooltip />
-        <XAxis dataKey="name" />
-        <YAxis />
-      </LineChart>
-      <LineChart width={width} height={height} data={data2} margin={margin} syncId="test2">
-        <Line isAnimationActive={false} type="monotone" dataKey="uv" stroke="#ff7300" />
-        <Tooltip />
-        <XAxis dataKey="name" />
-        <YAxis />
-      </LineChart>
+
       <button type="button" onClick={gg}>
         Тык
       </button>

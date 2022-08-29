@@ -1,5 +1,5 @@
 import { getStats } from '../api/Users';
-import { UserStatsRequestInterface, UserStatsForLayoutInterface } from '../types/common';
+import { UserStatsRequestInterface } from '../types/common';
 import { CURRENT_DATE_FOR_STATS } from '../variables/common';
 
 const DEFAULT_GAME_STATS = {
@@ -16,40 +16,6 @@ const DEFAULT_STATS = {
     sprint: { ...DEFAULT_GAME_STATS },
   },
 };
-
-export default function useGetUserStats(userId: string): () => Promise<UserStatsRequestInterface> {
-  return async (): Promise<UserStatsRequestInterface> => {
-    try {
-      const response = await getStats(userId);
-      return transformStatsRequest(response.data);
-    } catch (error) {
-      console.log(error, 'getUserStats - store/index.ts');
-      return transformStatsRequest();
-    }
-  };
-}
-
-/* function transformStatsForPrintLayout(
-  stats: UserStatsRequestInterface
-): UserStatsForLayoutInterface {
-  const commonAccuracy =
-    (stats.optional.sprint.accuracy + stats.optional.audioChallenge.accuracy) / 2;
-  const commonNewWords = stats.optional.sprint.newWords + stats.optional.audioChallenge.newWords;
-
-  const returnObj = {
-    summary: {
-      learnedWords: stats.learnedWords,
-      newWords: commonNewWords,
-      accuracy: commonAccuracy,
-    },
-    games: {
-      sprint: { ...stats.optional.sprint },
-      audioChallenge: { ...stats.optional.audioChallenge },
-    },
-  };
-
-  return returnObj;
-} */
 
 function transformStatsRequest(stats?: UserStatsRequestInterface): UserStatsRequestInterface {
   const returnObj = DEFAULT_STATS;
@@ -72,4 +38,16 @@ function transformStatsRequest(stats?: UserStatsRequestInterface): UserStatsRequ
   }
 
   return returnObj;
+}
+
+export default function useGetUserStats(userId: string): () => Promise<UserStatsRequestInterface> {
+  return async (): Promise<UserStatsRequestInterface> => {
+    try {
+      const response = await getStats(userId);
+      return transformStatsRequest(response.data);
+    } catch (error) {
+      console.log(error, 'getUserStats - store/index.ts');
+      return transformStatsRequest();
+    }
+  };
 }

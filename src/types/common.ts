@@ -54,6 +54,7 @@ export interface UserStatsRequestInterface {
   learnedWords: number;
   optional: UserStatsRequestOptionalInterface;
 }
+export type UserStatsLearnedWordsGraph = Array<{ name: string; 'Кол-во слов': number }>;
 export interface UserStatsForLayoutInterface {
   summary: {
     learnedWords: number;
@@ -64,5 +65,8 @@ export interface UserStatsForLayoutInterface {
     sprint: UserStatsGameInterface;
     audioChallenge: UserStatsGameInterface;
   };
-  // learnedWordsPerDay: [[string, number]];
+  graph: {
+    learnedWordsPerDay: UserStatsLearnedWordsGraph;
+    increasedLEarnedWordsPerDay: UserStatsLearnedWordsGraph;
+  };
 }
