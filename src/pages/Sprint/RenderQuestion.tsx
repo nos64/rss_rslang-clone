@@ -2,13 +2,12 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable react/destructuring-assignment */
 import React, { useEffect, useState } from 'react';
-import { WordInterface } from '../../types/common';
-import getWords, { getGroupWords } from './api';
-import { baseURL } from './axiosInstance';
-import { getRandomPage, getRandomTranslate, shuffle } from './utils';
-import './audio.svg';
-import correctSound from './correct.mp3';
-import unCorrectSound from './unCorrect.mp3';
+import { WordInterface, baseURL } from '../../types/common';
+import getWords, { getGroupWords } from '../../api/Sprint';
+import { getRandomPage, shuffle } from './utils';
+import '../../assets/images/audio.svg';
+import correctSound from '../../assets/sounds/correct.mp3';
+import unCorrectSound from '../../assets/sounds/unCorrect.mp3';
 import { Button } from '@mui/material';
 import Loading from './Loading';
 import RenderResults from './RenderResults';

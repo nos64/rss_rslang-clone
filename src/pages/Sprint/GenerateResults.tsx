@@ -1,8 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/no-unused-prop-types */
 import React from 'react';
-import { WordInterface } from '../../types/common';
-import { baseURL } from './axiosInstance';
+import { WordInterface, baseURL } from '../../types/common';
 import CreateAudioButton from './CreateAudioButton';
 
 const GenerateResults = (props: {
