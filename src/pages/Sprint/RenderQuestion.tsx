@@ -3,7 +3,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { useEffect, useState } from 'react';
 import { WordInterface, baseURL } from '../../types/common';
-import getWords, { getGroupWords } from '../../api/Sprint';
+import getWords from '../../api/Sprint';
 import { getRandomPage, shuffle } from './utils';
 import '../../assets/images/audio.svg';
 import correctSound from '../../assets/sounds/correct.mp3';
@@ -17,14 +17,14 @@ const RenderQuestion = (props: { groupWords: number }) => {
   const [word, setWord] = useState<WordInterface | null>(null);
   const [answer, setAnswer] = useState<WordInterface | null>(null);
 
-  const [shuffleWords, setShuffleWords] = useState<WordInterface[]>([]);
+  // const [shuffleWords, setShuffleWords] = useState<WordInterface[]>([]);
   const [shuffleTranslate, setShuffleTranslate] = useState<WordInterface[]>([]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [wordsCount, setWordsCount] = useState<number | null>(null);
 
   const [isClicked, setIsClicked] = useState(false);
-  const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
+  // const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
   const [countWin, setCountWin] = useState<WordInterface[]>([]);
   const [countLose, setCountLose] = useState<WordInterface[]>([]);
   const [audioSrs, setAudioSrc] = useState('');
@@ -63,7 +63,7 @@ const RenderQuestion = (props: { groupWords: number }) => {
 
       setAudioSrc(`${baseURL}/${words[wordsCount].audio}`);
       setIsClicked(false);
-      setIsCorrectAnswer(false);
+      // setIsCorrectAnswer(false);
     }
 
     const unbeatenStreakCount = () => {
@@ -111,13 +111,13 @@ const RenderQuestion = (props: { groupWords: number }) => {
     if (!isClicked) {
       if (word.word === answer.word) {
         setCountWin([...countWin, word]);
-        setIsCorrectAnswer(true);
+        // setIsCorrectAnswer(true);
         playSound(correctSound);
         setScoreCounter(scoreCounter + numberOfPoints);
         setWordsCounterInRowArr([...wordsCounterInRowArr, true]);
       } else {
         setCountLose([...countLose, word]);
-        setIsCorrectAnswer(false);
+        // setIsCorrectAnswer(false);
         playSound(unCorrectSound);
         setWordsCounterInRowArr([]);
       }
@@ -134,13 +134,13 @@ const RenderQuestion = (props: { groupWords: number }) => {
     if (!isClicked) {
       if (word.word !== answer.word) {
         setCountWin([...countWin, word]);
-        setIsCorrectAnswer(true);
+        // setIsCorrectAnswer(true);
         playSound(correctSound);
         setScoreCounter(scoreCounter + numberOfPoints);
         setWordsCounterInRowArr([...wordsCounterInRowArr, true]);
       } else {
         setCountLose([...countLose, word]);
-        setIsCorrectAnswer(false);
+        // setIsCorrectAnswer(false);
         playSound(unCorrectSound);
         setWordsCounterInRowArr([]);
       }
