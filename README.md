@@ -2,6 +2,67 @@
 
 English learning app
 
+### Добавлена игра Аудиовызов 29.08.22
+>
+> - Добавил мини-игру AudioChallenge pages/AudioChallenge. В папку src/api добавил файл AudioChallenge.ts с запросами для игры.
+> - Обновлен файл index.d.ts - доавлено - declare module '*.mp3';
+> - Обновлен файл конфигурации Webpack webpack.config.js, добавлена сборка mp3 файлов
+>
+> {
+>   test: /\.mp3$/i,
+>   type: 'asset',
+>   generator: {
+>     filename: 'sounds/[hash][ext][query]',
+>   },
+> },
+> 
+
+### Добавлена авторизация, аутентификация и идентификация, 23.08.22
+
+> **Работа с Axios**:
+>
+> - Добавил папку src/axios. Туда разместил инстанс axios, через который нужно делать http запросы. Импортируем `$api` и делаем нужные запросы. Так же для запросов вам может понадобиться userId, он хранится в localStorage: `localStorage.getItem('userId')`.
+>
+> ```
+> import $api from '../../axios'; //Импортируем $api
+> function getWords() {
+>   return $api.get(`/words`); //Делаем нужные запросы
+> }
+> ```
+>
+> **Визуальная составляющая**:
+>
+> - Добавил компонент авторизации components/Auth. Для использования импортируем `component/Auth/Welcome/Welcome.tsx` и вставляем в код сам компонент.
+>
+> ```
+> import Welcome from '../Auth/Welcome/Welcome'; //Импортируем компонент
+> const Header: React.FC = () => {
+>   return (
+>     <div>
+>       Header
+>       <Welcome /> //Вставляем для отображения
+>     </div>
+>   );
+> };
+> ```
+>
+> **Работа со Store**:
+>
+> - Добавил ряд переменных и методов в глобальный Store. Вам для работы может понадобиться несколько из них: `isAuth` - возвращает true, если пользователь авторизован и false, если нет, `userName` - возвращает имя пользователя, если он авторизован.
+>
+> ```
+> import Context from '../../context'; // Импортируем Context из папки src/context
+> const Header: React.FC = () => {
+>   const { store } = React.useContext(Context); // Получаем доступ к переменным из компонента
+>   return (
+>     <div>
+>       Header
+>       {store.userName} //Обращаемся к необходимым свойствам или методам
+>     </div>
+>   );
+> };
+> ```
+
 ### Update configuration 19.08.22 ###
 
 > - Обновлена папка `styles`: добавлены базовые инструменты для стилизации: миксины, функции, выбранная цветовая > > гамма. Обнуление стандартных браузерных стилей в файле `zeroing.scss` пока закомментировала. Для использования в > файл со стилями компонента нужно импортировать `common.scss`:
@@ -139,3 +200,4 @@ class Store {
 http://localhost:8080/#/textbook
 
 ```
+### AudioChallenge ###

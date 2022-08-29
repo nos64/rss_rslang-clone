@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './style.scss';
-import './audio.svg';
+import '../../assets/images/audio.svg';
 import { Button } from '@mui/material';
 import RenderQuestion from './RenderQuestion';
 import Loading from './Loading';

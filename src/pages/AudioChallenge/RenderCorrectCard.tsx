@@ -1,8 +1,7 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
-import { WordInterface } from '../../types/common';
-import { baseURL } from './axiosInstance';
+import { WordInterface, baseURL } from '../../types/common';
 import CreateAudioButton from './CreateAudioButton';
 
 const RenderCorrectCard = (props: { word: WordInterface }) => {

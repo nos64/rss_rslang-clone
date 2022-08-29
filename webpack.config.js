@@ -57,10 +57,17 @@ const config = {
         },
       },
       {
-        test: /\.(png|jpe?g|gif|webp|mp3)$/i,
+        test: /\.(png|jpe?g|gif|webp)$/i,
         type: 'asset',
         generator: {
           filename: 'images/[hash][ext][query]',
+        },
+      },
+      {
+        test: /\.mp3$/i,
+        type: 'asset',
+        generator: {
+          filename: 'sounds/[hash][ext][query]',
         },
       },
       {

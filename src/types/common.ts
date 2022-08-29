@@ -38,3 +38,5 @@ export interface UserWordInterface {
   difficulty: string;
   optional?: Record<string, unknown>;
 }
+
+export const baseURL = 'http://localhost:27017';

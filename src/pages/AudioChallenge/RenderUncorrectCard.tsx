@@ -2,8 +2,7 @@
 import React from 'react';
 // eslint-disable-next-line import/no-unresolved
 import CreateAudioButton from './CreateAudioButton';
-import { WordInterface } from '../../types/common';
-import { baseURL } from './axiosInstance';
+import { WordInterface, baseURL } from '../../types/common';
 
 const RenderUncorrectCard = (props: { word: WordInterface }) => {
   return (

@@ -2,20 +2,19 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable jsx-a11y/media-has-caption */
 import React, { useEffect, useState } from 'react';
-import { WordInterface } from '../../types/common';
-import getWords, { getGroupWords } from './api';
+import { WordInterface, baseURL } from '../../types/common';
+import getWords, { getGroupWords } from '../../api/AudioChallenge';
 import { getRandomPage, getRandomTranslate, shuffle } from './utils';
 import Loading from './Loading';
-import { baseURL } from './axiosInstance';
-import './audio.svg';
+import '../../assets/images/audio.svg';
 import './style.scss';
 // import RenderAnswerBtns from './RenderAnswerBtns';
 import RenderAnswerCard from './RenderAnswerCard';
 import RenderResults from './RenderResults';
 import CreateAudioButton from './CreateAudioButton';
 import { Button } from '@mui/material';
-import correctSound from './correct.mp3';
-import unCorrectSound from './unCorrect.mp3';
+import correctSound from '../../assets/sounds/correct.mp3';
+import unCorrectSound from '../../assets/sounds/unCorrect.mp3';
 
 const RenderQuestion = (props: { groupWords: number }) => {
   const [words, setWords] = useState<WordInterface[]>([]);

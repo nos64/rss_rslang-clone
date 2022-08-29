@@ -1,9 +1,9 @@
 import axios from 'axios';
-import axiosInstance from './axiosInstance';
-import { WordInterface } from '../../types/common';
+import { WordInterface } from '../types/common';
+import $api from '../axios/index';
 
 const getWords = (group: number, page: number): Promise<WordInterface[]> =>
-  axiosInstance.get(`/words?group=${group}&page=${page}`).then((res) => res.data);
+  $api.get(`/words?group=${group}&page=${page}`).then((res) => res.data);
 export default getWords;
 
 // export const getGroupWords = (group: number): Promise<WordInterface[]> => {
@@ -24,7 +24,7 @@ export const getGroupWords = (group: number): Promise<string[]> => {
   return axios
     .all(
       endpoints.map((endpoint) =>
-        axiosInstance
+        $api
           .get(endpoint)
           .then((res) => res.data)
           .then((res) => res.map((item: { wordTranslate: string[] }) => item.wordTranslate))
