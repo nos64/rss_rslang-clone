@@ -76,22 +76,13 @@ const RenderQuestion = (props: { groupWords: number }) => {
       if (wordsCounterInRowArr.length < 3) {
         setNumberOfPoints(10);
       }
-      if (
-        wordsCounterInRowArr.length === 3 &&
-        wordsCounterInRowArr.every((item) => item === true)
-      ) {
+      if (wordsCounterInRowArr.length === 3) {
         setNumberOfPoints(20);
       }
-      if (
-        wordsCounterInRowArr.length === 6 &&
-        wordsCounterInRowArr.every((item) => item === true)
-      ) {
+      if (wordsCounterInRowArr.length === 6) {
         setNumberOfPoints(40);
       }
-      if (
-        wordsCounterInRowArr.length === 9 &&
-        wordsCounterInRowArr.every((item) => item === true)
-      ) {
+      if (wordsCounterInRowArr.length === 9) {
         setNumberOfPoints(80);
       }
     };
