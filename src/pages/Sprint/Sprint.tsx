@@ -26,7 +26,7 @@ const Sprint = () => {
         </p>
         <p className="audio__description">Игра длится 1 минуту или пока не закончаться слова.</p>
         <p className="audio__description rule">
-          Для выбора ответа используйте клавиши клавиши-стрелки или мышь
+          Для выбора ответа используйте клавиши-стрелки или мышь
         </p>
         <div className="selection">
           <h2 className="selection__title">Выберете уровень сложности</h2>

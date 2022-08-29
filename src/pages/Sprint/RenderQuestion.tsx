@@ -52,9 +52,7 @@ const RenderQuestion = (props: { groupWords: number }) => {
     // if (wordsCount !== null && wordsCount < 600) {
     if (wordsCount !== null && wordsCount < 20) {
       setWord(words[wordsCount]);
-      console.log('words: ', words);
       setAnswer(shuffleTranslate[wordsCount]);
-      console.log('shuffleTranslate: ', shuffleTranslate);
 
       setAudioSrc(`${baseURL}/${words[wordsCount].audio}`);
       setIsClicked(false);
@@ -72,7 +70,6 @@ const RenderQuestion = (props: { groupWords: number }) => {
     if (!word || !answer || wordsCount === null) return;
     if (!isClicked) {
       if (word.word === answer.word) {
-        console.log('true');
         setCountWin([...countWin, word]);
         setIsCorrectAnswer(true);
         playSound(correctSound);
@@ -105,35 +102,59 @@ const RenderQuestion = (props: { groupWords: number }) => {
       }
     }
   };
+
+  useEffect(() => {
+    const onKeypress = (e: KeyboardEvent) => {
+      if (e.code === 'ArrowLeft') {
+        handleAnswerClickCorrect();
+      }
+      if (e.key === 'ArrowRight') {
+        handleAnswerClickUnCorrect();
+      }
+    };
+    document.addEventListener('keydown', onKeypress);
+    return () => {
+      document.removeEventListener('keydown', onKeypress);
+    };
+  });
+
   return (
     <>
       {!isLoading && wordsCount !== null && word ? (
         <div className="word-box">
           {/* {wordsCount < 600 ? ( */}
           {wordsCount < 20 ? (
-            <div className="question-wrapper">
-              <div className="audio-btn-wrapper">
-                <div className="word-wrapper">
-                  {word.word} это {answer?.wordTranslate}?
+            <>
+              <div className="score-wrapper">1111</div>
+              <div className="question-wrapper">
+                <div className="audio-btn-wrapper">
+                  <div className="word-wrapper">
+                    <div className="word-question">{word.word}</div>
+                    <div className="word-answer">{answer?.wordTranslate}</div>
+                  </div>
+                </div>
+                <div className="button-wrapper">
+                  <Button
+                    variant="contained"
+                    color="success"
+                    className="answer-button"
+                    type="button"
+                    onClick={() => handleAnswerClickCorrect()}
+                  >
+                    &#9664; YES
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    className="answer-button"
+                    type="button"
+                    onClick={() => handleAnswerClickUnCorrect()}
+                  >
+                    NO &#9654;
+                  </Button>
                 </div>
               </div>
-              <Button
-                variant="outlined"
-                className="answer-button"
-                type="button"
-                onClick={() => handleAnswerClickCorrect()}
-              >
-                YES
-              </Button>
-              <Button
-                variant="outlined"
-                className="answer-button"
-                type="button"
-                onClick={() => handleAnswerClickUnCorrect()}
-              >
-                NO
-              </Button>
-            </div>
+            </>
           ) : (
             <RenderResults countLose={countLose} countWin={countWin} />
           )}

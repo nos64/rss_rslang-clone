@@ -276,3 +276,25 @@ height: 40px;
 .invisible {
   display: none;
 }
+
+.word-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.word-question {
+  font-size: 30px;
+  padding-bottom: 15px;
+}
+
+.word-answer {
+  font-size: 26px;
+  color: $color-icons;
+}
+
+.button-wrapper {
+  display: flex;
+  gap: 30px;
+}
