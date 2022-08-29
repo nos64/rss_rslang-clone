@@ -31,7 +31,7 @@ const RenderQuestion = (props: { groupWords: number }) => {
   const [scoreCounter, setScoreCounter] = useState(0);
   const [numberOfPoints, setNumberOfPoints] = useState(10);
   const [wordsCounterInRowArr, setWordsCounterInRowArr] = useState<boolean[]>([]);
-  const [unbeatenStreak, setunbeatenStreak] = useState(wordsCounterInRowArr.length);
+  const [unbeatenStreak, setUnbeatenStreak] = useState(wordsCounterInRowArr.length);
 
   const [overTime, setOverTime] = useState(false);
   const [seconds, setSeconds] = useState(30);
@@ -68,7 +68,7 @@ const RenderQuestion = (props: { groupWords: number }) => {
 
     const unbeatenStreakCount = () => {
       if (wordsCounterInRowArr.length > unbeatenStreak) {
-        setunbeatenStreak(wordsCounterInRowArr.length);
+        setUnbeatenStreak(wordsCounterInRowArr.length);
       }
     };
 
