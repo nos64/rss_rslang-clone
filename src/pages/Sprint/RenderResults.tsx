@@ -4,12 +4,19 @@ import React from 'react';
 import { WordInterface } from '../../types/common';
 import GenerateResults from './GenerateResults';
 
-const RenderResults = (props: { countWin: WordInterface[]; countLose: WordInterface[] }) => {
+const RenderResults = (props: {
+  countWin: WordInterface[];
+  countLose: WordInterface[];
+  scoreCounter: number;
+  unbeatenStreak: number;
+}) => {
   const allWordsInRound = 20;
   return (
     <div className="result-wrapper">
       <h3>Показано слов: {props.countWin.length + props.countLose.length}</h3>
       <h3>Процент правильных ответов: {(props.countWin.length * 100) / allWordsInRound}%</h3>
+      <h3>Колиество очков: {props.scoreCounter}</h3>
+      <h3>Самая длинная серия угаданных слов: {props.unbeatenStreak}</h3>
       <GenerateResults
         arrayWord={props.countWin}
         title="Правильные ответы"

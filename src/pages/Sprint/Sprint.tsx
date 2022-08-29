@@ -22,7 +22,7 @@ const Sprint = () => {
       <h1 className={`audio__title ${className ? 'invisible' : ''}`}>Спринт</h1>
       <div className={`audio-wrapper ${className ? 'invisible' : ''}`}>
         <p className="audio__description">
-          Спринт - игра на времяю Вы должны выбрать правильный перевод слова.
+          Спринт - игра на время. Вы должны выбрать правильный перевод слова.
         </p>
         <p className="audio__description">Игра длится 1 минуту или пока не закончаться слова.</p>
         <p className="audio__description rule">

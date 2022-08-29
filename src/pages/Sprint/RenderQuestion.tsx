@@ -31,6 +31,11 @@ const RenderQuestion = (props: { groupWords: number }) => {
   const [scoreCounter, setScoreCounter] = useState(0);
   const [numberOfPoints, setNumberOfPoints] = useState(10);
   const [wordsCounterInRowArr, setWordsCounterInRowArr] = useState<boolean[]>([]);
+  const [unbeatenStreak, setunbeatenStreak] = useState(wordsCounterInRowArr.length);
+
+  const [overTime, setOverTime] = useState(false);
+  const [seconds, setSeconds] = useState(30);
+
   useEffect(() => {
     const getData = async () => {
       setIsLoading(true);
@@ -60,6 +65,13 @@ const RenderQuestion = (props: { groupWords: number }) => {
       setIsClicked(false);
       setIsCorrectAnswer(false);
     }
+
+    const unbeatenStreakCount = () => {
+      if (wordsCounterInRowArr.length > unbeatenStreak) {
+        setunbeatenStreak(wordsCounterInRowArr.length);
+      }
+    };
+
     const wordsCounterInRow = () => {
       if (wordsCounterInRowArr.length < 3) {
         setNumberOfPoints(10);
@@ -83,6 +95,7 @@ const RenderQuestion = (props: { groupWords: number }) => {
         setNumberOfPoints(80);
       }
     };
+    unbeatenStreakCount();
     wordsCounterInRow();
   }, [wordsCount]);
 
@@ -91,6 +104,15 @@ const RenderQuestion = (props: { groupWords: number }) => {
 
     sound.volume = 0.3;
     sound.play();
+  };
+
+  const tickTimer = () => {
+    if (seconds === 1) {
+      setOverTime(true);
+    }
+    if (seconds > 1) {
+      setSeconds(seconds - 1);
+    }
   };
 
   const handleAnswerClickCorrect = () => {
@@ -139,6 +161,7 @@ const RenderQuestion = (props: { groupWords: number }) => {
   };
 
   useEffect(() => {
+    const timerID = setInterval(() => tickTimer(), 1000);
     const onKeypress = (e: KeyboardEvent) => {
       if (e.code === 'ArrowLeft') {
         handleAnswerClickCorrect();
@@ -150,6 +173,7 @@ const RenderQuestion = (props: { groupWords: number }) => {
     document.addEventListener('keydown', onKeypress);
     return () => {
       document.removeEventListener('keydown', onKeypress);
+      clearInterval(timerID);
     };
   });
 
@@ -157,11 +181,11 @@ const RenderQuestion = (props: { groupWords: number }) => {
     <>
       {!isLoading && wordsCount !== null && word ? (
         <div className="word-box">
-          {/* {wordsCount < 600 ? ( */}
-          {wordsCount < 20 ? (
+          {/* {wordsCount < 600 && !overTime ? ( */}
+          {wordsCount < 20 && !overTime ? (
             <div className="question-wrapper">
               <div className="audio-btn-wrapper">
-                <div className="timer-wrapper">60</div>
+                <div className="timer-wrapper">{seconds}</div>
                 <div className="word-wrapper">
                   <div className="animation-score">+{numberOfPoints} очков за слово</div>
                   <div className="word-question">{word.word}</div>
@@ -191,7 +215,12 @@ const RenderQuestion = (props: { groupWords: number }) => {
               </div>
             </div>
           ) : (
-            <RenderResults countLose={countLose} countWin={countWin} />
+            <RenderResults
+              countLose={countLose}
+              countWin={countWin}
+              scoreCounter={scoreCounter}
+              unbeatenStreak={unbeatenStreak}
+            />
           )}
         </div>
       ) : (
