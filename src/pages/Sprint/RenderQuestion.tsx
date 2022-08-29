@@ -28,7 +28,9 @@ const RenderQuestion = (props: { groupWords: number }) => {
   const [countWin, setCountWin] = useState<WordInterface[]>([]);
   const [countLose, setCountLose] = useState<WordInterface[]>([]);
   const [audioSrs, setAudioSrc] = useState('');
-
+  const [scoreCounter, setScoreCounter] = useState(0);
+  const [numberOfPoints, setNumberOfPoints] = useState(10);
+  const [wordsCounterInRowArr, setWordsCounterInRowArr] = useState<boolean[]>([]);
   useEffect(() => {
     const getData = async () => {
       setIsLoading(true);
@@ -58,6 +60,30 @@ const RenderQuestion = (props: { groupWords: number }) => {
       setIsClicked(false);
       setIsCorrectAnswer(false);
     }
+    const wordsCounterInRow = () => {
+      if (wordsCounterInRowArr.length < 3) {
+        setNumberOfPoints(10);
+      }
+      if (
+        wordsCounterInRowArr.length === 3 &&
+        wordsCounterInRowArr.every((item) => item === true)
+      ) {
+        setNumberOfPoints(20);
+      }
+      if (
+        wordsCounterInRowArr.length === 6 &&
+        wordsCounterInRowArr.every((item) => item === true)
+      ) {
+        setNumberOfPoints(40);
+      }
+      if (
+        wordsCounterInRowArr.length === 9 &&
+        wordsCounterInRowArr.every((item) => item === true)
+      ) {
+        setNumberOfPoints(80);
+      }
+    };
+    wordsCounterInRow();
   }, [wordsCount]);
 
   const playSound = (soundType: string | undefined) => {
@@ -66,6 +92,7 @@ const RenderQuestion = (props: { groupWords: number }) => {
     sound.volume = 0.3;
     sound.play();
   };
+
   const handleAnswerClickCorrect = () => {
     if (!word || !answer || wordsCount === null) return;
     if (!isClicked) {
@@ -73,17 +100,22 @@ const RenderQuestion = (props: { groupWords: number }) => {
         setCountWin([...countWin, word]);
         setIsCorrectAnswer(true);
         playSound(correctSound);
+        setScoreCounter(scoreCounter + numberOfPoints);
+        setWordsCounterInRowArr([...wordsCounterInRowArr, true]);
       } else {
         setCountLose([...countLose, word]);
         setIsCorrectAnswer(false);
         playSound(unCorrectSound);
+        setWordsCounterInRowArr([]);
       }
       setIsClicked(true);
+
       if (wordsCount !== null) {
         setWordsCount(wordsCount + 1);
       }
     }
   };
+
   const handleAnswerClickUnCorrect = () => {
     if (!word || !answer || wordsCount === null) return;
     if (!isClicked) {
@@ -91,10 +123,13 @@ const RenderQuestion = (props: { groupWords: number }) => {
         setCountWin([...countWin, word]);
         setIsCorrectAnswer(true);
         playSound(correctSound);
+        setScoreCounter(scoreCounter + numberOfPoints);
+        setWordsCounterInRowArr([...wordsCounterInRowArr, true]);
       } else {
         setCountLose([...countLose, word]);
         setIsCorrectAnswer(false);
         playSound(unCorrectSound);
+        setWordsCounterInRowArr([]);
       }
       setIsClicked(true);
       if (wordsCount !== null) {
@@ -124,37 +159,37 @@ const RenderQuestion = (props: { groupWords: number }) => {
         <div className="word-box">
           {/* {wordsCount < 600 ? ( */}
           {wordsCount < 20 ? (
-            <>
-              <div className="score-wrapper">1111</div>
-              <div className="question-wrapper">
-                <div className="audio-btn-wrapper">
-                  <div className="word-wrapper">
-                    <div className="word-question">{word.word}</div>
-                    <div className="word-answer">{answer?.wordTranslate}</div>
-                  </div>
+            <div className="question-wrapper">
+              <div className="audio-btn-wrapper">
+                <div className="timer-wrapper">60</div>
+                <div className="word-wrapper">
+                  <div className="animation-score">+{numberOfPoints} очков за слово</div>
+                  <div className="word-question">{word.word}</div>
+                  <div className="word-answer">{answer?.wordTranslate}</div>
                 </div>
-                <div className="button-wrapper">
-                  <Button
-                    variant="contained"
-                    color="success"
-                    className="answer-button"
-                    type="button"
-                    onClick={() => handleAnswerClickCorrect()}
-                  >
-                    &#9664; YES
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="error"
-                    className="answer-button"
-                    type="button"
-                    onClick={() => handleAnswerClickUnCorrect()}
-                  >
-                    NO &#9654;
-                  </Button>
-                </div>
+                <div className="score-wrapper">{scoreCounter}</div>
               </div>
-            </>
+              <div className="button-wrapper">
+                <Button
+                  variant="contained"
+                  color="success"
+                  className="answer-button"
+                  type="button"
+                  onClick={() => handleAnswerClickCorrect()}
+                >
+                  &#9664; YES
+                </Button>
+                <Button
+                  variant="contained"
+                  color="error"
+                  className="answer-button"
+                  type="button"
+                  onClick={() => handleAnswerClickUnCorrect()}
+                >
+                  NO &#9654;
+                </Button>
+              </div>
+            </div>
           ) : (
             <RenderResults countLose={countLose} countWin={countWin} />
           )}
