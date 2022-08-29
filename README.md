@@ -200,4 +200,3 @@ class Store {
 http://localhost:8080/#/textbook
 
 ```
-### AudioChallenge ###
