@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
 import styles from './Header.module.scss';
 import { pages } from '../../variables/routes';
 
@@ -13,9 +14,11 @@ const Header: React.FC = () => {
 
   return (
     <Box>
-      <AppBar position="sticky" className={styles.header}>
+      <AppBar position="static" className={styles.header}>
         <Toolbar className={styles.toolbar}>
-          <h2 className={styles.page_title}>{title}</h2>
+          <Typography component="h1" variant="h4">
+            {title}
+          </Typography>
         </Toolbar>
       </AppBar>
     </Box>
