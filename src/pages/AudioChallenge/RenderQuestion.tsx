@@ -36,6 +36,9 @@ const RenderQuestion = (props: { groupWords: number }) => {
   const [nameBtnNext, setNameBtnNext] = useState('Не знаю');
   const [audioSrs, setAudioSrc] = useState('');
 
+  const [wordsCounterInRowArr, setWordsCounterInRowArr] = useState<boolean[]>([]);
+  const [unbeatenStreak, setUnbeatenStreak] = useState(wordsCounterInRowArr.length);
+
   useEffect(() => {
     const getData = async () => {
       setIsLoading(true);
@@ -71,6 +74,12 @@ const RenderQuestion = (props: { groupWords: number }) => {
       setIsCorrectAnswer(false);
       setNameBtnNext('Не знаю');
     }
+    const unbeatenStreakCount = () => {
+      if (wordsCounterInRowArr.length > unbeatenStreak) {
+        setUnbeatenStreak(wordsCounterInRowArr.length);
+      }
+    };
+    unbeatenStreakCount();
   }, [wordsCount]);
 
   const playSound = (soundType: string | undefined) => {
@@ -86,11 +95,13 @@ const RenderQuestion = (props: { groupWords: number }) => {
         setIsCorrectAnswer(true);
         setNameBtnNext('➙');
         playSound(correctSound);
+        setWordsCounterInRowArr([...wordsCounterInRowArr, true]);
       } else {
         setCountLose([...countLose, word]);
         setIsCorrectAnswer(false);
         setNameBtnNext('➙');
         playSound(unCorrectSound);
+        setWordsCounterInRowArr([]);
       }
       setIsClicked(true);
     }
@@ -103,11 +114,13 @@ const RenderQuestion = (props: { groupWords: number }) => {
         setIsCorrectAnswer(true);
         setNameBtnNext('➙');
         playSound(correctSound);
+        setWordsCounterInRowArr([...wordsCounterInRowArr, true]);
       } else {
         setCountLose([...countLose, word]);
         setIsCorrectAnswer(false);
         setNameBtnNext('➙');
         playSound(unCorrectSound);
+        setWordsCounterInRowArr([]);
       }
       setIsClicked(true);
     }
@@ -123,6 +136,7 @@ const RenderQuestion = (props: { groupWords: number }) => {
       setNameBtnNext('➙');
       setIsClicked(true);
       playSound(unCorrectSound);
+      setWordsCounterInRowArr([]);
     }
     if (nameBtnNext === '➙' && wordsCount !== null) {
       setWordsCount(wordsCount + 1);
@@ -195,7 +209,11 @@ const RenderQuestion = (props: { groupWords: number }) => {
               </Button>
             </div>
           ) : (
-            <RenderResults countLose={countLose} countWin={countWin} />
+            <RenderResults
+              countLose={countLose}
+              countWin={countWin}
+              unbeatenStreak={unbeatenStreak}
+            />
           )}
         </div>
       ) : (
