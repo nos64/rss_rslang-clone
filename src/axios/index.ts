@@ -8,7 +8,6 @@ const $api = axios.create({
     Accept: 'application/json',
     'Content-Type': 'application/json',
   },
-  // withCredentials: true, Чтобы передавать куки, Нужно ????
 });
 
 $api.interceptors.request.use((config: AxiosRequestConfig) => {
@@ -28,6 +27,10 @@ $api.interceptors.response.use(
     localStorage.removeItem('userId');
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
+
+    // TODO Баг бесконечной петли, возможно, из за того, что скрипты запускаются по 2 раза
+    // Попробовать раскомментить на проде
+
     /* const originalRequest = error.config;
     if (error.response.status === 401 && error.config && error.config.isTry !== true) {
       originalRequest.isTry = true;

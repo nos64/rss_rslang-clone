@@ -1,6 +1,6 @@
 import { setStats } from '../api/Users';
 import useGetUserStats from './useGetUserStats';
-import { CURRENT_DATE_FOR_STATS } from '../variables/common';
+import CURRENT_DATE_FOR_STATS from '../variables/common';
 import { UserStatsGameInterface } from '../types/common';
 
 export default function useSetUserStats(

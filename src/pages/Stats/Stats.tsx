@@ -1,15 +1,30 @@
 import React from 'react';
-import { AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  ResponsiveContainer,
+} from 'recharts';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Unstable_Grid2';
+import CircularProgress from '@mui/material/CircularProgress';
+import { observer } from 'mobx-react-lite';
 import useGetUserStats from '../../hooks/useGetUserStats';
-import useSetUserStats from '../../hooks/useSetUserStats';
 import {
   UserStatsRequestInterface,
   UserStatsForLayoutInterface,
   UserStatsGameInterface,
   UserStatsLearnedWordsGraph,
 } from '../../types/common';
+import Context from '../../context';
 
 const Stats = () => {
+  const { store } = React.useContext(Context);
+
   const [isLoading, setIsLoading] = React.useState(true);
   const [summaryStats, setSummaryStats] = React.useState({
     learnedWords: 0,
@@ -24,7 +39,7 @@ const Stats = () => {
     {} as UserStatsGameInterface
   );
 
-  function transformStatsForPrintLayout(
+  function formattedStatsForPrintLayout(
     stats: UserStatsRequestInterface
   ): UserStatsForLayoutInterface {
     const commonAccuracy =
@@ -65,118 +80,132 @@ const Stats = () => {
     return returnObj;
   }
 
-  async function gg() {
-    // const userId = localStorage.getItem('userId');
-    // if (userId) useSetUserStats(userId, 'words', 4);
-    /* const hh = await $api.put(`/users/${localStorage.getItem('userId')}/statistics`, {
-      learnedWords: 5,
-      optional: {
-        learnedWordsPerDay: { '28.8.2022': 5 },
-        audioChallenge: { newWords: 2, accuracy: 37, seriesCorrectAnswers: 2, date: '28.8.2022' },
-        sprint: { newWords: 5, accuracy: 32, seriesCorrectAnswers: 4, date: '28.8.2022' },
-      },
-    });
-    // const hh = await $api.get(`/users/${localStorage.getItem('userId')}/statistics`);
-    console.log(hh); */
-    // const nowDate = new Date();
-    // console.log(nowDate.toLocaleDateString());
-  }
-
   React.useEffect(() => {
-    const userId = localStorage.getItem('userId');
-    if (userId) {
-      useGetUserStats(userId)().then((resolve) => {
-        const transformedStats = transformStatsForPrintLayout(resolve);
+    if (store.userId) {
+      useGetUserStats(store.userId)().then((resolve) => {
+        const transformedStats = formattedStatsForPrintLayout(resolve);
+
         setSummaryStats({ ...transformedStats.summary });
         setGraphLearnedWords({ ...transformedStats.graph });
         setSprintStats({ ...transformedStats.games.sprint });
         setAudioChallengeStats({ ...transformedStats.games.audioChallenge });
 
-        setIsLoading(true);
+        setIsLoading(false);
       });
     }
-  }, []);
+  }, [store.userId]);
+
+  const itemTodayStatsCss = {
+    p: 1.5,
+    boxShadow: '0 0 3px 1px rgba(0,0,0,0.3)',
+    borderRadius: 2,
+  };
+  const titleSectionStatsCss = {
+    mb: 1,
+  };
+  const titleGraphStatsCss = {
+    textAlign: 'center',
+    mb: 1,
+  };
+  const itemGraphStatsCss = {
+    height: 400,
+  };
 
   return (
     <div>
-      <h1>Статистика</h1>
-      {!isLoading ? (
-        <div>Не авторизованным не доступно...</div>
+      <Typography variant="h4">Статистика</Typography>
+      {isLoading || !store.isAuth ? (
+        <Box sx={{ display: 'flex' }}>
+          <CircularProgress />
+        </Box>
       ) : (
-        <div>
-          <div>
-            <div>За сегодня</div>
-            <div>
-              <div>Общая статистика</div>
-              <div>Кол-во новых слов: {summaryStats.newWords}</div>
-              <div>Кол-во изученных слов: {summaryStats.learnedWords}</div>
-              <div>Процент правильных ответов: {summaryStats.accuracy}</div>
-            </div>
-            <hr />
-            <hr />
-            <div>
-              <div>Статистика по играм</div>
-              <div>Спринт</div>
-              <div>Кол-во новых слов: {sprintStats.newWords}</div>
-              <div>Процент правильных ответов: {sprintStats.accuracy}</div>
-              <div>Самая длинная серия правильных ответов: {sprintStats.seriesCorrectAnswers}</div>
-              <hr />
-              <div>Аудиовызов</div>
-              <div>Кол-во новых слов: {audioChallengeStats.newWords}</div>
-              <div>Процент правильных ответов: {audioChallengeStats.accuracy}</div>
-              <div>
-                Самая длинная серия правильных ответов: {audioChallengeStats.seriesCorrectAnswers}
-              </div>
-            </div>
-          </div>
-          <div>
-            <div>За все время</div>
-            <div>Кол-во новых слов по дням изучения</div>
-            <AreaChart
-              width={500}
-              height={400}
-              data={graphLearnedWords.learnedWordsPerDay}
-              margin={{
-                top: 10,
-                right: 30,
-                left: 0,
-                bottom: 0,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Area type="monotone" dataKey="Кол-во слов" stroke="#8884d8" fill="#8884d8" />
-            </AreaChart>
+        <Box sx={{ px: 2 }}>
+          <Typography sx={titleSectionStatsCss} variant="h5">
+            За сегодня
+          </Typography>
+          <Grid container spacing={3} sx={{ mb: 2 }}>
+            <Grid xs={12} md={4}>
+              <Box sx={itemTodayStatsCss}>
+                <div>Общая статистика</div>
+                <hr />
+                <div>Новых слов: {summaryStats.newWords}</div>
+                <div>Изученных слов: {summaryStats.learnedWords}</div>
+                <div>Правильных ответов: {summaryStats.accuracy}%</div>
+              </Box>
+            </Grid>
+            <Grid xs={12} md={4}>
+              <Box sx={itemTodayStatsCss}>
+                <div>Спринт</div>
+                <hr />
+                <div>Новых слов: {sprintStats.newWords}</div>
+                <div>Правильных ответов: {sprintStats.accuracy}%</div>
+                <div>Серия правильных ответов: {sprintStats.seriesCorrectAnswers}</div>
+              </Box>
+            </Grid>
+            <Grid xs={12} md={4}>
+              <Box sx={itemTodayStatsCss}>
+                <div>Аудиовызов</div>
+                <hr />
+                <div>Новых слов: {audioChallengeStats.newWords}</div>
+                <div>Правильных ответов: {audioChallengeStats.accuracy}%</div>
+                <div>Серия правильных ответов: {audioChallengeStats.seriesCorrectAnswers}</div>
+              </Box>
+            </Grid>
+          </Grid>
 
-            <div>Увеличение общего кол-ва изученных слов по дням изучения</div>
-            <AreaChart
-              width={500}
-              height={400}
-              data={graphLearnedWords.increasedLEarnedWordsPerDay}
-              margin={{
-                top: 10,
-                right: 30,
-                left: 0,
-                bottom: 0,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Area type="monotone" dataKey="Кол-во слов" stroke="#8884d8" fill="#8884d8" />
-            </AreaChart>
-          </div>
-        </div>
+          <Typography sx={titleSectionStatsCss} variant="h5">
+            По дням
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid xs={12} md={6} sx={itemGraphStatsCss}>
+              <Typography sx={titleGraphStatsCss}>Кол-во изученных слов</Typography>
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart
+                  width={500}
+                  height={400}
+                  data={graphLearnedWords.learnedWordsPerDay}
+                  margin={{
+                    top: 10,
+                    right: 30,
+                    left: 0,
+                    bottom: 0,
+                  }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Area type="monotone" dataKey="Кол-во слов" stroke="#8884d8" fill="#8884d8" />
+                </AreaChart>
+              </ResponsiveContainer>
+            </Grid>
+            <Grid xs={12} md={6} sx={itemGraphStatsCss}>
+              <Typography sx={titleGraphStatsCss}>Увеличение кол-ва изученных слов</Typography>
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart
+                  width={500}
+                  height={400}
+                  data={graphLearnedWords.increasedLEarnedWordsPerDay}
+                  margin={{
+                    top: 10,
+                    right: 30,
+                    left: 0,
+                    bottom: 0,
+                  }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Area type="monotone" dataKey="Кол-во слов" stroke="#8884d8" fill="#8884d8" />
+                </AreaChart>
+              </ResponsiveContainer>
+            </Grid>
+          </Grid>
+        </Box>
       )}
-
-      <button type="button" onClick={gg}>
-        Тык
-      </button>
     </div>
   );
 };
 
-export default Stats;
+export default observer(Stats);

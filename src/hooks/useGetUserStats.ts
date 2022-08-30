@@ -1,6 +1,6 @@
 import { getStats } from '../api/Users';
 import { UserStatsRequestInterface } from '../types/common';
-import { CURRENT_DATE_FOR_STATS } from '../variables/common';
+import CURRENT_DATE_FOR_STATS from '../variables/common';
 
 const DEFAULT_GAME_STATS = {
   newWords: 0,
