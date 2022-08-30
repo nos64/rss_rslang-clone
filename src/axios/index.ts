@@ -23,10 +23,12 @@ $api.interceptors.request.use((config: AxiosRequestConfig) => {
 $api.interceptors.response.use(
   (config: AxiosRequestConfig) => config,
   async (error) => {
-    localStorage.removeItem('userName');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
+    if (error.response.status === 401) {
+      localStorage.removeItem('userName');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
+    }
 
     // TODO Баг бесконечной петли, возможно, из за того, что скрипты запускаются по 2 раза
     // Попробовать раскомментить на проде

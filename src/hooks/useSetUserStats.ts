@@ -22,6 +22,7 @@ export default function useSetUserStats(
           stats.optional.sprint.newWords += value.newWords;
           stats.optional.sprint.accuracy += value.accuracy;
           stats.optional.sprint.seriesCorrectAnswers += value.seriesCorrectAnswers;
+          stats.optional.sprint.date = CURRENT_DATE_FOR_STATS;
         }
         break;
       case 'audioChallenge':
