@@ -18,19 +18,21 @@ export default function useSetUserStats(
         }
         break;
       case 'sprint':
-        if (typeof value !== 'number') {
-          stats.optional.sprint.newWords += value.newWords;
-          stats.optional.sprint.accuracy += value.accuracy;
-          stats.optional.sprint.seriesCorrectAnswers += value.seriesCorrectAnswers;
-          stats.optional.sprint.date = CURRENT_DATE_FOR_STATS;
-        }
-        break;
       case 'audioChallenge':
         if (typeof value !== 'number') {
-          stats.optional.audioChallenge.newWords += value.newWords;
-          stats.optional.audioChallenge.accuracy += value.accuracy;
-          stats.optional.audioChallenge.seriesCorrectAnswers += value.seriesCorrectAnswers;
-          stats.optional.audioChallenge.date = CURRENT_DATE_FOR_STATS;
+          stats.optional[operation].newWords += value.newWords;
+
+          if (stats.optional.sprint.accuracy > 0) {
+            stats.optional[operation].accuracy =
+              (stats.optional.sprint.accuracy + value.accuracy) / 2;
+          } else {
+            stats.optional[operation].accuracy = value.accuracy;
+          }
+
+          if (value.seriesCorrectAnswers > stats.optional[operation].seriesCorrectAnswers)
+            stats.optional[operation].seriesCorrectAnswers = value.seriesCorrectAnswers;
+
+          stats.optional[operation].date = CURRENT_DATE_FOR_STATS;
         }
         break;
       default:
