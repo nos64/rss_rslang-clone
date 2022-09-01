@@ -25,7 +25,6 @@ const RenderQuestion = (props: { groupWords: number }) => {
   const [wordsCount, setWordsCount] = useState<number | null>(null);
 
   const [isClicked, setIsClicked] = useState(false);
-  // const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
   const [countWin, setCountWin] = useState<WordInterface[]>([]);
   const [countLose, setCountLose] = useState<WordInterface[]>([]);
   const [audioSrs, setAudioSrc] = useState('');
@@ -64,7 +63,6 @@ const RenderQuestion = (props: { groupWords: number }) => {
 
       setAudioSrc(`${BACKEND_DOMAIN_FOR_PATH_FILES}/${words[wordsCount].audio}`);
       setIsClicked(false);
-      // setIsCorrectAnswer(false);
     }
 
     const unbeatenStreakCount = () => {
@@ -112,13 +110,11 @@ const RenderQuestion = (props: { groupWords: number }) => {
     if (!isClicked) {
       if (word.word === answer.word) {
         setCountWin([...countWin, word]);
-        // setIsCorrectAnswer(true);
         playSound(correctSound);
         setScoreCounter(scoreCounter + numberOfPoints);
         setWordsCounterInRowArr([...wordsCounterInRowArr, true]);
       } else {
         setCountLose([...countLose, word]);
-        // setIsCorrectAnswer(false);
         playSound(unCorrectSound);
         setWordsCounterInRowArr([]);
       }
@@ -135,13 +131,11 @@ const RenderQuestion = (props: { groupWords: number }) => {
     if (!isClicked) {
       if (word.word !== answer.word) {
         setCountWin([...countWin, word]);
-        // setIsCorrectAnswer(true);
         playSound(correctSound);
         setScoreCounter(scoreCounter + numberOfPoints);
         setWordsCounterInRowArr([...wordsCounterInRowArr, true]);
       } else {
         setCountLose([...countLose, word]);
-        // setIsCorrectAnswer(false);
         playSound(unCorrectSound);
         setWordsCounterInRowArr([]);
       }
