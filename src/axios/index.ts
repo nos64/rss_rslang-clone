@@ -4,7 +4,10 @@ const API_URL = `http://localhost:27017`;
 
 const $api = axios.create({
   baseURL: API_URL,
-  // withCredentials: true, Чтобы передавать куки, Нужно ????
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  },
 });
 
 $api.interceptors.request.use((config: AxiosRequestConfig) => {
@@ -20,7 +23,17 @@ $api.interceptors.request.use((config: AxiosRequestConfig) => {
 $api.interceptors.response.use(
   (config: AxiosRequestConfig) => config,
   async (error) => {
-    const originalRequest = error.config;
+    if (error.response.status === 401) {
+      localStorage.removeItem('userName');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
+    }
+
+    // TODO Баг бесконечной петли, возможно, из за того, что скрипты запускаются по 2 раза
+    // Попробовать раскомментить на проде
+
+    /* const originalRequest = error.config;
     if (error.response.status === 401 && error.config && error.config.isTry !== true) {
       originalRequest.isTry = true;
       try {
@@ -32,7 +45,7 @@ $api.interceptors.response.use(
       } catch (err) {
         console.log('Не авторизован', 'axios/index.ts');
       }
-    }
+    } */
     throw error;
   }
 );
