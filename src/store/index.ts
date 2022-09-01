@@ -5,6 +5,8 @@ import { login, registration, checkAuth } from '../api/Auth';
 class Store {
   userName = '';
 
+  userId = '';	
+
   isCheckAuth = false;
 
   isAuth = false;
@@ -22,6 +24,10 @@ class Store {
   setAuth(value: boolean) {
     this.isAuth = value;
   }
+  
+  setUserId(value: string) {
+    this.userId = value;
+  }
 
   setUserName(value: string) {
     this.userName = value;
@@ -36,11 +42,12 @@ class Store {
       const response = await login(email, password);
       console.log('log--', response);
 
-      localStorage.setItem('userName', response.data.name);
       localStorage.setItem('userId', response.data.userId);
+      localStorage.setItem('userName', response.data.name);
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('refreshToken', response.data.refreshToken);
       this.setAuth(true);
+	  this.setUserId(response.data.userId);
       this.setUserName(response.data.name);
     } catch (error) {
       console.log(error, 'login - store/index.ts');
@@ -70,7 +77,9 @@ class Store {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('refreshToken', response.data.refreshToken);
         this.setAuth(true);
+		this.setUserId(userId);
         if (userName) this.setUserName(userName);
+
       }
     } catch (error) {
       if (axios.isAxiosError(error) && error?.response?.status === 401) {
@@ -81,11 +90,12 @@ class Store {
   }
 
   logout() {
-    localStorage.removeItem('userName');
     localStorage.removeItem('userId');
+    localStorage.removeItem('userName');
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
     this.setAuth(false);
+	this.setUserId('');
     this.setUserName('');
   }
 }

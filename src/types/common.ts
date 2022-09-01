@@ -39,4 +39,34 @@ export interface UserWordInterface {
   optional?: Record<string, unknown>;
 }
 
-export const baseURL = 'http://localhost:27017';
+export interface UserStatsGameInterface {
+  newWords: number;
+  accuracy: number;
+  seriesCorrectAnswers: number;
+  date: string;
+}
+export interface UserStatsRequestOptionalInterface {
+  learnedWordsPerDay: { [index: string]: number };
+  audioChallenge: UserStatsGameInterface;
+  sprint: UserStatsGameInterface;
+}
+export interface UserStatsRequestInterface {
+  learnedWords: number;
+  optional: UserStatsRequestOptionalInterface;
+}
+export type UserStatsLearnedWordsGraph = Array<{ name: string; 'Кол-во слов': number }>;
+export interface UserStatsForLayoutInterface {
+  summary: {
+    learnedWords: number;
+    newWords: number;
+    accuracy: number;
+  };
+  games: {
+    sprint: UserStatsGameInterface;
+    audioChallenge: UserStatsGameInterface;
+  };
+  graph: {
+    learnedWordsPerDay: UserStatsLearnedWordsGraph;
+    increasedLEarnedWordsPerDay: UserStatsLearnedWordsGraph;
+  };
+}
