@@ -1,0 +1,1 @@
+export const BACKEND_DOMAIN_FOR_PATH_FILES = 'http://localhost:27017';

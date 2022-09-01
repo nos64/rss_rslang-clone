@@ -1,6 +1,6 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable jsx-a11y/media-has-caption */
-import React, { useEffect } from 'react';
+import React from 'react';
 
 const CreateAudioButton = (props: { audioSrs: string; autoPlay: boolean; btnClass: string }) => {
   const audio = new Audio();
@@ -8,18 +8,7 @@ const CreateAudioButton = (props: { audioSrs: string; autoPlay: boolean; btnClas
     audio.src = props.audioSrs;
     audio.play();
   };
-  // useEffect(() => {
-  //   const onPressSpace = (e: KeyboardEvent) => {
-  //     e.preventDefault();
-  //     if (e.code === 'Space') {
-  //       playAudio();
-  //     }
-  //   };
-  //   document.addEventListener('keydown', onPressSpace);
-  //   return () => {
-  //     document.removeEventListener('keydown', onPressSpace);
-  //   };
-  // }, []);
+
   return (
     <button className={props.btnClass} type="button" onClick={playAudio}>
       <audio src={props.audioSrs} autoPlay={props.autoPlay} />

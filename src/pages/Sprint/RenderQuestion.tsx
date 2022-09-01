@@ -2,7 +2,8 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable react/destructuring-assignment */
 import React, { useEffect, useState } from 'react';
-import { WordInterface, baseURL } from '../../types/common';
+import { WordInterface } from '../../types/common';
+import { BACKEND_DOMAIN_FOR_PATH_FILES } from '../../variables/constants';
 import getWords from '../../api/Sprint';
 import { getRandomPage, shuffle } from './utils';
 import '../../assets/images/audio.svg';
@@ -61,7 +62,7 @@ const RenderQuestion = (props: { groupWords: number }) => {
       setWord(words[wordsCount]);
       setAnswer(shuffleTranslate[wordsCount]);
 
-      setAudioSrc(`${baseURL}/${words[wordsCount].audio}`);
+      setAudioSrc(`${BACKEND_DOMAIN_FOR_PATH_FILES}/${words[wordsCount].audio}`);
       setIsClicked(false);
       // setIsCorrectAnswer(false);
     }
