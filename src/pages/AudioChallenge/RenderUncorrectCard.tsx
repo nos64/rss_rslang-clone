@@ -2,16 +2,21 @@
 import React from 'react';
 // eslint-disable-next-line import/no-unresolved
 import CreateAudioButton from './CreateAudioButton';
-import { WordInterface, baseURL } from '../../types/common';
+import { WordInterface } from '../../types/common';
+import { BACKEND_DOMAIN_FOR_PATH_FILES } from '../../variables/constants';
 
 const RenderUncorrectCard = (props: { word: WordInterface }) => {
   return (
     <div className="card-wrapper card-wrapper-uncorrect">
       <div style={{ borderColor: 'red' }} className="img-card img-card-uncorrect">
-        <img className="word-img" src={`${baseURL}/${props.word.image}`} alt="Answer pic" />
+        <img
+          className="word-img"
+          src={`${BACKEND_DOMAIN_FOR_PATH_FILES}/${props.word.image}`}
+          alt="Answer pic"
+        />
       </div>
       <CreateAudioButton
-        audioSrs={`${baseURL}/${props.word.audio}`}
+        audioSrs={`${BACKEND_DOMAIN_FOR_PATH_FILES}/${props.word.audio}`}
         autoPlay={false}
         btnClass="audio-button-card"
       />

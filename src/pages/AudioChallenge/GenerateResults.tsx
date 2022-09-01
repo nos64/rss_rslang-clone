@@ -1,7 +1,8 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/no-unused-prop-types */
 import React from 'react';
-import { WordInterface, baseURL } from '../../types/common';
+import { WordInterface } from '../../types/common';
+import { BACKEND_DOMAIN_FOR_PATH_FILES } from '../../variables/constants';
 import CreateAudioButton from './CreateAudioButton';
 
 const GenerateResults = (props: {
@@ -17,7 +18,7 @@ const GenerateResults = (props: {
           {props.arrayWord.map((item) => (
             <li className="correct-li" key={item.word}>
               <CreateAudioButton
-                audioSrs={`${baseURL}/${item.audio}`}
+                audioSrs={`${BACKEND_DOMAIN_FOR_PATH_FILES}/${item.audio}`}
                 autoPlay={false}
                 btnClass="audio-button-card"
               />
