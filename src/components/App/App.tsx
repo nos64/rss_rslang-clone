@@ -7,7 +7,6 @@ import Textbook from '../../pages/Textbook/Textbook';
 import AudioChallenge from '../../pages/AudioChallenge/AudioChallenge';
 import Sprint from '../../pages/Sprint/Sprint';
 import Stats from '../../pages/Stats/Stats';
-import Profile from '../../pages/Profile/Profile';
 import Context from '../../context';
 
 const App: React.FC = () => {
@@ -24,7 +23,6 @@ const App: React.FC = () => {
         <Route path={ROUTES.AUDIOCHALLENGE} element={<AudioChallenge />} />
         <Route path={ROUTES.SPRINT} element={<Sprint />} />
         <Route path={ROUTES.STATS} element={<Stats />} />
-        <Route path={ROUTES.PROFILE} element={<Profile />} />
       </Route>
     </Routes>
   );

@@ -5,7 +5,6 @@ export const ROUTES = {
   AUDIOCHALLENGE: 'audiochallenge',
   SPRINT: 'sprint',
   STATS: 'stats',
-  PROFILE: 'profile',
 };
 
 export const example = {};

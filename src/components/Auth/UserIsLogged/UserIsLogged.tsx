@@ -1,6 +1,7 @@
 import React from 'react';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Button from '@mui/material/Button';
+import { observer } from 'mobx-react-lite';
 import Context from '../../../context';
 import ProfileModal from '../../ProfileModal/ProfileModal';
 
@@ -18,4 +19,4 @@ const UserIsLogged: React.FC = () => {
   );
 };
 
-export default UserIsLogged;
+export default observer(UserIsLogged);

@@ -1,18 +1,47 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
 import LoadingButton from '@mui/lab/LoadingButton';
+import Typography from '@mui/material/Typography';
 import Context from '../../context';
+import { getUserInfo, setUserInfo } from '../../api/Users';
+import { UserInterface } from '../../types/common';
 
 const ProfileModal: React.FC = () => {
   const { store } = React.useContext(Context);
 
+  const [name, setName] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [formErrors, setFormErrors] = React.useState({
+    name: '',
+    email: '',
+    password: '',
+  });
+  const [isSubmittedForm, setIsSubmittedForm] = React.useState(false);
+
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+  const [isLadedUserInfo, setIsLadedUserInfo] = React.useState(false);
+
+  const handleOpen = () => {
+    setIsLadedUserInfo(true);
+    getUserInfo(store.userId)
+      .then((userInfo) => {
+        setName(userInfo.data.name);
+        setEmail(userInfo.data.email);
+        setPassword('');
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setOpen(true);
+        setIsLadedUserInfo(false);
+      });
+  };
   const handleClose = () => setOpen(false);
   const style = {
     position: 'absolute' as const,
@@ -26,16 +55,6 @@ const ProfileModal: React.FC = () => {
     boxShadow: 24,
     p: 4,
   };
-
-  const [name, setName] = React.useState('');
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [formErrors, setFormErrors] = React.useState({
-    name: '',
-    email: '',
-    password: '',
-  });
-  const [isSubmittedForm, setIsSubmittedForm] = React.useState(false);
 
   function validateFields(fieldName: keyof typeof formErrors): boolean {
     let errorMessage = '';
@@ -76,10 +95,23 @@ const ProfileModal: React.FC = () => {
 
   function onSubmitForm(event: React.SyntheticEvent): void {
     event.preventDefault();
-    if (validateFields('name') && validateFields('email') && validateFields('password')) {
+    if (
+      store.userId &&
+      validateFields('name') &&
+      validateFields('email') &&
+      validateFields('password')
+    ) {
       setIsSubmittedForm(true);
-      store
-        .registration(name, email, password)
+      const userInfo: UserInterface = {
+        name,
+        email,
+      };
+      if (password.length) userInfo.password = password;
+      setUserInfo(store.userId, userInfo)
+        .then(() => {
+          setOpen(false);
+          store.setUserName(userInfo.name);
+        })
         .catch((e) => {
           if (e.response.status === 417) {
             formErrors.email = 'Email уже занят';
@@ -90,13 +122,18 @@ const ProfileModal: React.FC = () => {
     }
   }
 
-  // useEffect(() => {}, []);
-
   return (
     <div>
-      <Button startIcon={<AccountCircleIcon />} onClick={handleOpen}>
-        Редактировать
-      </Button>
+      <LoadingButton
+        type="button"
+        variant="contained"
+        startIcon={<AccountCircleIcon />}
+        loading={isLadedUserInfo}
+        size="large"
+        onClick={handleOpen}
+      >
+        Профиль
+      </LoadingButton>
       <Modal
         open={open}
         onClose={handleClose}
@@ -105,11 +142,14 @@ const ProfileModal: React.FC = () => {
       >
         <Box sx={style}>
           <Box sx={{ width: '100%' }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }} />
+            <Box sx={{ borderBottom: 1, borderColor: 'divider', pb: 2, textAlign: 'center' }}>
+              <Typography variant="h5">Редактировать профиль</Typography>
+            </Box>
             <form onSubmit={onSubmitForm} noValidate>
               <Box
                 sx={{
                   width: 500,
+                  p: 3,
                   maxWidth: '100%',
                   '& .MuiTextField-root': { m: '0 0 1.5rem 0' },
                 }}
@@ -157,7 +197,7 @@ const ProfileModal: React.FC = () => {
                   type="submit"
                   fullWidth
                   variant="contained"
-                  startIcon={<PersonAddIcon />}
+                  startIcon={<SystemUpdateAltIcon />}
                   loading={isSubmittedForm}
                   size="large"
                 >
