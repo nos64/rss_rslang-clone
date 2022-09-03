@@ -18,6 +18,19 @@ const FormRegister: React.FC = () => {
   });
   const [isSubmittedForm, setIsSubmittedForm] = React.useState(false);
 
+  const style = {
+    position: 'absolute' as const,
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '100%',
+    maxWidth: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
+
   function validateFields(fieldName: keyof typeof formErrors): boolean {
     let errorMessage = '';
     switch (fieldName) {
