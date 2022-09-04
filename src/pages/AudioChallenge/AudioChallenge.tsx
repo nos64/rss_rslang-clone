@@ -2,17 +2,19 @@ import React, { useState } from 'react';
 import './style.scss';
 import '../../assets/images/audio.svg';
 import { Button } from '@mui/material';
+import { observer } from 'mobx-react-lite';
 import RenderQuestion from './RenderQuestion';
 import Loading from './Loading';
+import textbookStore from '../../store/textbook';
 
-const AudioChallenge: React.FC = () => {
+const AudioChallenge: React.FC = observer(() => {
   const [isLoading, setIsLoading] = useState(false);
   const [className, setClassName] = useState('');
   const [groupWords, setGroupWords] = useState(0);
 
   const clickOnButton = (btn: number) => {
     setIsLoading(true);
-    setGroupWords(groupWords + btn - 1);
+    setGroupWords(btn - 1);
     setIsLoading(false);
   };
 
@@ -33,28 +35,43 @@ const AudioChallenge: React.FC = () => {
           Для повторного воспроизведения слова нажмите Пробел
         </p>
         <div className="selection">
-          <h2 className="selection__title">Выберете уровень сложности</h2>
-          <ul className="selection__list">
-            {btnArr.map((item) => (
-              <li className="selection__item" key={item}>
-                <Button
-                  variant="contained"
-                  type="button"
-                  onClick={() => {
-                    clickOnButton(item);
-                    setClassName('invisible');
-                  }}
-                  className="selection__btn"
-                >
-                  {item}
-                </Button>
-              </li>
-            ))}
-          </ul>
+          {textbookStore.fromTextbook ? (
+            <Button
+              variant="contained"
+              type="button"
+              onClick={() => {
+                clickOnButton(textbookStore.currentGroup + 1);
+                setClassName('invisible');
+              }}
+            >
+              Начать игру
+            </Button>
+          ) : (
+            <>
+              <h2 className="selection__title">Выберите уровень сложности</h2>
+              <ul className="selection__list">
+                {btnArr.map((item) => (
+                  <li className="selection__item" key={item}>
+                    <Button
+                      variant="contained"
+                      type="button"
+                      onClick={() => {
+                        clickOnButton(item);
+                        setClassName('invisible');
+                      }}
+                      className="selection__btn"
+                    >
+                      {item}
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
         </div>
       </div>
     </div>
   );
-};
+});
 
 export default AudioChallenge;
