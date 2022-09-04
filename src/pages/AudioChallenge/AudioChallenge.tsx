@@ -44,7 +44,7 @@ const AudioChallenge: React.FC = observer(() => {
                 setClassName('invisible');
               }}
             >
-              Начать игру {textbookStore.currentGroup}
+              Начать игру
             </Button>
           ) : (
             <>
