@@ -57,10 +57,17 @@ const config = {
         },
       },
       {
-        test: /\.(png|jpe?g|gif|webp)$/i,
+        test: /\.(png|jpe?g|gif|webp|mp3)$/i,
         type: 'asset',
         generator: {
           filename: 'images/[hash][ext][query]',
+        },
+      },
+      {
+        test: /\.mp3$/i,
+        type: 'asset',
+        generator: {
+          filename: 'sounds/[hash][ext][query]',
         },
       },
       {
@@ -70,7 +77,12 @@ const config = {
           filename: 'icons/[hash][ext][query]',
         },
       },
-
+      // {
+      //   test: /\.mp3$/,
+      //   use: {
+      //     loader: 'file-loader',
+      //   },
+      // }
       // Add your rules for custom modules here
       // Learn more about loaders from https://webpack.js.org/loaders/
     ],

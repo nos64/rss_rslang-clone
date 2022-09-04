@@ -31,6 +31,7 @@ class Store {
 
   setUserName(value: string) {
     this.userName = value;
+    localStorage.setItem('userName', value);
   }
 
   setIsCheckAuth(value: boolean) {
@@ -91,7 +92,6 @@ class Store {
   logout() {
     localStorage.removeItem('userId');
     localStorage.removeItem('userName');
-    localStorage.removeItem('userId');
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
     this.setAuth(false);

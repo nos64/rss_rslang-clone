@@ -5,6 +5,7 @@ import { action, makeAutoObservable, reaction } from 'mobx';
 import { getUserWords, getWords, getWordById, sendUserWord } from '../api/textbook';
 import { DifficultyType, WordInterface } from '../types/common';
 import store from './index';
+import useSetUserStats from '../hooks/useSetUserStats';
 
 class TextBookStore {
   fromTextbook = false;
@@ -50,11 +51,6 @@ class TextBookStore {
     })();
   };
 
-  private fetchWord = async (wordId: string) => {
-    const word = (await getWordById(wordId)).data;
-    return word;
-  };
-
   fetchUserWords = action(async () => {
     if (this.userId) {
       const words = (await getUserWords(this.userId)).data;
@@ -93,9 +89,12 @@ class TextBookStore {
   };
 
   setLearnedWord = async (word: WordInterface) => {
-    this.learnedWords.add(word);
-    await this.sendUserWord(word.id, 'learned');
-    await this.fetchUserWords();
+    if (this.userId) {
+      this.learnedWords.add(word);
+      await this.sendUserWord(word.id, 'learned');
+      await this.fetchUserWords();
+      useSetUserStats(this.userId, 'words', 1);
+    }
   };
 
   sendUserWord = async (wordId: string, difficulty: DifficultyType) => {

@@ -9,7 +9,7 @@ import IconVolumeUp from '@mui/icons-material/VolumeUp';
 import IconLocalLibrary from '@mui/icons-material/LocalLibraryRounded';
 import IconLibraryAddCheck from '@mui/icons-material/LibraryAddCheck';
 import Tooltip from '@mui/material/Tooltip';
-import { API_URL } from '../../../axios';
+import { API_URL } from '../../../variables/constants';
 import { WordInterface } from '../../../types/common';
 import textbookStore from '../../../store/textbook';
 

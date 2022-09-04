@@ -1,0 +1,277 @@
+@import '../../styles/colors.scss';
+
+html {
+  position: relative;
+  box-sizing:border-box;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  color: $color-primary-dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing:inherit;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+h1, h2, h3, p {
+  margin: 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+button {
+  cursor: pointer;
+  outline: none;
+  position: relative;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+.audio__title {
+  font-weight: 300;
+  font-size: 50px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.audio-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  margin: 0 auto;
+  max-width: 800px;
+  height: 400px;
+  box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 30px;
+  background-color: $color-primary-light;
+  padding: 20px;
+}
+
+.audio__description {
+font-size: 24px;
+padding-bottom: 5px;
+color: $color-icons;
+}
+
+.rule {
+  color: $color-primary-dark;
+}
+.selection {
+
+}
+.selection__title {
+  font-size: 32px;
+  text-align: center;
+  padding: 30px;
+  color: $color-text-primary;
+}
+
+.selection__list {
+display: flex;
+justify-content: center;
+gap: 10px;
+}
+
+.selection__item {
+
+}
+
+.selection__btn {
+width: 40px;
+height: 40px;
+}
+
+.word-box {
+  width: 100vw;
+  height: 100vh;
+}
+
+.question-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items:center;
+  width: 700px;
+  background-color:$color-primary-light;
+  border-radius: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
+.audio-btn-wrapper {
+  margin: 10px;
+  width: 100%;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+}
+
+.audio-button-card,
+.audio-button {
+  width: 150px;
+  border-radius: 50%;
+  border: none;
+  opacity: .5;
+  fill: $color-primary-dark;
+  transition: all .3s ease-in-out;
+}
+
+.audio-button-card {
+  width: auto;
+  height: 80px;
+  fill: $color-primary-dark;
+}
+
+.audio-button-card:hover,
+.audio-button:hover {
+  opacity: 1;
+}
+
+.answer-buttons__list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  padding-bottom: 40px;
+  height: 100px;
+}
+
+.main-button {
+  margin-bottom: 30px;
+  width: 120px;
+}
+
+/* Карточка с правильным ответом*/
+.card-wrapper {
+  font-size: 22px;
+  color: green;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 80%;
+  background-color:transparent;
+  border-radius: 5px;
+}
+
+.card-wrapper_uncorrect {
+  color: red;
+}
+
+.img-card {
+  width: 120px;
+  height: 120px;
+  border: 2px solid green;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.img-card_uncorrect {
+  border-color: red;
+}
+
+.word-img {
+  overflow: hidden;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.audio-button-card {
+  width: 40px;
+  height: auto;
+}
+
+.result-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items:center;
+  width: 600px;
+  // height: 500px;
+  background-color:$color-primary-light;;
+  border-radius: 10px;
+  // overflow-y: scroll;
+  // position: absolute;
+  // top: 50%;
+  // left: 50%;
+  padding: 20px;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+.correct-div,
+.uncorrect-div {
+  border-bottom: 1px solid black;
+  width: 100%;
+}
+
+.correct-li {
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items:center;
+  border-bottom: 1px dotted black;
+}
+
+.correct-result__title,
+.uncorrect-result__title {
+  padding: 10px;
+  color: green;
+  text-align: center;
+}
+
+.uncorrect-result__title {
+  color: red;
+}
+
+.buttons-wrapper {
+  padding: 20px 0 0;
+  display: flex;
+  gap:20px;
+}
+
+.new-game-btn,
+.in-textbook-btn {
+  margin: 20px auto;
+  width: 150px;
+}
+
+.loading-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 60px;
+  color: red;
+}
+
+.invisible {
+  display: none;
+}
