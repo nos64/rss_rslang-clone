@@ -23,6 +23,7 @@
   "plugins": ["react", "react-hooks", "@typescript-eslint", "prettier"],
   "rules": {
     "react/jsx-filename-extension": "off",
+    "react/require-default-props": "off",
     "import/extensions": "off",
     "react/function-component-definition": "off",
     "linebreak-style": "off",

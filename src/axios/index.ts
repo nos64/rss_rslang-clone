@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
-
-const API_URL = `http://localhost:27017`;
+import { API_URL } from '../variables/constants';
 
 const $api = axios.create({
   baseURL: API_URL,
@@ -43,7 +42,7 @@ $api.interceptors.response.use(
         localStorage.setItem('refreshToken', response.data.refreshToken);
         return $api.request(originalRequest);
       } catch (err) {
-        console.log('Не авторизован', 'axios/index.ts');
+        // console.log('Не авторизован', 'axios/index.ts');
       }
     } */
     throw error;

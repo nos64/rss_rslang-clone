@@ -34,8 +34,12 @@ export interface TokensInterface {
   refreshToken: 'string';
 }
 
+export type DifficultyType = 'difficult' | 'learned';
+
 export interface UserWordInterface {
-  difficulty: string;
+  id: string; // user id
+  wordId: string;
+  difficulty: DifficultyType;
   optional?: Record<string, unknown>;
 }
 
