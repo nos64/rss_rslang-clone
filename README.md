@@ -2,9 +2,10 @@
 
 English learning app
 
+### Добавлена форма редактирования данных пользователя 04.09.22
 
 ### Добавлена игра Спринт 31.08.22
->
+
 > - Добавил мини-игру Sprint pages/AudioChallengeSprint.
 > - В папку src/api добавил файл Sprint.ts с запросами для игры.
 
@@ -53,19 +54,18 @@ English learning app
 > ```
 
 ### Добавлена игра Аудиовызов 29.08.22
->
+
 > - Добавил мини-игру AudioChallenge pages/AudioChallenge. В папку src/api добавил файл AudioChallenge.ts с запросами для игры.
-> - Обновлен файл index.d.ts - доавлено - declare module '*.mp3';
+> - Обновлен файл index.d.ts - доавлено - declare module '\*.mp3';
 > - Обновлен файл конфигурации Webpack webpack.config.js, добавлена сборка mp3 файлов
 >
 > {
->   test: /\.mp3$/i,
->   type: 'asset',
->   generator: {
->     filename: 'sounds/[hash][ext][query]',
->   },
+> test: /\.mp3$/i,
+> type: 'asset',
+> generator: {
+> filename: 'sounds/[hash][ext][query]',
 > },
-> 
+> },
 
 ### Добавлена авторизация, аутентификация и идентификация, 23.08.22
 
