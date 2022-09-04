@@ -29,7 +29,7 @@ const RenderQuestion = (props: { groupWords: number; handleClickNewGameBtn: () =
   const [isClicked, setIsClicked] = useState(false);
   const [countWin, setCountWin] = useState<WordInterface[]>([]);
   const [countLose, setCountLose] = useState<WordInterface[]>([]);
-  const [audioSrs, setAudioSrc] = useState('');
+  const [audioSrc, setAudioSrc] = useState('');
   const [scoreCounter, setScoreCounter] = useState(0);
   const [numberOfPoints, setNumberOfPoints] = useState(10);
   const [wordsCounterInRowArr, setWordsCounterInRowArr] = useState<boolean[]>([]);
