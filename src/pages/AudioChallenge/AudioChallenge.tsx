@@ -28,7 +28,7 @@ const AudioChallenge: React.FC = () => {
         <p className="audio__description rule">
           Для выбора ответа используйте клавиши 1, 2, 3, 4, 5
         </p>
-        <p className="audio__description rule">Для перехода к следющему слову нажмите Enter</p>
+        <p className="audio__description rule">Для перехода к следующему слову нажмите Enter</p>
         <p className="audio__description rule">
           Для повторного воспроизведения слова нажмите Пробел
         </p>
