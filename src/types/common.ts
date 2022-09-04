@@ -18,7 +18,7 @@ export interface WordInterface {
 export interface UserInterface {
   name: string;
   email: string;
-  password: string;
+  password?: string;
 }
 
 export interface AuthInterface {

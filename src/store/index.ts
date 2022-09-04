@@ -5,7 +5,7 @@ import { login, registration, checkAuth } from '../api/Auth';
 class Store {
   userName = '';
 
-  userId = '';	
+  userId = '';
 
   isCheckAuth = false;
 
@@ -24,13 +24,14 @@ class Store {
   setAuth(value: boolean) {
     this.isAuth = value;
   }
-  
+
   setUserId(value: string) {
     this.userId = value;
   }
 
   setUserName(value: string) {
     this.userName = value;
+    localStorage.setItem('userName', value);
   }
 
   setIsCheckAuth(value: boolean) {
@@ -47,7 +48,7 @@ class Store {
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('refreshToken', response.data.refreshToken);
       this.setAuth(true);
-	  this.setUserId(response.data.userId);
+      this.setUserId(response.data.userId);
       this.setUserName(response.data.name);
     } catch (error) {
       console.log(error, 'login - store/index.ts');
@@ -77,9 +78,8 @@ class Store {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('refreshToken', response.data.refreshToken);
         this.setAuth(true);
-		this.setUserId(userId);
+        this.setUserId(userId);
         if (userName) this.setUserName(userName);
-
       }
     } catch (error) {
       if (axios.isAxiosError(error) && error?.response?.status === 401) {
@@ -95,7 +95,7 @@ class Store {
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
     this.setAuth(false);
-	this.setUserId('');
+    this.setUserId('');
     this.setUserName('');
   }
 }
