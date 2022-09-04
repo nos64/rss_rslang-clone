@@ -8,18 +8,26 @@ import Typography from '@mui/material/Typography';
 import IconVolumeUp from '@mui/icons-material/VolumeUp';
 import IconLocalLibrary from '@mui/icons-material/LocalLibraryRounded';
 import IconLibraryAddCheck from '@mui/icons-material/LibraryAddCheck';
-import { API_URL } from '../../axios';
-import { WordInterface } from '../../types/common';
-import textbookStore from '../../store/textbook';
+import Tooltip from '@mui/material/Tooltip';
+import { API_URL } from '../../../axios';
+import { WordInterface } from '../../../types/common';
+import textbookStore from '../../../store/textbook';
 
 interface ITextBookCardProps {
   card: WordInterface;
   isAuth: boolean;
   isDifficult: boolean;
-  isLearned: boolean;
+  isDifficultPage: boolean;
+  isLearned?: boolean;
 }
 
-const TextbookCard: React.FC<ITextBookCardProps> = ({ card, isAuth, isDifficult, isLearned }) => {
+const TextbookCard: React.FC<ITextBookCardProps> = ({
+  card,
+  isAuth,
+  isDifficult,
+  isDifficultPage,
+  isLearned = null,
+}) => {
   const audio = useRef<HTMLAudioElement>(null);
 
   const wordAudioSrc = `${API_URL}/${card.audio}`;
@@ -69,8 +77,12 @@ const TextbookCard: React.FC<ITextBookCardProps> = ({ card, isAuth, isDifficult,
   };
 
   const handleDifficult = () => {
-    if (!isDifficult) {
-      textbookStore.setDifficultWord(card);
+    if (!isDifficultPage) {
+      if (!isDifficult) {
+        textbookStore.setDifficultWord(card);
+      }
+    } else {
+      textbookStore.deleteDifficultWord(card);
     }
   };
 
@@ -81,7 +93,7 @@ const TextbookCard: React.FC<ITextBookCardProps> = ({ card, isAuth, isDifficult,
   };
 
   return (
-    <Card sx={{ display: 'flex', border: '1px solid grey' }} key={card.id}>
+    <Card component="li" sx={{ display: 'flex', border: '1px solid grey' }} key={card.id}>
       <Box sx={{ display: 'flex', width: '100%' }}>
         <CardMedia
           component="img"
@@ -96,10 +108,10 @@ const TextbookCard: React.FC<ITextBookCardProps> = ({ card, isAuth, isDifficult,
             justifyContent: 'space-between',
           }}
         >
-          <Box sx={{ display: 'flex', alignItems: 'baseline', gap: '20px' }}>
-            <Typography variant="h4">{card.word}</Typography>
-            <Typography variant="h4">{card.transcription}</Typography>
-            <Typography variant="h4" sx={{ color: '#757575' }}>
+          <Box sx={{ display: 'flex', alignItems: 'baseline', gap: '15px' }}>
+            <Typography variant="h5">{card.word}</Typography>
+            <Typography variant="h5">{card.transcription}</Typography>
+            <Typography variant="h5" sx={{ color: '#757575' }}>
               {card.wordTranslate}
             </Typography>
           </Box>
@@ -128,20 +140,29 @@ const TextbookCard: React.FC<ITextBookCardProps> = ({ card, isAuth, isDifficult,
           }}
         >
           <CardMedia component="audio" src={wordAudioSrc} ref={audio} onEnded={handleAudioSrc} />
-          <IconVolumeUp
-            onClick={handleSound}
-            sx={{ width: '36px', height: '36px', cursor: 'pointer', color: '#757575' }}
-          />
+          <Tooltip title="pronounce">
+            <IconVolumeUp
+              onClick={handleSound}
+              sx={{ width: '36px', height: '36px', cursor: 'pointer', color: '#757575' }}
+            />
+          </Tooltip>
+
           {isAuth && (
             <>
-              <IconLocalLibrary
-                sx={isDifficult ? trueIconCSS : falseIconCSS}
-                onClick={handleDifficult}
-              />
-              <IconLibraryAddCheck
-                sx={isLearned ? trueIconCSS : falseIconCSS}
-                onClick={handleLearned}
-              />
+              <Tooltip title="difficult words">
+                <IconLocalLibrary
+                  sx={isDifficult ? trueIconCSS : falseIconCSS}
+                  onClick={handleDifficult}
+                />
+              </Tooltip>
+              {isLearned !== null && (
+                <Tooltip title="learned words">
+                  <IconLibraryAddCheck
+                    sx={isLearned ? trueIconCSS : falseIconCSS}
+                    onClick={handleLearned}
+                  />
+                </Tooltip>
+              )}
             </>
           )}
         </CardContent>
