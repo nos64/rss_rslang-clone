@@ -36,7 +36,18 @@ const config = {
       },
       {
         test: /\.s[ac]ss$/i,
-        use: [stylesHandler, 'css-loader', 'postcss-loader', 'sass-loader'],
+        use: [
+          stylesHandler,
+          'css-loader',
+          'postcss-loader',
+          'sass-loader',
+          {
+            loader: 'sass-resources-loader',
+            options: {
+              resources: 'src/styles/common.scss',
+            },
+          },
+        ],
       },
       {
         test: /\.(eot|ttf|woff|woff2)$/i,
@@ -46,10 +57,17 @@ const config = {
         },
       },
       {
-        test: /\.(png|jpe?g|gif|webp)$/i,
+        test: /\.(png|jpe?g|gif|webp|mp3)$/i,
         type: 'asset',
         generator: {
           filename: 'images/[hash][ext][query]',
+        },
+      },
+      {
+        test: /\.mp3$/i,
+        type: 'asset',
+        generator: {
+          filename: 'sounds/[hash][ext][query]',
         },
       },
       {
@@ -59,7 +77,12 @@ const config = {
           filename: 'icons/[hash][ext][query]',
         },
       },
-
+      // {
+      //   test: /\.mp3$/,
+      //   use: {
+      //     loader: 'file-loader',
+      //   },
+      // }
       // Add your rules for custom modules here
       // Learn more about loaders from https://webpack.js.org/loaders/
     ],
