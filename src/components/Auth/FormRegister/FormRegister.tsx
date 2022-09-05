@@ -8,9 +8,9 @@ import Context from '../../../context';
 const FormRegister: React.FC = () => {
   const { store } = React.useContext(Context);
 
-  const [name, setName] = React.useState('test');
-  const [email, setEmail] = React.useState('test@mal.ru');
-  const [password, setPassword] = React.useState('12345678');
+  const [name, setName] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
   const [formErrors, setFormErrors] = React.useState({
     name: '',
     email: '',
