@@ -16,8 +16,10 @@ import { Button } from '@mui/material';
 import correctSound from '../../assets/sounds/correct.mp3';
 import unCorrectSound from '../../assets/sounds/unCorrect.mp3';
 import { BACKEND_DOMAIN_FOR_PATH_FILES } from '../../variables/constants';
+import useGetStorageWords from '../../hooks/useGetStorageWords';
+import textbookStore from '../../store/textbook';
 
-const RenderQuestion = (props: { groupWords: number }) => {
+const RenderQuestion = (props: { groupWords: number; handleClickNewGameBtn: () => void }) => {
   const [words, setWords] = useState<WordInterface[]>([]);
   const [allWords, setAllWords] = useState<string[]>([]);
   const [answerArray, setAnswerArray] = useState<string[]>([]);
@@ -35,16 +37,18 @@ const RenderQuestion = (props: { groupWords: number }) => {
   const [countWin, setCountWin] = useState<WordInterface[]>([]);
   const [countLose, setCountLose] = useState<WordInterface[]>([]);
   const [nameBtnNext, setNameBtnNext] = useState('Не знаю');
-  const [audioSrs, setAudioSrc] = useState('');
+  const [audioSrc, setAudioSrc] = useState('');
 
   const [wordsCounterInRowArr, setWordsCounterInRowArr] = useState<boolean[]>([]);
   const [unbeatenStreak, setUnbeatenStreak] = useState(wordsCounterInRowArr.length);
 
+  const [countNewWordsInStats, setCountNewWordsInStats] = useState(0);
+
   useEffect(() => {
     const getData = async () => {
       setIsLoading(true);
-
-      const uploadedWords = await getWords(props.groupWords, getRandomPage());
+      const pageNumber = textbookStore.fromTextbook ? textbookStore.currentPage : getRandomPage();
+      const uploadedWords = await getWords(props.groupWords, pageNumber);
       setWords(uploadedWords);
       const uploadedGroup = await getGroupWords(props.groupWords);
       setAllWords(uploadedGroup);
@@ -58,6 +62,11 @@ const RenderQuestion = (props: { groupWords: number }) => {
   useEffect(() => {
     if (wordsCount !== null && wordsCount < 20) {
       setWord(words[wordsCount]);
+      if (textbookStore.userId) {
+        if (!useGetStorageWords(words[wordsCount].word, textbookStore.userId)) {
+          setCountNewWordsInStats(countNewWordsInStats + 1);
+        }
+      }
       setAnswer(words[wordsCount].wordTranslate);
       const newSet: Set<string> = new Set();
       newSet.add(words[wordsCount].wordTranslate);
@@ -180,7 +189,7 @@ const RenderQuestion = (props: { groupWords: number }) => {
             <div className="question-wrapper">
               <div className="audio-btn-wrapper">
                 {!isClicked ? (
-                  <CreateAudioButton audioSrs={audioSrs} autoPlay btnClass="audio-button" />
+                  <CreateAudioButton audioSrs={audioSrc} autoPlay btnClass="audio-button" />
                 ) : (
                   <RenderAnswerCard isCorrectAnswer={isCorrectAnswer} word={word} />
                 )}
@@ -202,7 +211,7 @@ const RenderQuestion = (props: { groupWords: number }) => {
               {/* <RenderAnswerBtns answerArray={answerArray} word={word} /> */}
               <Button
                 variant="contained"
-                onClick={() => handleMainBtnClick()}
+                onClick={handleMainBtnClick}
                 className="main-button"
                 type="button"
               >
@@ -214,6 +223,8 @@ const RenderQuestion = (props: { groupWords: number }) => {
               countLose={countLose}
               countWin={countWin}
               unbeatenStreak={unbeatenStreak}
+              countNewWordsInStats={countNewWordsInStats}
+              handleClickNewGameBtn={props.handleClickNewGameBtn}
             />
           )}
         </div>

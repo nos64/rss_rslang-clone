@@ -12,8 +12,12 @@ import unCorrectSound from '../../assets/sounds/unCorrect.mp3';
 import { Button } from '@mui/material';
 import Loading from './Loading';
 import RenderResults from './RenderResults';
+import useGetStorageWords from '../../hooks/useGetStorageWords';
+import textbookStore from '../../store/textbook';
+import useSetStorageWords from '../../hooks/useSetStorageWords';
+import store from '../../store';
 
-const RenderQuestion = (props: { groupWords: number }) => {
+const RenderQuestion = (props: { groupWords: number; handleClickNewGameBtn: () => void }) => {
   const [words, setWords] = useState<WordInterface[]>([]);
   const [word, setWord] = useState<WordInterface | null>(null);
   const [answer, setAnswer] = useState<WordInterface | null>(null);
@@ -27,20 +31,21 @@ const RenderQuestion = (props: { groupWords: number }) => {
   const [isClicked, setIsClicked] = useState(false);
   const [countWin, setCountWin] = useState<WordInterface[]>([]);
   const [countLose, setCountLose] = useState<WordInterface[]>([]);
-  const [audioSrs, setAudioSrc] = useState('');
+  const [audioSrc, setAudioSrc] = useState('');
   const [scoreCounter, setScoreCounter] = useState(0);
   const [numberOfPoints, setNumberOfPoints] = useState(10);
   const [wordsCounterInRowArr, setWordsCounterInRowArr] = useState<boolean[]>([]);
   const [unbeatenStreak, setUnbeatenStreak] = useState(wordsCounterInRowArr.length);
-
+  const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
   const [overTime, setOverTime] = useState(false);
   const [seconds, setSeconds] = useState(30);
+  const [countNewWordsInStats, setCountNewWordsInStats] = useState(0);
 
   useEffect(() => {
     const getData = async () => {
       setIsLoading(true);
-
-      const uploadedWords = await getWords(props.groupWords, getRandomPage());
+      const pageNumber = textbookStore.fromTextbook ? textbookStore.currentPage : getRandomPage();
+      const uploadedWords = await getWords(props.groupWords, pageNumber);
       // const uploadedWords = await getGroupWords(props.groupWords);
       setWords(uploadedWords);
       const shuffleWordsAnswer = shuffle(uploadedWords);
@@ -59,6 +64,11 @@ const RenderQuestion = (props: { groupWords: number }) => {
     // if (wordsCount !== null && wordsCount < 600) {
     if (wordsCount !== null && wordsCount < 20) {
       setWord(words[wordsCount]);
+      if (textbookStore.userId) {
+        if (!useGetStorageWords(words[wordsCount].word, textbookStore.userId)) {
+          setCountNewWordsInStats(countNewWordsInStats + 1);
+        }
+      }
       setAnswer(shuffleTranslate[wordsCount]);
 
       setAudioSrc(`${BACKEND_DOMAIN_FOR_PATH_FILES}/${words[wordsCount].audio}`);
@@ -111,11 +121,13 @@ const RenderQuestion = (props: { groupWords: number }) => {
       if (word.word === answer.word) {
         setCountWin([...countWin, word]);
         playSound(correctSound);
+        setIsCorrectAnswer(true);
         setScoreCounter(scoreCounter + numberOfPoints);
         setWordsCounterInRowArr([...wordsCounterInRowArr, true]);
       } else {
         setCountLose([...countLose, word]);
         playSound(unCorrectSound);
+        setIsCorrectAnswer(false);
         setWordsCounterInRowArr([]);
       }
       setIsClicked(true);
@@ -132,11 +144,13 @@ const RenderQuestion = (props: { groupWords: number }) => {
       if (word.word !== answer.word) {
         setCountWin([...countWin, word]);
         playSound(correctSound);
+        setIsCorrectAnswer(true);
         setScoreCounter(scoreCounter + numberOfPoints);
         setWordsCounterInRowArr([...wordsCounterInRowArr, true]);
       } else {
         setCountLose([...countLose, word]);
         playSound(unCorrectSound);
+        setIsCorrectAnswer(false);
         setWordsCounterInRowArr([]);
       }
       setIsClicked(true);
@@ -162,6 +176,14 @@ const RenderQuestion = (props: { groupWords: number }) => {
       clearInterval(timerID);
     };
   });
+
+  useEffect(() => {
+    if (store.isAuth) {
+      if (word && textbookStore.userId) {
+        useSetStorageWords(word, isCorrectAnswer, textbookStore.userId);
+      }
+    }
+  }, []);
 
   return (
     <>
@@ -206,6 +228,8 @@ const RenderQuestion = (props: { groupWords: number }) => {
               countWin={countWin}
               scoreCounter={scoreCounter}
               unbeatenStreak={unbeatenStreak}
+              countNewWordsInStats={countNewWordsInStats}
+              handleClickNewGameBtn={props.handleClickNewGameBtn}
             />
           )}
         </div>

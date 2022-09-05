@@ -34,8 +34,12 @@ export interface TokensInterface {
   refreshToken: 'string';
 }
 
+export type DifficultyType = 'difficult' | 'learned';
+
 export interface UserWordInterface {
-  difficulty: string;
+  id: string; // user id
+  wordId: string;
+  difficulty: DifficultyType;
   optional?: Record<string, unknown>;
 }
 
@@ -77,4 +81,9 @@ export interface RoutesPageInterface {
   isAuth: boolean;
   icon: string;
   footerHide: boolean;
+
+export interface WordInStatInterface {
+  userId?: string;
+  countWin: number;
+  countLose: number;
 }

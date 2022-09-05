@@ -1,0 +1,17 @@
+.textbook {
+  @include flex-column($gap: 20px);
+  justify-content: space-between;
+  align-items: center;
+  flex-grow: 1;
+
+  & .cards {
+    max-width: 80%;
+    @include flex-column($gap: 10px);
+  }
+
+  & .links {
+    max-width: 80%;
+    @include flex-row($gap: 10px);
+    justify-content: space-between;
+  }
+}

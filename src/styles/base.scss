@@ -1,3 +1,11 @@
 html {
   font-family: $font-roboto;
 }
+
+body, #root {
+  min-height: 100vh;
+}
+
+#root {
+  @include flex-column;
+}
