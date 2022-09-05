@@ -64,8 +64,10 @@ const RenderQuestion = (props: { groupWords: number; handleClickNewGameBtn: () =
     // if (wordsCount !== null && wordsCount < 600) {
     if (wordsCount !== null && wordsCount < 20) {
       setWord(words[wordsCount]);
-      if (!useGetStorageWords(words[wordsCount].word)) {
-        setCountNewWordsInStats(countNewWordsInStats + 1);
+      if (textbookStore.userId) {
+        if (!useGetStorageWords(words[wordsCount].word, textbookStore.userId)) {
+          setCountNewWordsInStats(countNewWordsInStats + 1);
+        }
       }
       setAnswer(shuffleTranslate[wordsCount]);
 
