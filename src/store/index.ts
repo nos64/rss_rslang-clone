@@ -41,8 +41,6 @@ class Store {
   async login(email: string, password: string) {
     try {
       const response = await login(email, password);
-      console.log('log--', response);
-
       localStorage.setItem('userId', response.data.userId);
       localStorage.setItem('userName', response.data.name);
       localStorage.setItem('token', response.data.token);
@@ -58,7 +56,6 @@ class Store {
   async registration(name: string, email: string, password: string) {
     try {
       const responseReg = await registration(name, email, password);
-      console.log('reg--', responseReg);
       if (responseReg.status !== 200) throw Error('Ошибка при регистрации');
       await this.login(email, password);
     } catch (error) {
@@ -93,8 +90,6 @@ class Store {
   }
 
   logout() {
-    console.log('1');
-
     localStorage.removeItem('userId');
     localStorage.removeItem('userName');
     localStorage.removeItem('token');
