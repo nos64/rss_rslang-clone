@@ -30,7 +30,7 @@ const RenderResults = (props: {
 
   return (
     <div className="result-wrapper-audio">
-      <div className="result">
+      <div className="audio__result">
         <h3>Показано слов: {props.countWin.length + props.countLose.length}</h3>
         <h3>Процент правильных ответов: {(props.countWin.length * 100) / allWordsInRound}%</h3>
         <h3>Самая длинная серия угаданных слов: {props.unbeatenStreak}</h3>

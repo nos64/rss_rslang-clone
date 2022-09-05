@@ -6,8 +6,8 @@ import { WordInterface } from '../../types/common';
 import getWords, { getGroupWords } from '../../api/AudioChallenge';
 import { getRandomPage, getRandomTranslate, shuffle } from './utils';
 import Loading from './Loading';
-import '../../assets/images/audio.svg';
-import './style.scss';
+// import '../../assets/images/audio.svg';
+// import './style.scss';
 // import RenderAnswerBtns from './RenderAnswerBtns';
 import RenderAnswerCard from './RenderAnswerCard';
 import RenderResults from './RenderResults';
@@ -184,9 +184,9 @@ const RenderQuestion = (props: { groupWords: number; handleClickNewGameBtn: () =
     <>
       {/* {isLoading && <Loading />} */}
       {!isLoading && wordsCount !== null && word ? (
-        <div className="word-box">
+        <div className="audio__word-box">
           {countLose.length !== 5 && wordsCount < 20 ? (
-            <div className="question-wrapper">
+            <div className="audio__question-wrapper">
               <div className="audio-btn-wrapper">
                 {!isClicked ? (
                   <CreateAudioButton audioSrs={audioSrc} autoPlay btnClass="audio-button" />
@@ -194,7 +194,7 @@ const RenderQuestion = (props: { groupWords: number; handleClickNewGameBtn: () =
                   <RenderAnswerCard isCorrectAnswer={isCorrectAnswer} word={word} />
                 )}
               </div>
-              <ul className="answer-buttons__list">
+              <ul className="audio__answer-buttons-list">
                 {answerArray.map((item, index) => (
                   <li className="answer-button__item" key={item}>
                     <Button
@@ -208,7 +208,6 @@ const RenderQuestion = (props: { groupWords: number; handleClickNewGameBtn: () =
                   </li>
                 ))}
               </ul>
-              {/* <RenderAnswerBtns answerArray={answerArray} word={word} /> */}
               <Button
                 variant="contained"
                 onClick={handleMainBtnClick}
