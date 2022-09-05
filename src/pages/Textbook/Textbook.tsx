@@ -3,6 +3,8 @@ import { observer } from 'mobx-react-lite';
 import Pagination from '@mui/material/Pagination';
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import styles from './Textbook.module.scss';
 import textbookStore from '../../store/textbook';
 import TextbookCard from '../../components/Textbook/TextbookCard/TextbookCard';
@@ -10,13 +12,13 @@ import store from '../../store';
 import DifficultList from '../../components/Textbook/DifficultList/DifficultList';
 
 const Textbook: React.FC = observer(() => {
-  const { currentPage, currentGroup, words, isDifficult, isLearned } = textbookStore;
+  const { currentPage, currentGroup, words, difficultWords, learnedWords } = textbookStore;
   const { isAuth } = store;
 
   const [isDifficultPage, setIsDifficultPage] = useState(false);
 
   const handleGroup = (event: React.ChangeEvent<unknown>, group: number) => {
-    textbookStore.setCurrentGroup(group - 1);
+    textbookStore.setCurrentGroup(group);
   };
 
   const handlePage = (event: React.ChangeEvent<unknown>, page: number) => {
@@ -31,14 +33,20 @@ const Textbook: React.FC = observer(() => {
     setIsDifficultPage(!isDifficultPage);
   };
 
+  const groups = [0, 1, 2, 3, 4, 5];
+
+  const getTabTitle = (group: number | string): string => {
+    return typeof group === 'number' ? (group + 1).toString() : group;
+  };
+
   return (
     <main className={styles.textbook}>
       <div className={styles.links}>
         <Button href="/#/audioChallenge" variant="contained" onClick={handleGame}>
-          Аудиовызов
+          Audiochallenge
         </Button>
         <Button href="/#/sprint" variant="contained" onClick={handleGame}>
-          Спринт
+          Sprint
         </Button>
         {isAuth && (
           <Button variant="text" onClick={handleDifficult}>
@@ -48,16 +56,24 @@ const Textbook: React.FC = observer(() => {
       </div>
       {!isDifficultPage ? (
         <>
-          <Pagination count={6} page={currentGroup + 1} onChange={handleGroup} />
+          <Tabs value={currentGroup} onChange={handleGroup} aria-label="group tabs">
+            {groups.map((item) => (
+              <Tab label={getTabTitle(item)} key={item} />
+            ))}
+          </Tabs>
           <ul className={styles.cards}>
             {words.length ? (
               words.map((card) => (
                 <TextbookCard
                   card={card}
                   isAuth={isAuth}
-                  isDifficult={isDifficult(card)}
+                  isDifficult={
+                    !!Array.from(difficultWords).filter((word) => card.id === word.id).length
+                  }
                   isDifficultPage={false}
-                  isLearned={isLearned(card)}
+                  isLearned={
+                    !!Array.from(learnedWords).filter((word) => card.id === word.id).length
+                  }
                   key={card.id}
                 />
               ))
