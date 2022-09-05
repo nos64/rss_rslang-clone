@@ -101,7 +101,7 @@ const Statistics: React.FC = () => {
           <CircularProgress />
         </Box>
       ) : (
-        <Box sx={{ px: 2 }}>
+        <Box sx={{ px: 2, py: 5 }}>
           <ChapterTitle title="За сегодня" />
           <Grid container spacing={3} sx={{ mb: 2 }}>
             <Grid xs={12} md={4}>

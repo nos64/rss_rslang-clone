@@ -60,7 +60,7 @@ const Sprint: React.FC = observer(() => {
             </Button>
           ) : (
             <>
-              <h2 className="selection__title">Выберете уровень сложности</h2>
+              <h2 className="selection__title">Выберите уровень сложности</h2>
               <ul className="selection__list">
                 {btnArr.map((item) => (
                   <li className="selection__item" key={item}>

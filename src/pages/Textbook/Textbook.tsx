@@ -11,6 +11,7 @@ import TextbookCard from '../../components/Textbook/TextbookCard/TextbookCard';
 import store from '../../store';
 import DifficultList from '../../components/Textbook/DifficultList/DifficultList';
 import { WordInterface } from '../../types/common';
+import PageTitle from '../../components/PageTitle/PageTitle';
 
 const Textbook: React.FC = observer(() => {
   const { currentPage, currentGroup, words, difficultWords, learnedWords, isLearned } =
@@ -44,26 +45,31 @@ const Textbook: React.FC = observer(() => {
 
   return (
     <main className={styles.textbook}>
+      {!isDifficultPage && <PageTitle title="Учебник" />}
       <div className={styles.links}>
-        <Button
-          href="/#/audioChallenge"
-          variant="contained"
-          onClick={handleGame}
-          disabled={isLearnedPage(words)}
-        >
-          Audiochallenge
-        </Button>
-        <Button
-          href="/#/sprint"
-          variant="contained"
-          onClick={handleGame}
-          disabled={isLearnedPage(words)}
-        >
-          Sprint
-        </Button>
+        {!isDifficultPage && (
+          <>
+            <Button
+              href="/#/audioChallenge"
+              variant="contained"
+              onClick={handleGame}
+              disabled={isLearnedPage(words)}
+            >
+              Аудиовызов
+            </Button>
+            <Button
+              href="/#/sprint"
+              variant="contained"
+              onClick={handleGame}
+              disabled={isLearnedPage(words)}
+            >
+              Спринт
+            </Button>
+          </>
+        )}
         {isAuth && (
           <Button variant="text" onClick={handleDifficult}>
-            {isDifficultPage ? 'Вернуться в учебник' : 'Показать только сложные слова'}
+            {isDifficultPage ? 'Вернуться в учебник' : 'Показать словарь'}
           </Button>
         )}
       </div>

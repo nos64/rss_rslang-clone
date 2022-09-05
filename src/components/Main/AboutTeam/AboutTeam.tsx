@@ -21,7 +21,7 @@ const AboutTeam = () => {
           gitLink="https://github.com/nos64"
           name="Михаил"
           description=""
-          created={['Разработка игры "Саванна"', 'Разработка игры "Аудиовызов"']}
+          created={['Разработка игры "Спринт"', 'Разработка игры "Аудиовызов"']}
         />
         <TeamItem
           imageSrc="https://avatars.githubusercontent.com/u/101117026"

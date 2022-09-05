@@ -159,7 +159,7 @@ const TextbookCard: React.FC<ITextBookCardProps> = observer(
 
             {isAuth && (
               <>
-                <Tooltip title="сложные слова">
+                <Tooltip title="словарь">
                   <IconLocalLibrary
                     sx={isDifficult ? trueIconCSS : falseIconCSS}
                     onClick={handleDifficult}

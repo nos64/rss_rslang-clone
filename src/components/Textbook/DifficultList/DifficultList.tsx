@@ -6,6 +6,7 @@ import styles from './DifficultList.module.scss';
 import store from '../../../store/index';
 import textbookStore from '../../../store/textbook';
 import TextbookCard from '../TextbookCard/TextbookCard';
+import PageTitle from '../../PageTitle/PageTitle';
 
 const DifficultList = observer(() => {
   const { difficultWords, isLoading, isDifficult, isLearned } = textbookStore;
@@ -13,6 +14,7 @@ const DifficultList = observer(() => {
 
   return (
     <ul className={styles.cards}>
+      <PageTitle title="Словарь" />
       {isLoading ? (
         <CircularProgress sx={{ alignSelf: 'center' }} />
       ) : difficultWords.size ? (
