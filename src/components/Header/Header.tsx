@@ -10,6 +10,7 @@ const Header: React.FC = () => {
     <Box>
       <AppBar position="static" className={styles.header}>
         <Toolbar className={styles.toolbar}>
+          <Box className={styles.page_title}>RS LANG</Box>
           <Welcome />
         </Toolbar>
       </AppBar>

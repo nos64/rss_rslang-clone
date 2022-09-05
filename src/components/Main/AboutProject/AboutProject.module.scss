@@ -1,0 +1,8 @@
+.about-project {
+  margin-bottom: 2.5em;
+
+  &__list {
+    @include flex-row();
+    flex-wrap: wrap;
+  }
+}

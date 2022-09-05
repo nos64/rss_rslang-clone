@@ -1,13 +1,12 @@
 import React from 'react';
-import AboutProject from './AboutProject';
-import AboutTeam from './AboutTeam';
-import './Main.scss';
+import AboutProject from '../../components/Main/AboutProject/AboutProject';
+import AboutTeam from '../../components/Main/AboutTeam/AboutTeam';
+import PageTitle from '../../components/PageTitle/PageTitle';
 
 const Main: React.FC = () => {
   return (
-    <div>
-      <h1 className="main__title">RSLang</h1>
-      <p className="main__description">С RSLang изучать английсский язык увлекательно и итересно</p>
+    <div className="main">
+      <PageTitle title="RSLang - изучать английский язык увлекательно и интересно" />
       <AboutProject />
       <AboutTeam />
     </div>

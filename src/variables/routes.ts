@@ -23,7 +23,7 @@ export const pages = [
     footerHide: false,
   },
   {
-    text: 'Аудио челлендж',
+    text: 'Аудиовызов',
     link: ROUTES.AUDIOCHALLENGE,
     isAuth: false,
     icon: 'Headphones',
