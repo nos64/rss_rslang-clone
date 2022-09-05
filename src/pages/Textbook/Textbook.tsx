@@ -10,9 +10,11 @@ import textbookStore from '../../store/textbook';
 import TextbookCard from '../../components/Textbook/TextbookCard/TextbookCard';
 import store from '../../store';
 import DifficultList from '../../components/Textbook/DifficultList/DifficultList';
+import { WordInterface } from '../../types/common';
 
 const Textbook: React.FC = observer(() => {
-  const { currentPage, currentGroup, words, difficultWords, learnedWords } = textbookStore;
+  const { currentPage, currentGroup, words, difficultWords, learnedWords, isLearned } =
+    textbookStore;
   const { isAuth } = store;
 
   const [isDifficultPage, setIsDifficultPage] = useState(false);
@@ -35,17 +37,28 @@ const Textbook: React.FC = observer(() => {
 
   const groups = [0, 1, 2, 3, 4, 5];
 
-  const getTabTitle = (group: number | string): string => {
-    return typeof group === 'number' ? (group + 1).toString() : group;
+  const isLearnedPage = (cards: WordInterface[]) => {
+    const isLearnedArray = cards.map((word) => isLearned(word));
+    return !isLearnedArray.includes(false);
   };
 
   return (
     <main className={styles.textbook}>
       <div className={styles.links}>
-        <Button href="/#/audioChallenge" variant="contained" onClick={handleGame}>
+        <Button
+          href="/#/audioChallenge"
+          variant="contained"
+          onClick={handleGame}
+          disabled={isLearnedPage(words)}
+        >
           Audiochallenge
         </Button>
-        <Button href="/#/sprint" variant="contained" onClick={handleGame}>
+        <Button
+          href="/#/sprint"
+          variant="contained"
+          onClick={handleGame}
+          disabled={isLearnedPage(words)}
+        >
           Sprint
         </Button>
         {isAuth && (
@@ -54,11 +67,16 @@ const Textbook: React.FC = observer(() => {
           </Button>
         )}
       </div>
+      {isLearnedPage(words) && (
+        <div className={styles.warning}>
+          Все слова на этой странице уже изучены, выберите другую, чтобы поиграть
+        </div>
+      )}
       {!isDifficultPage ? (
         <>
           <Tabs value={currentGroup} onChange={handleGroup} aria-label="group tabs">
             {groups.map((item) => (
-              <Tab label={getTabTitle(item)} key={item} />
+              <Tab label={(item + 1).toString()} key={item} />
             ))}
           </Tabs>
           <ul className={styles.cards}>
