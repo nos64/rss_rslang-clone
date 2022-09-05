@@ -6,7 +6,7 @@ export default function useSetStorageWords(
   isCorrect: boolean,
   userId: string
 ) {
-  const wordInLocalStorage = localStorage.getItem(word.word);
+  const wordInLocalStorage = localStorage.getItem(`${userId}${word.word}`);
   if (wordInLocalStorage) {
     const parseWordStats: WordInStatInterface = JSON.parse(wordInLocalStorage);
     if (isCorrect) {
