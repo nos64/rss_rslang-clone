@@ -3,6 +3,8 @@ import { observer } from 'mobx-react-lite';
 import Pagination from '@mui/material/Pagination';
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import styles from './Textbook.module.scss';
 import textbookStore from '../../store/textbook';
 import TextbookCard from '../../components/Textbook/TextbookCard/TextbookCard';
@@ -16,7 +18,7 @@ const Textbook: React.FC = observer(() => {
   const [isDifficultPage, setIsDifficultPage] = useState(false);
 
   const handleGroup = (event: React.ChangeEvent<unknown>, group: number) => {
-    textbookStore.setCurrentGroup(group - 1);
+    textbookStore.setCurrentGroup(group);
   };
 
   const handlePage = (event: React.ChangeEvent<unknown>, page: number) => {
@@ -29,6 +31,12 @@ const Textbook: React.FC = observer(() => {
 
   const handleDifficult = () => {
     setIsDifficultPage(!isDifficultPage);
+  };
+
+  const groups = [0, 1, 2, 3, 4, 5];
+
+  const getTabTitle = (group: number | string): string => {
+    return typeof group === 'number' ? (group + 1).toString() : group;
   };
 
   return (
@@ -48,7 +56,11 @@ const Textbook: React.FC = observer(() => {
       </div>
       {!isDifficultPage ? (
         <>
-          <Pagination count={6} page={currentGroup + 1} onChange={handleGroup} />
+          <Tabs value={currentGroup} onChange={handleGroup} aria-label="group tabs">
+            {groups.map((item) => (
+              <Tab label={getTabTitle(item)} key={item} />
+            ))}
+          </Tabs>
           <ul className={styles.cards}>
             {words.length ? (
               words.map((card) => (

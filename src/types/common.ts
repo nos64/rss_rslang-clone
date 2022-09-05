@@ -34,7 +34,7 @@ export interface TokensInterface {
   refreshToken: 'string';
 }
 
-export type DifficultyType = 'difficult' | 'learned';
+export type DifficultyType = 'difficult' | 'learned' | 'difficult & learned';
 
 export interface UserWordInterface {
   id: string; // user id
