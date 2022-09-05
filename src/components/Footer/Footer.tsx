@@ -30,7 +30,7 @@ const Footer: React.FC = () => {
             </li>
           </ul>
         </div>
-        <div>2022 год</div>
+        <div>© 2022</div>
       </div>
     </footer>
   );

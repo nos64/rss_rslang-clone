@@ -13,14 +13,14 @@ const AboutTeam = () => {
           imageSrc="https://avatars.githubusercontent.com/u/51365924"
           gitLink="https://github.com/a-bodrova"
           name="Анна"
-          description="Пара слова о себе, если нужно"
+          description=""
           created={['Разработка учебника', 'Разработка словаря', 'Помощь в архитектурных вопросах']}
         />
         <TeamItem
           imageSrc="https://avatars.githubusercontent.com/u/67101576"
           gitLink="https://github.com/nos64"
           name="Михаил"
-          description="Пара слова о себе, если нужно"
+          description=""
           created={['Разработка игры "Саванна"', 'Разработка игры "Аудиовызов"']}
         />
         <TeamItem
