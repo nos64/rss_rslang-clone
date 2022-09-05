@@ -74,3 +74,9 @@ export interface UserStatsForLayoutInterface {
     increasedLEarnedWordsPerDay: UserStatsLearnedWordsGraph;
   };
 }
+
+export interface WordInStatInterface {
+  userId?: string;
+  countWin: number;
+  countLose: number;
+}
