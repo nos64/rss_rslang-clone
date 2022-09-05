@@ -8,8 +8,8 @@ import Context from '../../../context';
 const FormLogin: React.FC = () => {
   const { store } = React.useContext(Context);
 
-  const [email, setEmail] = React.useState('test@mal.ru');
-  const [password, setPassword] = React.useState('12345678');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
   const [formErrors, setFormErrors] = React.useState({
     email: '',
     password: '',
