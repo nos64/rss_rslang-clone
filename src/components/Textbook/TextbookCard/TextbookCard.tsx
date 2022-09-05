@@ -14,6 +14,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { API_URL } from '../../../variables/constants';
 import { WordInterface } from '../../../types/common';
 import textbookStore from '../../../store/textbook';
+import ViewWordStat from '../ViewWordStat/ViewWordStat';
 
 interface ITextBookCardProps {
   card: WordInterface;
@@ -102,7 +103,8 @@ const TextbookCard: React.FC<ITextBookCardProps> = observer(
         }}
         key={card.id}
       >
-        <Box sx={{ display: 'flex', width: '100%' }}>
+        <Box sx={{ display: 'flex', width: '100%', position: 'relative' }}>
+          {textbookStore.userId && <ViewWordStat word={card.word} userId={textbookStore.userId} />}
           <CardMedia
             component="img"
             src={`${API_URL}/${card.image}`}
@@ -148,7 +150,7 @@ const TextbookCard: React.FC<ITextBookCardProps> = observer(
             }}
           >
             <CardMedia component="audio" src={wordAudioSrc} ref={audio} onEnded={handleAudioSrc} />
-            <Tooltip title="pronounce">
+            <Tooltip title="прослушать">
               <IconVolumeUp
                 onClick={handleSound}
                 sx={{ width: '36px', height: '36px', cursor: 'pointer', color: '#757575' }}
@@ -157,13 +159,13 @@ const TextbookCard: React.FC<ITextBookCardProps> = observer(
 
             {isAuth && (
               <>
-                <Tooltip title="difficult words">
+                <Tooltip title="сложные слова">
                   <IconLocalLibrary
                     sx={isDifficult ? trueIconCSS : falseIconCSS}
                     onClick={handleDifficult}
                   />
                 </Tooltip>
-                <Tooltip title="learned words">
+                <Tooltip title="изученные слова">
                   <IconLibraryAddCheck
                     sx={isLearned ? trueIconCSS : falseIconCSS}
                     onClick={handleLearned}
