@@ -6,11 +6,14 @@ import RenderCorrectCard from './RenderCorrectCard';
 import RenderUncorrectCard from './RenderUncorrectCard';
 import useSetStorageWords from '../../hooks/useSetStorageWords';
 import store from '../../store';
+import textbookStore from '../../store/textbook';
 
 const RenderAnswerCard = (props: { isCorrectAnswer: boolean; word: WordInterface }) => {
   useEffect(() => {
     if (store.isAuth) {
-      useSetStorageWords(props.word, props.isCorrectAnswer);
+      if (props.word && textbookStore.userId) {
+        useSetStorageWords(props.word, props.isCorrectAnswer, textbookStore.userId);
+      }
     }
   }, []);
   return (

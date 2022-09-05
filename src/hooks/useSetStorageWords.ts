@@ -1,7 +1,11 @@
 import { WordInterface, WordInStatInterface } from '../types/common';
 import textbookStore from '../store/textbook';
 
-export default function useSetStorageWords(word: WordInterface, isCorrect: boolean) {
+export default function useSetStorageWords(
+  word: WordInterface,
+  isCorrect: boolean,
+  userId: string
+) {
   const wordInLocalStorage = localStorage.getItem(word.word);
   if (wordInLocalStorage) {
     const parseWordStats: WordInStatInterface = JSON.parse(wordInLocalStorage);
@@ -19,6 +23,6 @@ export default function useSetStorageWords(word: WordInterface, isCorrect: boole
       countWin: isCorrect ? 1 : 0,
       countLose: isCorrect ? 0 : 1,
     };
-    localStorage.setItem(word.word, JSON.stringify(newWordStats));
+    localStorage.setItem(`${userId}${word.word}`, JSON.stringify(newWordStats));
   }
 }

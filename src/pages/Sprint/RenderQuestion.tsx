@@ -14,6 +14,8 @@ import Loading from './Loading';
 import RenderResults from './RenderResults';
 import useGetStorageWords from '../../hooks/useGetStorageWords';
 import textbookStore from '../../store/textbook';
+import useSetStorageWords from '../../hooks/useSetStorageWords';
+import store from '../../store';
 
 const RenderQuestion = (props: { groupWords: number; handleClickNewGameBtn: () => void }) => {
   const [words, setWords] = useState<WordInterface[]>([]);
@@ -34,10 +36,11 @@ const RenderQuestion = (props: { groupWords: number; handleClickNewGameBtn: () =
   const [numberOfPoints, setNumberOfPoints] = useState(10);
   const [wordsCounterInRowArr, setWordsCounterInRowArr] = useState<boolean[]>([]);
   const [unbeatenStreak, setUnbeatenStreak] = useState(wordsCounterInRowArr.length);
-
+  const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
   const [overTime, setOverTime] = useState(false);
   const [seconds, setSeconds] = useState(30);
   const [countNewWordsInStats, setCountNewWordsInStats] = useState(0);
+
   useEffect(() => {
     const getData = async () => {
       setIsLoading(true);
@@ -116,11 +119,13 @@ const RenderQuestion = (props: { groupWords: number; handleClickNewGameBtn: () =
       if (word.word === answer.word) {
         setCountWin([...countWin, word]);
         playSound(correctSound);
+        setIsCorrectAnswer(true);
         setScoreCounter(scoreCounter + numberOfPoints);
         setWordsCounterInRowArr([...wordsCounterInRowArr, true]);
       } else {
         setCountLose([...countLose, word]);
         playSound(unCorrectSound);
+        setIsCorrectAnswer(false);
         setWordsCounterInRowArr([]);
       }
       setIsClicked(true);
@@ -137,11 +142,13 @@ const RenderQuestion = (props: { groupWords: number; handleClickNewGameBtn: () =
       if (word.word !== answer.word) {
         setCountWin([...countWin, word]);
         playSound(correctSound);
+        setIsCorrectAnswer(true);
         setScoreCounter(scoreCounter + numberOfPoints);
         setWordsCounterInRowArr([...wordsCounterInRowArr, true]);
       } else {
         setCountLose([...countLose, word]);
         playSound(unCorrectSound);
+        setIsCorrectAnswer(false);
         setWordsCounterInRowArr([]);
       }
       setIsClicked(true);
@@ -167,6 +174,14 @@ const RenderQuestion = (props: { groupWords: number; handleClickNewGameBtn: () =
       clearInterval(timerID);
     };
   });
+
+  useEffect(() => {
+    if (store.isAuth) {
+      if (word && textbookStore.userId) {
+        useSetStorageWords(word, isCorrectAnswer, textbookStore.userId);
+      }
+    }
+  }, []);
 
   return (
     <>

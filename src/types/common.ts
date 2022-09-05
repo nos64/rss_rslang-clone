@@ -76,6 +76,7 @@ export interface UserStatsForLayoutInterface {
 }
 
 export interface WordInStatInterface {
+  userId?: string;
   countWin: number;
   countLose: number;
 }
