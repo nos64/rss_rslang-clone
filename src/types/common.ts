@@ -75,6 +75,13 @@ export interface UserStatsForLayoutInterface {
   };
 }
 
+export interface RoutesPageInterface {
+  text: string;
+  link: string;
+  isAuth: boolean;
+  icon: string;
+  footerHide: boolean;
+
 export interface WordInStatInterface {
   userId?: string;
   countWin: number;
