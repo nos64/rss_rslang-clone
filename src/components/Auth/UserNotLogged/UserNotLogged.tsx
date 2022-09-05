@@ -1,5 +1,7 @@
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/require-default-props */
 import React from 'react';
-import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
@@ -59,9 +61,15 @@ const UserNotLogged: React.FC = () => {
 
   return (
     <div>
-      <Button startIcon={<AccountCircleIcon />} onClick={handleOpen}>
+      <LoadingButton
+        type="button"
+        variant="contained"
+        startIcon={<AccountCircleIcon />}
+        sx={{ color: '#fff', boxShadow: 'none' }}
+        onClick={handleOpen}
+      >
         Вход
-      </Button>
+      </LoadingButton>
       <Modal
         open={open}
         onClose={handleClose}
