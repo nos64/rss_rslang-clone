@@ -37,9 +37,10 @@ export const sendUserWord = (
 
 export const updateUserWord = (
   userId: string,
-  wordId: string
+  wordId: string,
+  data: Pick<UserWordInterface, 'difficulty'>
 ): Promise<AxiosResponse<UserWordInterface>> => {
-  return $api.put(`/users/${userId}/words/${wordId}`);
+  return $api.put(`/users/${userId}/words/${wordId}`, data);
 };
 
 export const deleteUserWord = (

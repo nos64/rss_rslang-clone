@@ -10,7 +10,7 @@ import store from '../../store';
 import DifficultList from '../../components/Textbook/DifficultList/DifficultList';
 
 const Textbook: React.FC = observer(() => {
-  const { currentPage, currentGroup, words, difficultWords, learnedWords } = textbookStore;
+  const { currentPage, currentGroup, words, isDifficult, isLearned } = textbookStore;
   const { isAuth } = store;
 
   const [isDifficultPage, setIsDifficultPage] = useState(false);
@@ -35,10 +35,10 @@ const Textbook: React.FC = observer(() => {
     <main className={styles.textbook}>
       <div className={styles.links}>
         <Button href="/#/audioChallenge" variant="contained" onClick={handleGame}>
-          Audiochallenge
+          Аудиовызов
         </Button>
         <Button href="/#/sprint" variant="contained" onClick={handleGame}>
-          Sprint
+          Спринт
         </Button>
         {isAuth && (
           <Button variant="text" onClick={handleDifficult}>
@@ -55,13 +55,9 @@ const Textbook: React.FC = observer(() => {
                 <TextbookCard
                   card={card}
                   isAuth={isAuth}
-                  isDifficult={
-                    !!Array.from(difficultWords).filter((word) => card.id === word.id).length
-                  }
+                  isDifficult={isDifficult(card)}
                   isDifficultPage={false}
-                  isLearned={
-                    !!Array.from(learnedWords).filter((word) => card.id === word.id).length
-                  }
+                  isLearned={isLearned(card)}
                   key={card.id}
                 />
               ))
