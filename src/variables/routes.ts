@@ -2,7 +2,7 @@ export const ROUTES = {
   LAYOUT: '/',
   MAIN: '',
   TEXTBOOK: 'textbook',
-  AUDIOCHALLENGE: 'audiochallenge',
+  AUDIOCHALLENGE: 'audioChallenge',
   SPRINT: 'sprint',
   STATS: 'stats',
 };

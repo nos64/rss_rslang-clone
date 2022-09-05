@@ -82,7 +82,10 @@ class Store {
         if (userName) this.setUserName(userName);
       }
     } catch (error) {
-      if (axios.isAxiosError(error) && error?.response?.status === 401) {
+      if (
+        axios.isAxiosError(error) &&
+        (error?.response?.status === 401 || error?.response?.status === 403)
+      ) {
         this.logout();
       }
       console.log(error, 'checkAuth - store/index.ts');
@@ -90,6 +93,8 @@ class Store {
   }
 
   logout() {
+    console.log('1');
+
     localStorage.removeItem('userId');
     localStorage.removeItem('userName');
     localStorage.removeItem('token');
