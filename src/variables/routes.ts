@@ -9,23 +9,38 @@ export const ROUTES = {
 
 export const pages = [
   {
-    text: 'Main',
+    text: 'Главная',
     link: ROUTES.MAIN,
+    isAuth: false,
+    icon: 'Home',
+    footerHide: false,
   },
   {
-    text: 'Textbook',
+    text: 'Учебник',
     link: ROUTES.TEXTBOOK,
+    isAuth: false,
+    icon: 'MenuBook',
+    footerHide: false,
   },
   {
-    text: 'Audiochallenge',
+    text: 'Аудио челлендж',
     link: ROUTES.AUDIOCHALLENGE,
+    isAuth: false,
+    icon: 'Headphones',
+    footerHide: true,
   },
   {
-    text: 'Sprint',
+    text: 'Спринт',
     link: ROUTES.SPRINT,
+    isAuth: false,
+    icon: 'AccessAlarm',
+    footerHide: true,
   },
   {
-    text: 'Statistics',
+    text: 'Статистика',
     link: ROUTES.STATS,
+    isAuth: true,
+    icon: 'BarChart',
+    footerHide: false,
   },
 ];

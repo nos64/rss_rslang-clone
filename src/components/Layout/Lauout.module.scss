@@ -1,0 +1,6 @@
+.app-layout {
+  @include flex-column();
+  min-height: 100vh;
+  padding-left: 64px;
+  justify-content: space-between;
+}

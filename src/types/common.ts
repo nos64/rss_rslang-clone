@@ -70,3 +70,11 @@ export interface UserStatsForLayoutInterface {
     increasedLEarnedWordsPerDay: UserStatsLearnedWordsGraph;
   };
 }
+
+export interface RoutesPageInterface {
+  text: string;
+  link: string;
+  isAuth: boolean;
+  icon: string;
+  footerHide: boolean;
+}

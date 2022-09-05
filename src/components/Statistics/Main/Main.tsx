@@ -14,6 +14,7 @@ import {
 import Context from '../../../context';
 import Graph from '../Graph/Graph';
 import TodayStats from '../TodayStats/TodayStats';
+import PageTitle from '../../PageTitle/PageTitle';
 
 const Statistics: React.FC = () => {
   const { store } = React.useContext(Context);
@@ -97,7 +98,7 @@ const Statistics: React.FC = () => {
 
   return (
     <div>
-      <Typography variant="h4">Статистика</Typography>
+      <PageTitle title="Статистика" />
       {isLoading || !store.isAuth ? (
         <Box sx={{ display: 'flex' }}>
           <CircularProgress />

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { styled, Theme, CSSObject } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
+import { observer } from 'mobx-react-lite';
 // import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,12 +10,20 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+
+import HomeIcon from '@mui/icons-material/Home';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import HeadphonesIcon from '@mui/icons-material/Headphones';
+import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import LogoutIcon from '@mui/icons-material/Logout';
+
+import { Link, useLocation } from 'react-router-dom';
 import { pages } from '../../variables/routes';
+import Context from '../../context';
 
 const drawerWidth = 240;
 
@@ -106,15 +115,52 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 const MiniDrawer = () => {
-  const [open, setOpen] = useState(false);
+  const location = useLocation();
+  const [selectedListItem, setSelectedListItem] = useState(location.pathname);
 
+  const { store } = React.useContext(Context);
+
+  const [open, setOpen] = useState(false);
   const handleDrawerToggle = () => {
     setOpen(!open);
   };
 
+  const listItemImages = {
+    Home: <HomeIcon />,
+    MenuBook: <MenuBookIcon />,
+    Headphones: <HeadphonesIcon />,
+    AccessAlarm: <AccessAlarmIcon />,
+    BarChart: <BarChartIcon />,
+  };
+
+  /*    display: 'block',
+    width: '100vw',
+    height: '100vh',
+    position: 'fixed',
+    background: 'rgba(0, 0, 0, 0.3)',
+    z-index: 1,
+    left: 0,
+    top: 0, */
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
+      {open ? (
+        <Box
+          onClick={handleDrawerToggle}
+          sx={{
+            width: '100vw',
+            height: '100vh',
+            position: 'fixed',
+            background: 'rgba(0, 0, 0, 0.3)',
+            zIndex: 1,
+            left: 0,
+            top: 0,
+          }}
+        />
+      ) : (
+        ''
+      )}
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerToggle}>
@@ -122,25 +168,60 @@ const MiniDrawer = () => {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
-          {pages.map((page, index) => (
-            <ListItem key={page.text} sx={{ display: 'block' }}>
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : 'auto',
-                  justifyContent: 'center',
-                }}
-              >
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={page.text} sx={{ opacity: open ? 1 : 0 }} />
-            </ListItem>
-          ))}
+        <List
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            height: '100%',
+          }}
+        >
+          <Box>
+            {pages.map((page) =>
+              page.isAuth && !store.isAuth ? null : (
+                <Link key={page.text} to={page.link}>
+                  <ListItemButton
+                    sx={{ display: 'flex' }}
+                    selected={selectedListItem === `/${page.link}`}
+                    onClick={() => setSelectedListItem(`/${page.link}`)}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : 'auto',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      {listItemImages[`${page.icon}` as keyof typeof listItemImages]}
+                    </ListItemIcon>
+                    <ListItemText primary={page.text} sx={{ opacity: open ? 1 : 0 }} />
+                  </ListItemButton>
+                </Link>
+              )
+            )}
+          </Box>
+          {store.isAuth ? (
+            <Box>
+              <ListItemButton onClick={store.logout} sx={{ display: 'flex' }}>
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <LogoutIcon />
+                </ListItemIcon>
+                <ListItemText primary="Выход" sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </Box>
+          ) : (
+            ''
+          )}
         </List>
       </Drawer>
     </Box>
   );
 };
 
-export default MiniDrawer;
+export default observer(MiniDrawer);

@@ -6,9 +6,9 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Typography from '@mui/material/Typography';
-import Context from '../../context';
-import { getUserInfo, setUserInfo } from '../../api/Users';
-import { UserInterface } from '../../types/common';
+import Context from '../../../context';
+import { getUserInfo, setUserInfo } from '../../../api/Users';
+import { UserInterface } from '../../../types/common';
 
 const ProfileModal: React.FC = () => {
   const { store } = React.useContext(Context);
@@ -129,10 +129,10 @@ const ProfileModal: React.FC = () => {
         variant="contained"
         startIcon={<AccountCircleIcon />}
         loading={isLadedUserInfo}
-        size="large"
+        sx={{ color: '#fff', boxShadow: 'none' }}
         onClick={handleOpen}
       >
-        Профиль
+        Профиль ({store.userName})
       </LoadingButton>
       <Modal
         open={open}
