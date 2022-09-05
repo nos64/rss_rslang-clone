@@ -9,6 +9,7 @@ export const shuffle = (array: WordInterface[]) => {
   }
   return newArray;
 };
+// export const shuffle = (arr: WordInterface[]) => arr.sort(() => Math.random() - 0.6);
 
 /** Получить рандомную страницу при выборе сложности */
 export const getRandomPage = () => Math.floor(Math.random() * 30);
