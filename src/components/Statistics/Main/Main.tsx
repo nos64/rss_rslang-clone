@@ -1,6 +1,5 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 import CircularProgress from '@mui/material/CircularProgress';
 import { observer } from 'mobx-react-lite';
@@ -15,6 +14,7 @@ import Context from '../../../context';
 import Graph from '../Graph/Graph';
 import TodayStats from '../TodayStats/TodayStats';
 import PageTitle from '../../PageTitle/PageTitle';
+import ChapterTitle from '../../ChapterTitle/ChapterTitle';
 
 const Statistics: React.FC = () => {
   const { store } = React.useContext(Context);
@@ -89,9 +89,6 @@ const Statistics: React.FC = () => {
     }
   }, [store.userId]);
 
-  const titleSectionStatsCss = {
-    mb: 1,
-  };
   const itemGraphStatsCss = {
     height: 400,
   };
@@ -105,9 +102,7 @@ const Statistics: React.FC = () => {
         </Box>
       ) : (
         <Box sx={{ px: 2 }}>
-          <Typography sx={titleSectionStatsCss} variant="h5">
-            За сегодня
-          </Typography>
+          <ChapterTitle title="За сегодня" />
           <Grid container spacing={3} sx={{ mb: 2 }}>
             <Grid xs={12} md={4}>
               <TodayStats
@@ -138,9 +133,7 @@ const Statistics: React.FC = () => {
             </Grid>
           </Grid>
 
-          <Typography sx={titleSectionStatsCss} variant="h5">
-            По дням
-          </Typography>
+          <ChapterTitle title="За все время обучения" />
           <Grid container spacing={2}>
             <Grid xs={12} md={6} sx={itemGraphStatsCss}>
               <Graph

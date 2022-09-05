@@ -17,7 +17,9 @@ const TodayStats = (props: {
 
   return (
     <Box sx={itemCss}>
-      <div>{title}</div>
+      <div>
+        <strong>{title}</strong>
+      </div>
       <hr />
       {newWords >= 0 ? <div>Новых слов: {newWords}</div> : ''}
       {learnedWords >= 0 ? <div>Изученных слов: {learnedWords}</div> : ''}

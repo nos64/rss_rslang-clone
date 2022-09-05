@@ -23,8 +23,9 @@ export default function useSetUserStats(
           stats.optional[operation].newWords += value.newWords;
 
           if (stats.optional.sprint.accuracy > 0) {
-            stats.optional[operation].accuracy =
-              (stats.optional.sprint.accuracy + value.accuracy) / 2;
+            stats.optional[operation].accuracy = Math.floor(
+              (stats.optional.sprint.accuracy + value.accuracy) / 2
+            );
           } else {
             stats.optional[operation].accuracy = value.accuracy;
           }
