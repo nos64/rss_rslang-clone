@@ -62,7 +62,7 @@ button {
   flex-direction: column;
   align-items:center;
   margin: 0 auto;
-  width: 700px;
+  max-width: 700px;
   min-height: 400px;
   box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.1);
   border-radius: 30px;
@@ -222,9 +222,8 @@ height: 40px;
   justify-content: space-between;
   align-items:center;
   width: 600px;
-  max-height: 40%;
   overflow-y: scroll;
-  max-height: 600px;
+  max-height: 500px;
   background-color:$color-primary-light;
   border-radius: 10px;
   padding: 20px;
@@ -256,7 +255,8 @@ height: 40px;
 }
 
 .buttons-wrapper {
-  padding: 20px 0 0;
+  margin-bottom: 20px;
+  padding: 20px 0;
   display: flex;
   gap:20px;
 }
