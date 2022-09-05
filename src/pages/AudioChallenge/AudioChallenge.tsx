@@ -11,18 +11,29 @@ const AudioChallenge: React.FC = observer(() => {
   const [isLoading, setIsLoading] = useState(false);
   const [className, setClassName] = useState('');
   const [groupWords, setGroupWords] = useState(0);
-
+  // console.log(textbookStore.fromTextbook);
   const clickOnButton = (btn: number) => {
     setIsLoading(true);
     setGroupWords(btn - 1);
     setIsLoading(false);
   };
 
+  const handleClickNewGameBtn = () => {
+    setIsLoading(false);
+    setClassName('');
+    setGroupWords(0);
+    textbookStore.fromTextbook = false;
+  };
+
   const btnArr = [1, 2, 3, 4, 5, 6];
   return (
     <div className="wrapper">
       {isLoading && <Loading />}
-      {className === 'invisible' ? <RenderQuestion groupWords={groupWords} /> : ''}
+      {className === 'invisible' ? (
+        <RenderQuestion groupWords={groupWords} handleClickNewGameBtn={handleClickNewGameBtn} />
+      ) : (
+        ''
+      )}
       <h1 className={`audio__title ${className ? 'invisible' : ''}`}>Аудиовызов</h1>
       <div className={`audio-wrapper ${className ? 'invisible' : ''}`}>
         <p className="audio__description">Тренировка Аудиовызов развивает словарный запас.</p>

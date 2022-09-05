@@ -19,7 +19,7 @@ import { BACKEND_DOMAIN_FOR_PATH_FILES } from '../../variables/constants';
 import useGetStorageWords from '../../hooks/useGetStorageWords';
 import textbookStore from '../../store/textbook';
 
-const RenderQuestion = (props: { groupWords: number }) => {
+const RenderQuestion = (props: { groupWords: number; handleClickNewGameBtn: () => void }) => {
   const [words, setWords] = useState<WordInterface[]>([]);
   const [allWords, setAllWords] = useState<string[]>([]);
   const [answerArray, setAnswerArray] = useState<string[]>([]);
@@ -37,7 +37,7 @@ const RenderQuestion = (props: { groupWords: number }) => {
   const [countWin, setCountWin] = useState<WordInterface[]>([]);
   const [countLose, setCountLose] = useState<WordInterface[]>([]);
   const [nameBtnNext, setNameBtnNext] = useState('Не знаю');
-  const [audioSrs, setAudioSrc] = useState('');
+  const [audioSrc, setAudioSrc] = useState('');
 
   const [wordsCounterInRowArr, setWordsCounterInRowArr] = useState<boolean[]>([]);
   const [unbeatenStreak, setUnbeatenStreak] = useState(wordsCounterInRowArr.length);
@@ -189,7 +189,7 @@ const RenderQuestion = (props: { groupWords: number }) => {
             <div className="question-wrapper">
               <div className="audio-btn-wrapper">
                 {!isClicked ? (
-                  <CreateAudioButton audioSrs={audioSrs} autoPlay btnClass="audio-button" />
+                  <CreateAudioButton audioSrs={audioSrc} autoPlay btnClass="audio-button" />
                 ) : (
                   <RenderAnswerCard isCorrectAnswer={isCorrectAnswer} word={word} />
                 )}
@@ -224,6 +224,7 @@ const RenderQuestion = (props: { groupWords: number }) => {
               countWin={countWin}
               unbeatenStreak={unbeatenStreak}
               countNewWordsInStats={countNewWordsInStats}
+              handleClickNewGameBtn={props.handleClickNewGameBtn}
             />
           )}
         </div>

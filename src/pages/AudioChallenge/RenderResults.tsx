@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable react/destructuring-assignment */
 import { Button } from '@mui/material';
 import React, { useEffect } from 'react';
@@ -13,6 +14,7 @@ const RenderResults = (props: {
   countLose: WordInterface[];
   unbeatenStreak: number;
   countNewWordsInStats: number;
+  handleClickNewGameBtn: () => void;
 }) => {
   const allWordsInRound = 20;
   useEffect(() => {
@@ -25,26 +27,34 @@ const RenderResults = (props: {
       });
     }
   }, []);
+
   return (
-    <div className="result-wrapper">
-      <h3>Показано слов: {props.countWin.length + props.countLose.length}</h3>
-      <h3>Процент правильных ответов: {(props.countWin.length * 100) / allWordsInRound}%</h3>
-      <h3>Самая длинная серия угаданных слов: {props.unbeatenStreak}</h3>
-      <h3>Количество новых слов за игру: {props.countNewWordsInStats}</h3>
-      <GenerateResults
-        arrayWord={props.countWin}
-        title="Правильные ответы"
-        titleClass="correct-result__title"
-      />
-      <GenerateResults
-        arrayWord={props.countLose}
-        title="Не правильные ответы"
-        titleClass="uncorrect-result__title"
-      />
+    <div className="result-wrapper-audio">
+      <div className="result">
+        <h3>Показано слов: {props.countWin.length + props.countLose.length}</h3>
+        <h3>Процент правильных ответов: {(props.countWin.length * 100) / allWordsInRound}%</h3>
+        <h3>Самая длинная серия угаданных слов: {props.unbeatenStreak}</h3>
+        <h3>Количество новых слов за игру: {props.countNewWordsInStats}</h3>
+        <GenerateResults
+          arrayWord={props.countWin}
+          title="Правильные ответы"
+          titleClass="correct-result__title"
+        />
+        <GenerateResults
+          arrayWord={props.countLose}
+          title="Не правильные ответы"
+          titleClass="uncorrect-result__title"
+        />
+      </div>
       <div className="buttons-wrapper">
-        {/* <Button variant="contained" className="new-game-btn" type="button">
+        <Button
+          variant="contained"
+          className="new-game-btn"
+          type="button"
+          onClick={() => props.handleClickNewGameBtn()}
+        >
           Новая игра
-        </Button> */}
+        </Button>
 
         <Button
           variant="contained"
