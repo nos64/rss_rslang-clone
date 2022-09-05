@@ -6,7 +6,6 @@ import { WordInterface } from '../../types/common';
 import { BACKEND_DOMAIN_FOR_PATH_FILES } from '../../variables/constants';
 import getWords from '../../api/Sprint';
 import { getRandomPage, shuffle } from './utils';
-import '../../assets/images/audio.svg';
 import correctSound from '../../assets/sounds/correct.mp3';
 import unCorrectSound from '../../assets/sounds/unCorrect.mp3';
 import { Button } from '@mui/material';
@@ -188,16 +187,16 @@ const RenderQuestion = (props: { groupWords: number; handleClickNewGameBtn: () =
   return (
     <>
       {!isLoading && wordsCount !== null && word ? (
-        <div className="word-box">
+        <div className="sprint__word-box">
           {/* {wordsCount < 600 && !overTime ? ( */}
           {wordsCount < 20 && !overTime ? (
-            <div className="question-wrapper">
-              <div className="audio-btn-wrapper">
-                <div className="timer-wrapper">{seconds}</div>
-                <div className="word-wrapper">
-                  <div className="animation-score">+{numberOfPoints} очков за слово</div>
-                  <div className="word-question">{word.word}</div>
-                  <div className="word-answer">{answer?.wordTranslate}</div>
+            <div className="sprint__question-wrapper">
+              <div className="sprint__btn-wrapper">
+                <div className="sprint__timer-wrapper">{seconds}</div>
+                <div className="sprint__word-wrapper">
+                  <div className="sprint__score">+{numberOfPoints} очков за слово</div>
+                  <div className="sprint__word-question">{word.word}</div>
+                  <div className="sprint__word-answer">{answer?.wordTranslate}</div>
                 </div>
                 <div className="score-wrapper">{scoreCounter}</div>
               </div>
