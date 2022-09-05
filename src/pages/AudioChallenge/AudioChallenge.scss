@@ -41,28 +41,29 @@ button {
   position: relative;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-  overflow-x: hidden;
-  max-width: 100%;
-}
+// body {
+  // margin: 0;
+  // padding: 0;
+  // min-height: 100vh;
+  // overflow-x: hidden;
+  // max-width: 100%;
+// }
 
-.audio__title {
-  font-weight: 300;
-  font-size: 50px;
-  text-align: center;
-  margin-bottom: 30px;
-}
+// .audio__title {
+//   font-weight: 300;
+//   font-size: 50px;
+//   text-align: center;
+//   margin-bottom: 30px;
+  
+// }
 
-.audio-wrapper {
+.audio__wrapper {
   display: flex;
   flex-direction: column;
   align-items:center;
   margin: 0 auto;
-  max-width: 800px;
-  height: 400px;
+  width: 700px;
+  min-height: 400px;
   box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.1);
   border-radius: 30px;
   background-color: $color-primary-light;
@@ -78,9 +79,7 @@ color: $color-icons;
 .rule {
   color: $color-primary-dark;
 }
-.selection {
 
-}
 .selection__title {
   font-size: 32px;
   text-align: center;
@@ -94,26 +93,23 @@ justify-content: center;
 gap: 10px;
 }
 
-.selection__item {
-
-}
-
 .selection__btn {
 width: 40px;
 height: 40px;
 }
 
-.word-box {
-  width: 100vw;
-  height: 100vh;
+.audio__word-box {
+  width: 70vw;
+  height: 70vh;
 }
 
-.question-wrapper {
+.audio__question-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items:center;
-  width: 700px;
+  max-width: 700px;
+  min-height: 500px;
   background-color:$color-primary-light;
   border-radius: 10px;
   position: absolute;
@@ -122,6 +118,7 @@ height: 40px;
   transform: translate(-50%, -50%);
   box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.1);
   padding: 30px;
+
 }
 
 .audio-btn-wrapper {
@@ -153,13 +150,13 @@ height: 40px;
   opacity: 1;
 }
 
-.answer-buttons__list {
+.audio__answer-buttons-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 15px;
   padding-bottom: 40px;
-  height: 100px;
+  min-height: 100px;
 }
 
 .main-button {
@@ -213,26 +210,23 @@ height: 40px;
   flex-direction: column;
   justify-content: space-between;
   align-items:center;
+  margin-top: 30px;
   margin-left: 50%;
   transform: translateX(-50%);
+  margin-bottom: 30px;
 }
 
-.result {
+.audio__result {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items:center;
   width: 600px;
+  max-height: 40%;
   overflow-y: scroll;
- 
-
   max-height: 600px;
   background-color:$color-primary-light;
   border-radius: 10px;
-  // overflow-y: scroll;
-  // position: absolute;
-  // top: 50%;
-  // left: 50%;
   padding: 20px;
 }
 

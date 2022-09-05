@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
-import './style.scss';
+import './AudioChallenge.scss';
 import '../../assets/images/audio.svg';
 import { Button } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import RenderQuestion from './RenderQuestion';
 import Loading from './Loading';
 import textbookStore from '../../store/textbook';
+import PageTitle from '../../components/PageTitle/PageTitle';
 
 const AudioChallenge: React.FC = observer(() => {
   const [isLoading, setIsLoading] = useState(false);
   const [className, setClassName] = useState('');
   const [groupWords, setGroupWords] = useState(0);
-  // console.log(textbookStore.fromTextbook);
+
   const clickOnButton = (btn: number) => {
     setIsLoading(true);
     setGroupWords(btn - 1);
@@ -34,8 +35,10 @@ const AudioChallenge: React.FC = observer(() => {
       ) : (
         ''
       )}
-      <h1 className={`audio__title ${className ? 'invisible' : ''}`}>Аудиовызов</h1>
-      <div className={`audio-wrapper ${className ? 'invisible' : ''}`}>
+      <div className={`audio__title ${className ? 'invisible' : ''}`}>
+        <PageTitle title="Аудиовызов" />
+      </div>
+      <div className={`audio__wrapper ${className ? 'invisible' : ''}`}>
         <p className="audio__description">Тренировка Аудиовызов развивает словарный запас.</p>
         <p className="audio__description">Вы должны выбрать перевод услышанного слова.</p>
         <p className="audio__description rule">
