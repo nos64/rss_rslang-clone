@@ -29,21 +29,23 @@ const RenderResults = (props: {
   }, []);
 
   return (
-    <div className="result-wrapper">
-      <h3>Показано слов: {props.countWin.length + props.countLose.length}</h3>
-      <h3>Процент правильных ответов: {(props.countWin.length * 100) / allWordsInRound}%</h3>
-      <h3>Самая длинная серия угаданных слов: {props.unbeatenStreak}</h3>
-      <h3>Количество новых слов за игру: {props.countNewWordsInStats}</h3>
-      <GenerateResults
-        arrayWord={props.countWin}
-        title="Правильные ответы"
-        titleClass="correct-result__title"
-      />
-      <GenerateResults
-        arrayWord={props.countLose}
-        title="Не правильные ответы"
-        titleClass="uncorrect-result__title"
-      />
+    <div className="result-wrapper-audio">
+      <div className="result">
+        <h3>Показано слов: {props.countWin.length + props.countLose.length}</h3>
+        <h3>Процент правильных ответов: {(props.countWin.length * 100) / allWordsInRound}%</h3>
+        <h3>Самая длинная серия угаданных слов: {props.unbeatenStreak}</h3>
+        <h3>Количество новых слов за игру: {props.countNewWordsInStats}</h3>
+        <GenerateResults
+          arrayWord={props.countWin}
+          title="Правильные ответы"
+          titleClass="correct-result__title"
+        />
+        <GenerateResults
+          arrayWord={props.countLose}
+          title="Не правильные ответы"
+          titleClass="uncorrect-result__title"
+        />
+      </div>
       <div className="buttons-wrapper">
         <Button
           variant="contained"
