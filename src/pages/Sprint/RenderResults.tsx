@@ -28,8 +28,8 @@ const RenderResults = (props: {
     }
   }, []);
   return (
-    <div className="result-wrapper-sprint">
-      <div className="result">
+    <div className="sprint__result-wrapper">
+      <div className="sprint__result">
         <h3>Показано слов: {props.countWin.length + props.countLose.length}</h3>
         <h3>Процент правильных ответов: {(props.countWin.length * 100) / allWordsInRound}%</h3>
         <h3>Количество очков: {props.scoreCounter}</h3>

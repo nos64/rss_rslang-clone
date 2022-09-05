@@ -4,6 +4,8 @@ import { observer } from 'mobx-react-lite';
 import RenderQuestion from './RenderQuestion';
 import Loading from './Loading';
 import textbookStore from '../../store/textbook';
+import './Sprint.scss';
+import PageTitle from '../../components/PageTitle/PageTitle';
 
 const Sprint: React.FC = observer(() => {
   const [isLoading, setIsLoading] = useState(false);
@@ -33,13 +35,15 @@ const Sprint: React.FC = observer(() => {
       ) : (
         ''
       )}
-      <h1 className={`audio__title ${className ? 'invisible' : ''}`}>Спринт</h1>
-      <div className={`audio-wrapper ${className ? 'invisible' : ''}`}>
-        <p className="audio__description">
+      <div className={`sprint__title ${className ? 'invisible' : ''}`}>
+        <PageTitle title="Спринт" />
+      </div>
+      <div className={`sprint__wrapper ${className ? 'invisible' : ''}`}>
+        <p className="sprint__description">
           Спринт - игра на время. Вы должны выбрать правильный перевод слова.
         </p>
-        <p className="audio__description">Игра длится 30 секунд или пока не закончатся слова.</p>
-        <p className="audio__description rule">
+        <p className="sprint__description">Игра длится 30 секунд или пока не закончатся слова.</p>
+        <p className="sprint__description rule">
           Для выбора ответа используйте клавиши-стрелки клавиатуры или мышь
         </p>
         <div className="selection">
