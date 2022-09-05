@@ -50,7 +50,7 @@ const Textbook: React.FC = observer(() => {
         {!isDifficultPage && (
           <>
             <Button
-              href="/rs-isLoading/#/audioChallenge"
+              href="/rs-lang/#/audioChallenge"
               variant="contained"
               onClick={handleGame}
               disabled={isLearnedPage(words)}
