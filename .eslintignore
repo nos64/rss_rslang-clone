@@ -1,0 +1,14 @@
+*.css
+*.svg
+package-lock.json
+package.json
+*\index.html
+README.md
+node_modules
+.prettierrc.json
+# .eslintrc.json
+webpack.config.js
+.gitignore
+postcss.config.json
+README.md
+tsconfig.json

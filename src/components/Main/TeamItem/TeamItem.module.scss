@@ -1,0 +1,38 @@
+.team-item {
+  width: 300px;
+  padding: 20px;
+
+  &__wrapper {
+    padding: 15px;
+    box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    height: 100%;
+    @include flex-column($gap: 10px);
+    justify-content: space-between;
+  }
+
+  &__info {
+    @include flex-column($gap: 10px);
+  }
+  &__name {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  &__description {
+    font-size: 16px;
+  }
+  &__git-link {
+    text-align: center;
+    height: 24px;
+
+    & a {
+      font-weight: bold;
+      text-decoration: underline;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+}

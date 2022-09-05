@@ -1,0 +1,6 @@
+.cards {
+  max-width: 80%;
+  @include flex-column($gap: 10px);
+  align-self: center;
+  margin-bottom: auto;
+}
