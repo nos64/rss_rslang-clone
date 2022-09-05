@@ -8,12 +8,6 @@ html {
   color: $color-primary-dark;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing:inherit;
-}
-
 img {
   max-width: 100%;
   height: auto;
@@ -93,10 +87,6 @@ text-align: center;
 display: flex;
 justify-content: center;
 gap: 10px;
-}
-
-.selection__item {
-
 }
 
 .selection__btn {
@@ -225,7 +215,10 @@ height: 40px;
   align-items:center;
   width: 600px;
   overflow-y: scroll;
-  height: 600px;
+  height: 700px;
+
+  max-height: 600px;
+
   background-color:$color-primary-light;
   border-radius: 10px;
   // overflow-y: scroll;
