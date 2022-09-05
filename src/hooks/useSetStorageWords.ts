@@ -17,7 +17,7 @@ export default function useSetStorageWords(
     if (parseWordStats.countWin === 3) {
       textbookStore.setLearnedWord(word);
     }
-    localStorage.setItem(word.word, JSON.stringify(parseWordStats));
+    localStorage.setItem(`${userId}${word.word}`, JSON.stringify(parseWordStats));
   } else {
     const newWordStats: WordInStatInterface = {
       countWin: isCorrect ? 1 : 0,
