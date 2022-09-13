@@ -1,6 +1,13 @@
 # rs-lang
+### English learning app
 
-English learning app
+> -  Выполнено на React и TypeScript
+> -  Северные запросы - Axios
+> -  Store - MobX
+> -  UI компоненты - Material UI React
+> -  Сборка проекта - Webpack
+
+
 
 ### Добавлен сбор статистики по новым и изученным словам игры Спринт 05.09.22
 
