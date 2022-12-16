@@ -1,6 +1,11 @@
 # rs-lang
 ### English learning app
 
+1. Task https://github.com/rolling-scopes-school/tasks/blob/master/tasks/stage-2/rs-lang/rslang.md
+2. Deploy https://a-bodrova.github.io/rs-lang/
+3. Screenshot 
+![rs-lang](https://user-images.githubusercontent.com/51365924/188518769-c4874d24-a53a-4b74-8bb0-0a08d48706fe.jpg)
+
 > -  Выполнено на React и TypeScript
 > -  Северные запросы - Axios
 > -  Store - MobX
